@@ -104,16 +104,21 @@ public class Tomighty {
 		}
 	}
 	
+	private void showWindow(int mouseX) {
+		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();	
+		Rectangle bounds = env.getMaximumWindowBounds();
+		int x = mouseX - window.getWidth() / 2;
+		int y = bounds.height - window.getHeight() - 5;
+		window.setLocation(x, y);
+		window.setVisible(true);
+	}
+	
 	private class TrayClick extends MouseAdapter {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			if(e.getButton() == MouseEvent.BUTTON1) {
-				GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();	
-				Rectangle bounds = env.getMaximumWindowBounds();
-				int x = e.getXOnScreen() - window.getWidth() / 2;
-				int y = bounds.height - window.getHeight() - 5;
-				window.setLocation(x, y);
-				window.setVisible(true);
+				int mouseX = e.getXOnScreen();
+				showWindow(mouseX);
 			}
 		}
 	}
