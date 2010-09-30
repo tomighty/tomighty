@@ -24,7 +24,7 @@ public class Pomodoro implements State, ActionListener, TimerListener {
 
 	@Override
 	public Component render() throws Exception {
-		Time time = new Time(0, 10);
+		Time time = new Time(25);
 		
 		JButton interruptButton = new JButton("Interrupt");
 		interruptButton.addActionListener(this);

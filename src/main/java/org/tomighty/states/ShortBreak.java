@@ -11,7 +11,7 @@ public class ShortBreak extends Break {
 
 	@Override
 	protected Time time() {
-		return new Time(0, 5);
+		return new Time(5);
 	}
 
 }

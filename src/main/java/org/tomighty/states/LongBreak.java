@@ -11,7 +11,7 @@ public class LongBreak extends Break {
 
 	@Override
 	protected Time time() {
-		return new Time(0, 10);
+		return new Time(15);
 	}
 
 }
