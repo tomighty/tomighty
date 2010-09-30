@@ -4,8 +4,10 @@ import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.GraphicsEnvironment;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
+import java.awt.Rectangle;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.TrayIcon.MessageType;
@@ -103,7 +105,15 @@ public class Tomighty {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			if(e.getButton() == MouseEvent.BUTTON1) {
-				window.setVisible(!window.isVisible());
+				boolean show = !window.isVisible();
+				if(show) {
+					GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();	
+					Rectangle bounds = env.getMaximumWindowBounds();
+					int x = e.getXOnScreen() - window.getWidth() / 2;
+					int y = bounds.height - window.getHeight() - 5;
+					window.setLocation(x, y);
+				}
+				window.setVisible(show);
 			}
 		}
 	}
