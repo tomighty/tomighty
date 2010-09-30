@@ -1,7 +1,17 @@
 package org.tomighty;
 
+import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.MenuItem;
+import java.awt.PopupMenu;
+import java.awt.SystemTray;
+import java.awt.TrayIcon;
+import java.awt.TrayIcon.MessageType;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,6 +24,7 @@ import org.tomighty.bus.Bus;
 import org.tomighty.bus.Subscriber;
 import org.tomighty.bus.messages.ChangeState;
 import org.tomighty.states.InitialState;
+import org.tomighty.util.Images;
 import org.tomighty.util.New;
 
 public class Tomighty {
@@ -21,8 +32,10 @@ public class Tomighty {
 	private JFrame window;
 	private JPanel contentPane;
 	private Logger logger;
+	private TrayIcon trayIcon;
+	private SystemTray tray;
 
-	public Tomighty() {
+	public Tomighty() throws AWTException {
 		logger = Logger.getLogger(getClass().getName());
 		
 		contentPane = new JPanel();
@@ -37,12 +50,25 @@ public class Tomighty {
 		window.setResizable(false);
 		window.setSize(150, 100);
 		window.setUndecorated(true);
+		
+		trayIcon = new TrayIcon(Images.get("/tomato-16x16.png"));
+		trayIcon.addMouseListener(new TrayClick());
+		trayIcon.setToolTip("Click to show/hide Tomighty");
+		
+		tray = SystemTray.getSystemTray();
+		tray.add(trayIcon);
+		
+		MenuItem closeItem = new MenuItem("Close");
+		PopupMenu popupMenu = new PopupMenu();
+		popupMenu.add(closeItem);
+		closeItem.addActionListener(new Exit());
+		trayIcon.setPopupMenu(popupMenu);
 	}
 	
 	public void start() {
 		Bus.subscribe(new StateSwitch(), ChangeState.class);
 		render(InitialState.class);
-		window.setVisible(true);
+		trayIcon.displayMessage("Tomighty", "Click here to show Tomighty", MessageType.INFO);
 	}
 	
 	private void render(Class<? extends State> stateClass) {
@@ -64,6 +90,24 @@ public class Tomighty {
 		public void receive(ChangeState message) {
 			Class<? extends State> stateClass = message.getStateClass();
 			render(stateClass);
+		}
+	}
+	
+	private class TrayClick extends MouseAdapter {
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			if(e.getButton() == MouseEvent.BUTTON1) {
+				window.setVisible(!window.isVisible());
+			} else if(e.getButton() == MouseEvent.BUTTON2) {
+				
+			}
+		}
+	}
+	
+	private class Exit implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			System.exit(0);
 		}
 	}
 	
