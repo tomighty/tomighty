@@ -55,6 +55,7 @@ public class Tomighty {
 		window.setResizable(false);
 		window.setSize(150, 100);
 		window.setUndecorated(true);
+		window.setIconImage(Images.get("/tomato-48x48.png"));
 		
 		trayIcon = new TrayIcon(Images.get("/tomato-16x16.png"));
 		trayIcon.addMouseListener(new TrayClick());
