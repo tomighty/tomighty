@@ -96,14 +96,9 @@ public class Tomighty {
 		contentPane.add(component, BorderLayout.CENTER);
 		contentPane.validate();
 	}
-
-	private class StateSwitch implements Subscriber<ChangeState> {
-		@Override
-		public void receive(ChangeState message) {
-			Class<? extends State> stateClass = message.getStateClass();
-			render(stateClass);
-			showWindow(null);
-		}
+	
+	private void showWindow() {
+		showWindow(null);
 	}
 	
 	private void showWindow(Point mouseLocation) {
@@ -116,6 +111,15 @@ public class Tomighty {
 			window.setLocation(x, y);
 		}
 		window.setVisible(true);
+	}
+
+	private class StateSwitch implements Subscriber<ChangeState> {
+		@Override
+		public void receive(ChangeState message) {
+			Class<? extends State> stateClass = message.getStateClass();
+			render(stateClass);
+			showWindow();
+		}
 	}
 	
 	private class TrayClick extends MouseAdapter {
