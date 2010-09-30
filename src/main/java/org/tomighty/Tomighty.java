@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.GraphicsEnvironment;
 import java.awt.MenuItem;
+import java.awt.Point;
 import java.awt.PopupMenu;
 import java.awt.Rectangle;
 import java.awt.SystemTray;
@@ -101,15 +102,19 @@ public class Tomighty {
 		public void receive(ChangeState message) {
 			Class<? extends State> stateClass = message.getStateClass();
 			render(stateClass);
+			showWindow(null);
 		}
 	}
 	
-	private void showWindow(int mouseX) {
-		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();	
-		Rectangle bounds = env.getMaximumWindowBounds();
-		int x = mouseX - window.getWidth() / 2;
-		int y = bounds.height - window.getHeight() - 5;
-		window.setLocation(x, y);
+	private void showWindow(Point mouseLocation) {
+		if(mouseLocation != null)
+		{
+			GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();	
+			Rectangle bounds = env.getMaximumWindowBounds();
+			int x = mouseLocation.x - window.getWidth() / 2;
+			int y = bounds.height - window.getHeight() - 5;
+			window.setLocation(x, y);
+		}
 		window.setVisible(true);
 	}
 	
@@ -117,8 +122,7 @@ public class Tomighty {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			if(e.getButton() == MouseEvent.BUTTON1) {
-				int mouseX = e.getXOnScreen();
-				showWindow(mouseX);
+				showWindow(e.getLocationOnScreen());
 			}
 		}
 	}
