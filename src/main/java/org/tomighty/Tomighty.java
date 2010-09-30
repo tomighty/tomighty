@@ -17,8 +17,6 @@ Copyright 2010 Célio Cidral Junior
 package org.tomighty;
 
 import java.awt.AWTException;
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.GraphicsEnvironment;
 import java.awt.MenuItem;
@@ -32,28 +30,22 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.swing.BorderFactory;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.UIManager;
-import javax.swing.border.Border;
 
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.Subscriber;
 import org.tomighty.bus.messages.ChangeState;
 import org.tomighty.states.InitialState;
+import org.tomighty.ui.Window;
 import org.tomighty.util.Images;
 import org.tomighty.util.New;
 
 public class Tomighty {
 	
-	private JFrame window;
-	private JPanel contentPane;
+	private Window window;
 	private Logger logger;
 	private TrayIcon trayIcon;
 	private SystemTray tray;
@@ -61,23 +53,7 @@ public class Tomighty {
 	public Tomighty() throws AWTException {
 		logger = Logger.getLogger(getClass().getName());
 		
-		contentPane = new JPanel();
-		contentPane.setLayout(new BorderLayout());
-		Border outside = BorderFactory.createLineBorder(Color.LIGHT_GRAY);
-		Border inside = BorderFactory.createEmptyBorder(6, 6, 6, 6);
-		contentPane.setBorder(BorderFactory.createCompoundBorder(outside, inside));
-		
-		
-		window = new JFrame("Tomighty");
-		window.setAlwaysOnTop(true);
-		window.setContentPane(contentPane);
-		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		window.setLocation(100, 100);
-		window.setResizable(false);
-		window.setSize(150, 100);
-		window.setUndecorated(true);
-		window.setIconImage(Images.get("/tomato-48x48.png"));
-		window.addWindowFocusListener(new HideWindowWhenLosingFocus());
+		window = new Window();
 		
 		trayIcon = new TrayIcon(Images.get("/tomato-16x16.png"));
 		trayIcon.addMouseListener(new TrayClick());
@@ -108,9 +84,7 @@ public class Tomighty {
 			logger.log(Level.SEVERE, "Failed to render state: "+state, e);
 			return;
 		}
-		contentPane.removeAll();
-		contentPane.add(component, BorderLayout.CENTER);
-		contentPane.validate();
+		window.setComponent(component);
 	}
 	
 	private void showWindow() {
@@ -144,16 +118,6 @@ public class Tomighty {
 			if(e.getButton() == MouseEvent.BUTTON1) {
 				showWindow(e.getLocationOnScreen());
 			}
-		}
-	}
-	
-	private class HideWindowWhenLosingFocus implements WindowFocusListener {
-		@Override
-		public void windowGainedFocus(WindowEvent e) {}
-		
-		@Override
-		public void windowLostFocus(WindowEvent e) {
-			window.setVisible(false);
 		}
 	}
 	

@@ -38,6 +38,7 @@ public class InitialState implements State, ActionListener {
 	@Override
 	public Component render() throws Exception {
 		JPanel panel = new JPanel();
+		panel.setOpaque(false);
 		panel.setLayout(new BorderLayout());
 		panel.add(tomato(), BorderLayout.CENTER);
 		panel.add(startButton(), BorderLayout.SOUTH);

@@ -27,13 +27,14 @@ import javax.swing.JPanel;
 import org.tomighty.State;
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.messages.ChangeState;
-import org.tomighty.util.Label;
+import org.tomighty.ui.LabelFactory;
 
 public class PomodoroInterrupted implements State, ActionListener {
 
 	@Override
 	public Component render() throws Exception {
 		JPanel panel = new JPanel();
+		panel.setOpaque(false);
 		panel.setLayout(new BorderLayout());
 		panel.add(text(), BorderLayout.CENTER);
 		panel.add(restartButton(), BorderLayout.SOUTH);
@@ -41,9 +42,7 @@ public class PomodoroInterrupted implements State, ActionListener {
 	}
 
 	private Component text() {
-		return Label.html("<html><font size='5'><center>" +
-				"Pomodoro<p>" +
-				"interrupted</html>");
+		return LabelFactory.medium("Pomodoro interrupted");
 	}
 
 	private Component restartButton() {

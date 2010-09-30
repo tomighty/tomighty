@@ -28,22 +28,24 @@ import javax.swing.JPanel;
 import org.tomighty.State;
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.messages.ChangeState;
-import org.tomighty.util.Label;
+import org.tomighty.ui.LabelFactory;
 
 public class PomodoroFinished implements State {
 
 	@Override
 	public Component render() throws Exception {
 		JPanel panel = new JPanel();
+		panel.setOpaque(false);
 		panel.setLayout(new BorderLayout());
-		panel.add(Label.small("Pomodoro finished"), BorderLayout.NORTH);
-		panel.add(Label.medium("Take a break"), BorderLayout.CENTER);
+		panel.add(LabelFactory.small("Pomodoro finished"), BorderLayout.NORTH);
+		panel.add(LabelFactory.medium("Take a break"), BorderLayout.CENTER);
 		panel.add(buttons(), BorderLayout.SOUTH);
 		return panel;
 	}
 
 	private Component buttons() {
 		JPanel panel = new JPanel(new GridLayout(1, 2, 3, 0));
+		panel.setOpaque(false);
 		panel.add(shortBreak());
 		panel.add(longBreak());
 		return panel;
