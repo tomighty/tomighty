@@ -15,6 +15,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -58,6 +60,7 @@ public class Tomighty {
 		window.setSize(150, 100);
 		window.setUndecorated(true);
 		window.setIconImage(Images.get("/tomato-48x48.png"));
+		window.addWindowFocusListener(new HideWindowWhenLosingFocus());
 		
 		trayIcon = new TrayIcon(Images.get("/tomato-16x16.png"));
 		trayIcon.addMouseListener(new TrayClick());
@@ -105,16 +108,23 @@ public class Tomighty {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			if(e.getButton() == MouseEvent.BUTTON1) {
-				boolean show = !window.isVisible();
-				if(show) {
-					GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();	
-					Rectangle bounds = env.getMaximumWindowBounds();
-					int x = e.getXOnScreen() - window.getWidth() / 2;
-					int y = bounds.height - window.getHeight() - 5;
-					window.setLocation(x, y);
-				}
-				window.setVisible(show);
+				GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();	
+				Rectangle bounds = env.getMaximumWindowBounds();
+				int x = e.getXOnScreen() - window.getWidth() / 2;
+				int y = bounds.height - window.getHeight() - 5;
+				window.setLocation(x, y);
+				window.setVisible(true);
 			}
+		}
+	}
+	
+	private class HideWindowWhenLosingFocus implements WindowFocusListener {
+		@Override
+		public void windowGainedFocus(WindowEvent e) {}
+		
+		@Override
+		public void windowLostFocus(WindowEvent e) {
+			window.setVisible(false);
 		}
 	}
 	
