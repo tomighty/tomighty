@@ -68,7 +68,7 @@ public class Tomighty {
 	public void start() {
 		Bus.subscribe(new StateSwitch(), ChangeState.class);
 		render(InitialState.class);
-		trayIcon.displayMessage("Tomighty", "Click here to show Tomighty", MessageType.INFO);
+		trayIcon.displayMessage(null, "Click here to show Tomighty", MessageType.NONE);
 	}
 	
 	private void render(Class<? extends State> stateClass) {
