@@ -2,6 +2,7 @@ package org.tomighty;
 
 import java.awt.AWTException;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
@@ -19,6 +20,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
+import javax.swing.border.Border;
 
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.Subscriber;
@@ -40,7 +42,10 @@ public class Tomighty {
 		
 		contentPane = new JPanel();
 		contentPane.setLayout(new BorderLayout());
-		contentPane.setBorder(BorderFactory.createEmptyBorder(6, 6, 6, 6));
+		Border outside = BorderFactory.createLineBorder(Color.LIGHT_GRAY);
+		Border inside = BorderFactory.createEmptyBorder(6, 6, 6, 6);
+		contentPane.setBorder(BorderFactory.createCompoundBorder(outside, inside));
+		
 		
 		window = new JFrame("Tomighty");
 		window.setAlwaysOnTop(true);
