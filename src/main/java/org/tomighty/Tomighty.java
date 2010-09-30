@@ -98,8 +98,6 @@ public class Tomighty {
 		public void mouseClicked(MouseEvent e) {
 			if(e.getButton() == MouseEvent.BUTTON1) {
 				window.setVisible(!window.isVisible());
-			} else if(e.getButton() == MouseEvent.BUTTON2) {
-				
 			}
 		}
 	}
