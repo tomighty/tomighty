@@ -35,6 +35,7 @@ import javax.swing.UIManager;
 
 //TODO: This class has lots of rough edges
 
+@SuppressWarnings("serial")
 public class Label extends JComponent {
 	
 	private AttributedString text;

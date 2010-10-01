@@ -24,6 +24,7 @@ import javax.swing.JFrame;
 
 import org.tomighty.util.Images;
 
+@SuppressWarnings("serial")
 public class Window extends JFrame {
 
 	private Panel panel = new Panel();
