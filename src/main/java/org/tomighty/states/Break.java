@@ -24,7 +24,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import org.tomighty.State;
+import org.tomighty.UiState;
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.messages.ChangeState;
 import org.tomighty.time.Time;
@@ -33,7 +33,7 @@ import org.tomighty.time.TimerListener;
 import org.tomighty.ui.Label;
 import org.tomighty.ui.LabelFactory;
 
-public abstract class Break implements State, ActionListener, TimerListener {
+public abstract class Break implements UiState, ActionListener, TimerListener {
 
 	private Label remainingTime;
 	private Timer timer;

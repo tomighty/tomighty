@@ -16,17 +16,17 @@ Copyright 2010 Célio Cidral Junior
 
 package org.tomighty.bus.messages;
 
-import org.tomighty.State;
+import org.tomighty.UiState;
 
 public class ChangeState {
 
-	private final Class<? extends State> stateClass;
+	private final Class<? extends UiState> stateClass;
 
-	public ChangeState(Class<? extends State> stateClass) {
+	public ChangeState(Class<? extends UiState> stateClass) {
 		this.stateClass = stateClass;
 	}
 	
-	public Class<? extends State> getStateClass() {
+	public Class<? extends UiState> getStateClass() {
 		return stateClass;
 	}
 

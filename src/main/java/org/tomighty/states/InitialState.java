@@ -28,12 +28,12 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import org.tomighty.State;
+import org.tomighty.UiState;
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.messages.ChangeState;
 import org.tomighty.util.Images;
 
-public class InitialState implements State, ActionListener {
+public class InitialState implements UiState, ActionListener {
 
 	@Override
 	public Component render() throws Exception {

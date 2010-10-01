@@ -58,8 +58,8 @@ public class Tomighty {
 		tray.start();
 	}
 	
-	private void render(Class<? extends State> stateClass) {
-		State state = New.instanceOf(stateClass);
+	private void render(Class<? extends UiState> stateClass) {
+		UiState state = New.instanceOf(stateClass);
 		Component component;
 		try {
 			component = state.render();
@@ -89,7 +89,7 @@ public class Tomighty {
 	private class SwitchState implements Subscriber<ChangeState> {
 		@Override
 		public void receive(ChangeState message) {
-			Class<? extends State> stateClass = message.getStateClass();
+			Class<? extends UiState> stateClass = message.getStateClass();
 			render(stateClass);
 			showWindow();
 		}

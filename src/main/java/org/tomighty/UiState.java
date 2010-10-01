@@ -18,7 +18,7 @@ package org.tomighty;
 
 import java.awt.Component;
 
-public interface State {
+public interface UiState {
 
 	Component render() throws Exception;
 

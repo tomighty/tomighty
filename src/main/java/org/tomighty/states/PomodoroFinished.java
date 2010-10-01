@@ -25,12 +25,12 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import org.tomighty.State;
+import org.tomighty.UiState;
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.messages.ChangeState;
 import org.tomighty.ui.LabelFactory;
 
-public class PomodoroFinished implements State {
+public class PomodoroFinished implements UiState {
 
 	@Override
 	public Component render() throws Exception {
