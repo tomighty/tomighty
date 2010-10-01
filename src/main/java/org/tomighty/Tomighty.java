@@ -16,20 +16,10 @@ Copyright 2010 Célio Cidral Junior
 
 package org.tomighty;
 
-import java.awt.AWTException;
 import java.awt.Component;
 import java.awt.GraphicsEnvironment;
-import java.awt.MenuItem;
 import java.awt.Point;
-import java.awt.PopupMenu;
 import java.awt.Rectangle;
-import java.awt.SystemTray;
-import java.awt.TrayIcon;
-import java.awt.TrayIcon.MessageType;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,41 +28,34 @@ import javax.swing.UIManager;
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.Subscriber;
 import org.tomighty.bus.messages.ChangeState;
+import org.tomighty.bus.messages.TrayClick;
 import org.tomighty.states.InitialState;
+import org.tomighty.ui.Tray;
 import org.tomighty.ui.Window;
-import org.tomighty.util.Images;
 import org.tomighty.util.New;
 
 public class Tomighty {
 	
 	private Window window;
 	private Logger logger;
-	private TrayIcon trayIcon;
-	private SystemTray tray;
+	private Tray tray;
 
-	public Tomighty() throws AWTException {
+	public static void main(String[] args) throws Exception {
+		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		new Tomighty().start();
+	}
+
+	public Tomighty() {
 		logger = Logger.getLogger(getClass().getName());
-		
 		window = new Window();
-		
-		trayIcon = new TrayIcon(Images.get("/tomato-16x16.png"));
-		trayIcon.addMouseListener(new TrayClick());
-		trayIcon.setToolTip("Click to show/hide Tomighty");
-		
-		tray = SystemTray.getSystemTray();
-		tray.add(trayIcon);
-		
-		MenuItem closeItem = new MenuItem("Close");
-		PopupMenu popupMenu = new PopupMenu();
-		popupMenu.add(closeItem);
-		closeItem.addActionListener(new Exit());
-		trayIcon.setPopupMenu(popupMenu);
+		tray = new Tray();
 	}
 	
 	public void start() {
-		Bus.subscribe(new StateSwitch(), ChangeState.class);
+		Bus.subscribe(new SwitchState(), ChangeState.class);
+		Bus.subscribe(new ShowWindow(), TrayClick.class);
 		render(InitialState.class);
-		trayIcon.displayMessage(null, "Click here to show Tomighty", MessageType.NONE);
+		tray.start();
 	}
 	
 	private void render(Class<? extends State> stateClass) {
@@ -103,7 +86,7 @@ public class Tomighty {
 		window.setVisible(true);
 	}
 
-	private class StateSwitch implements Subscriber<ChangeState> {
+	private class SwitchState implements Subscriber<ChangeState> {
 		@Override
 		public void receive(ChangeState message) {
 			Class<? extends State> stateClass = message.getStateClass();
@@ -112,25 +95,11 @@ public class Tomighty {
 		}
 	}
 	
-	private class TrayClick extends MouseAdapter {
+	private class ShowWindow implements Subscriber<TrayClick> {
 		@Override
-		public void mouseClicked(MouseEvent e) {
-			if(e.getButton() == MouseEvent.BUTTON1) {
-				showWindow(e.getLocationOnScreen());
-			}
+		public void receive(TrayClick message) {
+			showWindow(message.mouseLocation());
 		}
 	}
 	
-	private class Exit implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			System.exit(0);
-		}
-	}
-	
-	public static void main(String[] args) throws Exception {
-		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		new Tomighty().start();
-	}
-
 }
