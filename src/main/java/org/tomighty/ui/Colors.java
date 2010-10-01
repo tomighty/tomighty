@@ -18,7 +18,7 @@ package org.tomighty.ui;
 
 import java.awt.Color;
 
-public class Colors {
+class Colors {
 	
 	private static final int LIGHT_VALUE = 100;
 	
