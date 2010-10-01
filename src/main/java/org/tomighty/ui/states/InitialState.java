@@ -14,7 +14,7 @@ Copyright 2010 Célio Cidral Junior
    limitations under the License.
 */
 
-package org.tomighty.states;
+package org.tomighty.ui.states;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -28,9 +28,9 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import org.tomighty.UiState;
 import org.tomighty.bus.Bus;
-import org.tomighty.bus.messages.ChangeState;
+import org.tomighty.bus.messages.ChangeUiState;
+import org.tomighty.ui.UiState;
 import org.tomighty.util.Images;
 
 public class InitialState implements UiState, ActionListener {
@@ -59,7 +59,7 @@ public class InitialState implements UiState, ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Bus.publish(new ChangeState(Pomodoro.class));
+		Bus.publish(new ChangeUiState(Pomodoro.class));
 	}
 
 }

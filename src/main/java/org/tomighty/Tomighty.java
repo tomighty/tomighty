@@ -27,11 +27,12 @@ import javax.swing.UIManager;
 
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.Subscriber;
-import org.tomighty.bus.messages.ChangeState;
+import org.tomighty.bus.messages.ChangeUiState;
 import org.tomighty.bus.messages.TrayClick;
-import org.tomighty.states.InitialState;
 import org.tomighty.ui.Tray;
+import org.tomighty.ui.UiState;
 import org.tomighty.ui.Window;
+import org.tomighty.ui.states.InitialState;
 import org.tomighty.util.New;
 
 public class Tomighty {
@@ -52,7 +53,7 @@ public class Tomighty {
 	}
 	
 	public void start() {
-		Bus.subscribe(new SwitchState(), ChangeState.class);
+		Bus.subscribe(new SwitchState(), ChangeUiState.class);
 		Bus.subscribe(new ShowWindow(), TrayClick.class);
 		render(InitialState.class);
 		tray.start();
@@ -86,9 +87,9 @@ public class Tomighty {
 		window.setVisible(true);
 	}
 
-	private class SwitchState implements Subscriber<ChangeState> {
+	private class SwitchState implements Subscriber<ChangeUiState> {
 		@Override
-		public void receive(ChangeState message) {
+		public void receive(ChangeUiState message) {
 			Class<? extends UiState> stateClass = message.getStateClass();
 			render(stateClass);
 			showWindow();

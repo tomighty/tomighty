@@ -14,7 +14,7 @@ Copyright 2010 Célio Cidral Junior
    limitations under the License.
 */
 
-package org.tomighty;
+package org.tomighty.ui;
 
 import java.awt.Component;
 

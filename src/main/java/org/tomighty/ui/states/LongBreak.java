@@ -14,7 +14,7 @@ Copyright 2010 Célio Cidral Junior
    limitations under the License.
 */
 
-package org.tomighty.states;
+package org.tomighty.ui.states;
 
 import org.tomighty.time.Time;
 

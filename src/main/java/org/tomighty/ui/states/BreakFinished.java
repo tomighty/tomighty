@@ -14,7 +14,7 @@ Copyright 2010 Célio Cidral Junior
    limitations under the License.
 */
 
-package org.tomighty.states;
+package org.tomighty.ui.states;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -24,12 +24,12 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import org.tomighty.UiState;
 import org.tomighty.bus.Bus;
-import org.tomighty.bus.messages.ChangeState;
+import org.tomighty.bus.messages.ChangeUiState;
 import org.tomighty.ui.LabelFactory;
+import org.tomighty.ui.UiState;
 
-public class PomodoroInterrupted implements UiState, ActionListener {
+public class BreakFinished implements UiState, ActionListener {
 
 	@Override
 	public Component render() throws Exception {
@@ -37,23 +37,23 @@ public class PomodoroInterrupted implements UiState, ActionListener {
 		panel.setOpaque(false);
 		panel.setLayout(new BorderLayout());
 		panel.add(text(), BorderLayout.CENTER);
-		panel.add(restartButton(), BorderLayout.SOUTH);
+		panel.add(pomodoro(), BorderLayout.SOUTH);
 		return panel;
 	}
 
 	private Component text() {
-		return LabelFactory.medium("Pomodoro interrupted");
+		return LabelFactory.medium("Break finished");
 	}
 
-	private Component restartButton() {
-		JButton button = new JButton("Restart");
+	private Component pomodoro() {
+		JButton button = new JButton("Start Pomodoro");
 		button.addActionListener(this);
 		return button;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Bus.publish(new ChangeState(Pomodoro.class));
+		Bus.publish(new ChangeUiState(Pomodoro.class));
 	}
 
 }

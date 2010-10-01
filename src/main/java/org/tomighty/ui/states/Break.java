@@ -14,7 +14,7 @@ Copyright 2010 Célio Cidral Junior
    limitations under the License.
 */
 
-package org.tomighty.states;
+package org.tomighty.ui.states;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -24,40 +24,44 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import org.tomighty.UiState;
 import org.tomighty.bus.Bus;
-import org.tomighty.bus.messages.ChangeState;
+import org.tomighty.bus.messages.ChangeUiState;
 import org.tomighty.time.Time;
 import org.tomighty.time.Timer;
 import org.tomighty.time.TimerListener;
 import org.tomighty.ui.Label;
 import org.tomighty.ui.LabelFactory;
+import org.tomighty.ui.UiState;
 
-public class Pomodoro implements UiState, ActionListener, TimerListener {
+public abstract class Break implements UiState, ActionListener, TimerListener {
 
 	private Label remainingTime;
 	private Timer timer;
 
+	protected abstract String lengthName();
+	
+	protected abstract Time time();
+	
 	@Override
 	public Component render() throws Exception {
-		Time time = new Time(25);
+		Time time = time();
 		
+		JPanel panel = new JPanel();
 		JButton interruptButton = new JButton("Interrupt");
 		interruptButton.addActionListener(this);
-		JPanel panel = new JPanel();
 		panel.setOpaque(false);
 		panel.setLayout(new BorderLayout());
-		panel.add(LabelFactory.small("Pomodoro"), BorderLayout.NORTH);
+		panel.add(LabelFactory.small(lengthName() + " break"), BorderLayout.NORTH);
 		panel.add(remainingTime(time), BorderLayout.CENTER);
 		panel.add(interruptButton, BorderLayout.SOUTH);
 		
-		timer = new Timer("Pomodoro");
+		timer = new Timer(lengthName() + " break");
 		timer.listener(this);
 		timer.start(time);
 		
 		return panel;
 	}
-	
+
 	private Component remainingTime(Time time) {
 		remainingTime = LabelFactory.big(time.toString());
 		return remainingTime;
@@ -73,13 +77,13 @@ public class Pomodoro implements UiState, ActionListener, TimerListener {
 	}
 
 	private void finished() {
-		Bus.publish(new ChangeState(PomodoroFinished.class));
+		Bus.publish(new ChangeUiState(BreakFinished.class));
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		timer.stop();
-		Bus.publish(new ChangeState(PomodoroInterrupted.class));
+		Bus.publish(new ChangeUiState(BreakInterrupted.class));
 	}
 
 }
