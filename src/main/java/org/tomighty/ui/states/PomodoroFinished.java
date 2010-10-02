@@ -40,33 +40,28 @@ public class PomodoroFinished extends UiStateSupport {
 	}
 
 	private Component buttons() {
-		JPanel panel = new JPanel(new GridLayout(1, 2, 3, 0));
-		panel.setOpaque(false);
+		JPanel panel = createPanel(new GridLayout(1, 2, 3, 0));
 		panel.add(shortBreak());
 		panel.add(longBreak());
 		return panel;
 	}
 	
 	private JButton shortBreak() {
-		JButton button = new JButton("Short");
-		button.addActionListener(new ActionListener() {
+		return createButton("Short", new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Bus.publish(new ChangeUiState(ShortBreak.class));
 			}
 		});
-		return button;
 	}
 
 	private JButton longBreak() {
-		JButton button = new JButton("Long");
-		button.addActionListener(new ActionListener() {
+		return createButton("Long", new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Bus.publish(new ChangeUiState(LongBreak.class));
 			}
 		});
-		return button;
 	}
 
 }

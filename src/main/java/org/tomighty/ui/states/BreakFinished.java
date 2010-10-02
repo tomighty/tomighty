@@ -21,8 +21,6 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.messages.ChangeUiState;
 import org.tomighty.ui.LabelFactory;
@@ -31,19 +29,9 @@ public class BreakFinished extends UiStateSupport implements ActionListener {
 
 	@Override
 	public Component render() throws Exception {
-		panel.add(text(), BorderLayout.CENTER);
-		panel.add(pomodoro(), BorderLayout.SOUTH);
+		panel.add(LabelFactory.medium("Break finished"), BorderLayout.CENTER);
+		panel.add(createButton("Start Pomodoro", this), BorderLayout.SOUTH);
 		return panel;
-	}
-
-	private Component text() {
-		return LabelFactory.medium("Break finished");
-	}
-
-	private Component pomodoro() {
-		JButton button = new JButton("Start Pomodoro");
-		button.addActionListener(this);
-		return button;
 	}
 
 	@Override

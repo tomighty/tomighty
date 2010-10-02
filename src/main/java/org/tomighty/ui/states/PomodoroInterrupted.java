@@ -21,8 +21,6 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.messages.ChangeUiState;
 import org.tomighty.ui.LabelFactory;
@@ -31,19 +29,9 @@ public class PomodoroInterrupted extends UiStateSupport implements ActionListene
 
 	@Override
 	public Component render() throws Exception {
-		panel.add(text(), BorderLayout.CENTER);
-		panel.add(restartButton(), BorderLayout.SOUTH);
+		panel.add(LabelFactory.medium("Pomodoro interrupted"), BorderLayout.CENTER);
+		panel.add(createButton("Restart", this), BorderLayout.SOUTH);
 		return panel;
-	}
-
-	private Component text() {
-		return LabelFactory.medium("Pomodoro interrupted");
-	}
-
-	private Component restartButton() {
-		JButton button = new JButton("Restart");
-		button.addActionListener(this);
-		return button;
 	}
 
 	@Override

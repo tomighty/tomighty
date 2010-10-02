@@ -24,7 +24,6 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 
 import org.tomighty.bus.Bus;
@@ -36,7 +35,7 @@ public class InitialState extends UiStateSupport implements ActionListener {
 	@Override
 	public Component render() throws Exception {
 		panel.add(tomato(), BorderLayout.CENTER);
-		panel.add(startButton(), BorderLayout.SOUTH);
+		panel.add(createButton("Start Pomodoro", this), BorderLayout.SOUTH);
 		return panel;
 	}
 
@@ -44,12 +43,6 @@ public class InitialState extends UiStateSupport implements ActionListener {
 		Image image = Images.get("/tomato-48x48.png");
 		ImageIcon imageIcon = new ImageIcon(image);
 		return new JLabel(imageIcon);
-	}
-
-	private Component startButton() {
-		JButton startButton = new JButton("Start Pomodoro");
-		startButton.addActionListener(this);
-		return startButton;
 	}
 
 	@Override
