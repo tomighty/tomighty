@@ -16,62 +16,28 @@ Copyright 2010 Célio Cidral Junior
 
 package org.tomighty.ui.states;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import org.tomighty.bus.Bus;
-import org.tomighty.bus.messages.ChangeUiState;
-import org.tomighty.time.Time;
-import org.tomighty.time.Timer;
 import org.tomighty.time.TimerListener;
-import org.tomighty.ui.Label;
-import org.tomighty.ui.LabelFactory;
+import org.tomighty.ui.UiState;
 
-public abstract class Break extends UiStateSupport implements ActionListener, TimerListener {
+public abstract class Break extends TimerSupport implements ActionListener, TimerListener {
 
-	private Label remainingTime;
-	private Timer timer;
-
-	protected abstract String lengthName();
-	
-	protected abstract Time time();
+	protected abstract String name();
 	
 	@Override
-	public Component render() throws Exception {
-		Time time = time();
-		
-		remainingTime = LabelFactory.big(time.toString());
-		
-		panel.add(LabelFactory.small(lengthName() + " break"), BorderLayout.NORTH);
-		panel.add(remainingTime, BorderLayout.CENTER);
-		panel.add(createButton("Interrupt", this), BorderLayout.SOUTH);
-		
-		timer = new Timer(lengthName() + " break");
-		timer.listener(this);
-		timer.start(time);
-		
-		return panel;
+	protected String title() {
+		return name()+" break";
 	}
-
+	
 	@Override
-	public void tick(Time time) {
-		if(time.isZero()) {
-			finished();
-		} else {
-			remainingTime.setText(time.toString());
-		}
+	protected Class<? extends UiState> finishedState() {
+		return BreakFinished.class;
 	}
-
-	private void finished() {
-		Bus.publish(new ChangeUiState(BreakFinished.class));
-	}
-
+	
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		timer.stop();
-		Bus.publish(new ChangeUiState(BreakInterrupted.class));
+	protected Class<? extends UiState> interruptedState() {
+		return BreakInterrupted.class;
 	}
 
 }

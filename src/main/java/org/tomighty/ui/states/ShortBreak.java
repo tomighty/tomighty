@@ -21,12 +21,12 @@ import org.tomighty.time.Time;
 public class ShortBreak extends Break {
 
 	@Override
-	protected String lengthName() {
+	protected String name() {
 		return "Short";
 	}
 
 	@Override
-	protected Time time() {
+	protected Time initialTime() {
 		return new Time(5);
 	}
 

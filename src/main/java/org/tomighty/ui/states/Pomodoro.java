@@ -16,58 +16,32 @@ Copyright 2010 Célio Cidral Junior
 
 package org.tomighty.ui.states;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import org.tomighty.bus.Bus;
-import org.tomighty.bus.messages.ChangeUiState;
 import org.tomighty.time.Time;
-import org.tomighty.time.Timer;
 import org.tomighty.time.TimerListener;
-import org.tomighty.ui.Label;
-import org.tomighty.ui.LabelFactory;
+import org.tomighty.ui.UiState;
 
-public class Pomodoro extends UiStateSupport implements ActionListener, TimerListener {
-
-	private Label remainingTime;
-	private Timer timer;
+public class Pomodoro extends TimerSupport implements ActionListener, TimerListener {
 
 	@Override
-	public Component render() throws Exception {
-		Time time = new Time(25);
-		
-		remainingTime = LabelFactory.big(time.toString());
-		
-		panel.add(LabelFactory.small("Pomodoro"), BorderLayout.NORTH);
-		panel.add(remainingTime, BorderLayout.CENTER);
-		panel.add(createButton("Interrupt", this), BorderLayout.SOUTH);
-		
-		timer = new Timer("Pomodoro");
-		timer.listener(this);
-		timer.start(time);
-		
-		return panel;
+	protected String title() {
+		return "Pomodoro";
 	}
 
 	@Override
-	public void tick(Time time) {
-		if(time.isZero()) {
-			finished();
-		} else {
-			remainingTime.setText(time.toString());
-		}
-	}
-
-	private void finished() {
-		Bus.publish(new ChangeUiState(PomodoroFinished.class));
+	protected Time initialTime() {
+		return new Time(25);
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
-		timer.stop();
-		Bus.publish(new ChangeUiState(PomodoroInterrupted.class));
+	protected Class<? extends UiState> finishedState() {
+		return PomodoroFinished.class;
 	}
 
+	@Override
+	protected Class<? extends UiState> interruptedState() {
+		return PomodoroInterrupted.class;
+	}
+	
 }
