@@ -20,6 +20,7 @@ import java.awt.Component;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import org.tomighty.bus.Bus;
@@ -32,7 +33,7 @@ import org.tomighty.ui.Window;
 import org.tomighty.ui.states.InitialState;
 import org.tomighty.util.New;
 
-public class Tomighty {
+public class Tomighty implements Runnable {
 	
 	private Window window;
 	private Logger logger;
@@ -40,7 +41,7 @@ public class Tomighty {
 
 	public static void main(String[] args) throws Exception {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		new Tomighty().start();
+		SwingUtilities.invokeLater(new Tomighty());
 	}
 
 	public Tomighty() {
@@ -49,7 +50,8 @@ public class Tomighty {
 		tray = new Tray();
 	}
 	
-	public void start() {
+	@Override
+	public void run() {
 		Bus.subscribe(new SwitchState(), ChangeUiState.class);
 		Bus.subscribe(new ShowWindow(), TrayClick.class);
 		render(InitialState.class);
