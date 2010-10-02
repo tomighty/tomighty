@@ -29,6 +29,7 @@ import java.awt.event.MouseEvent;
 
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.messages.TrayClick;
+import org.tomighty.config.Config;
 import org.tomighty.util.Images;
 
 public class Tray {
@@ -44,7 +45,11 @@ public class Tray {
 		} catch (AWTException e) {
 			throw new RuntimeException(e);
 		}
-		icon.displayMessage("First time using Tomighty?", "Click here to show it", MessageType.INFO);
+		boolean firstRun = Config.asBoolean("firstRun", true);
+		if(firstRun) {
+			icon.displayMessage("First time using Tomighty?", "Click here to show it", MessageType.INFO);
+			Config.set("firstRun", false);
+		}
 	}
 
 	private PopupMenu createMenu() {
