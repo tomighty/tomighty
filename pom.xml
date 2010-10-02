@@ -4,14 +4,10 @@
 	<groupId>org.tomighty</groupId>
 	<artifactId>tomighty</artifactId>
 	<packaging>jar</packaging>
-	<version>${version}-SNAPSHOT</version>
+	<version>0.1</version>
 	<name>Tomighty</name>
 	<url>http://code.google.com/p/tomighty/</url>
 	
-	<properties>
-		<version>0.1</version>
-	</properties>
-
 	<build>
 		<plugins>
 			<plugin>
@@ -34,12 +30,12 @@
 								<minVersion>1.5.0</minVersion>
 							</jre>
 							<versionInfo>
-								<fileVersion>${version}.0.0</fileVersion>
-								<txtFileVersion>${version}.0.0</txtFileVersion>
+								<fileVersion>${project.version}.0.0</fileVersion>
+								<txtFileVersion>${project.version}.0.0</txtFileVersion>
 								<fileDescription>Desktop timer for the Pomodoro Technique users</fileDescription>
 								<copyright>Copyright 2010 Celio Cidral Junior</copyright>
-								<productVersion>${version}.0.0</productVersion>
-								<txtProductVersion>${version}.0.0</txtProductVersion>
+								<productVersion>${project.version}.0.0</productVersion>
+								<txtProductVersion>${project.version}.0.0</txtProductVersion>
 								<productName>${project.name}</productName>
 								<internalName>${artifactId}</internalName>
 								<originalFilename>${artifactId}-${project.version}.exe</originalFilename>
