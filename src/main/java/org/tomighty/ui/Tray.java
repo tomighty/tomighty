@@ -44,7 +44,7 @@ public class Tray {
 		} catch (AWTException e) {
 			throw new RuntimeException(e);
 		}
-		icon.displayMessage(null, "Click here to show Tomighty", MessageType.NONE);
+		icon.displayMessage("First time using Tomighty?", "Click here to show it", MessageType.INFO);
 	}
 
 	private PopupMenu createMenu() {
