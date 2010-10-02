@@ -9,6 +9,15 @@
 	<url>http://code.google.com/p/tomighty/</url>
 	
 	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+					<artifactId>nsis-maven-plugin</artifactId>
+					<version>1.0-20091114.095635-2</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 		<plugins>
 			<plugin>
 				<groupId>com.akathist.maven.plugins.launch4j</groupId>
@@ -45,6 +54,20 @@
 				</executions>
 			</plugin>
 			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>nsis-maven-plugin</artifactId>
+				<version>1.0-20091114.095635-2</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>generate-project</goal> <!-- create target/project.nsh -->
+							<goal>compile</goal>          <!-- compile setup.nsi into exe -->
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
 				<version>2.3.1</version>
@@ -70,6 +93,13 @@
 
 	<repositories>
 		<repository>
+			<id>codehaus-mojo</id>
+			<name>Codehaus Mojo</name>
+			<url>http://snapshots.repository.codehaus.org</url>
+			<releases><enabled>false</enabled></releases>
+			<snapshots><enabled>true</enabled></snapshots>
+		</repository>
+		<repository>
 			<id>akathist-repository</id>
 			<name>Akathist Repository</name>
 			<url>http://www.9stmaryrd.com/maven</url>
@@ -77,6 +107,13 @@
 	</repositories>
 
 	<pluginRepositories>
+		<pluginRepository>
+			<id>codehaus-mojo</id>
+			<name>Codehaus Mojo</name>
+			<url>http://snapshots.repository.codehaus.org</url>
+			<releases><enabled>false</enabled></releases>
+			<snapshots><enabled>true</enabled></snapshots>
+		</pluginRepository>
 		<pluginRepository>
 			<id>akathist-repository</id>
 			<name>Akathist Repository</name>
