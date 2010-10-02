@@ -26,20 +26,15 @@ import java.io.IOException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.messages.ChangeUiState;
-import org.tomighty.ui.UiState;
 import org.tomighty.util.Images;
 
-public class InitialState implements UiState, ActionListener {
+public class InitialState extends UiStateSupport implements ActionListener {
 
 	@Override
 	public Component render() throws Exception {
-		JPanel panel = new JPanel();
-		panel.setOpaque(false);
-		panel.setLayout(new BorderLayout());
 		panel.add(tomato(), BorderLayout.CENTER);
 		panel.add(startButton(), BorderLayout.SOUTH);
 		return panel;

@@ -22,20 +22,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JPanel;
 
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.messages.ChangeUiState;
 import org.tomighty.ui.LabelFactory;
-import org.tomighty.ui.UiState;
 
-public class BreakFinished implements UiState, ActionListener {
+public class BreakFinished extends UiStateSupport implements ActionListener {
 
 	@Override
 	public Component render() throws Exception {
-		JPanel panel = new JPanel();
-		panel.setOpaque(false);
-		panel.setLayout(new BorderLayout());
 		panel.add(text(), BorderLayout.CENTER);
 		panel.add(pomodoro(), BorderLayout.SOUTH);
 		return panel;

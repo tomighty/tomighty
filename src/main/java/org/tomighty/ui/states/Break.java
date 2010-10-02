@@ -22,7 +22,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JPanel;
 
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.messages.ChangeUiState;
@@ -31,9 +30,8 @@ import org.tomighty.time.Timer;
 import org.tomighty.time.TimerListener;
 import org.tomighty.ui.Label;
 import org.tomighty.ui.LabelFactory;
-import org.tomighty.ui.UiState;
 
-public abstract class Break implements UiState, ActionListener, TimerListener {
+public abstract class Break extends UiStateSupport implements ActionListener, TimerListener {
 
 	private Label remainingTime;
 	private Timer timer;
@@ -46,20 +44,21 @@ public abstract class Break implements UiState, ActionListener, TimerListener {
 	public Component render() throws Exception {
 		Time time = time();
 		
-		JPanel panel = new JPanel();
-		JButton interruptButton = new JButton("Interrupt");
-		interruptButton.addActionListener(this);
-		panel.setOpaque(false);
-		panel.setLayout(new BorderLayout());
 		panel.add(LabelFactory.small(lengthName() + " break"), BorderLayout.NORTH);
 		panel.add(remainingTime(time), BorderLayout.CENTER);
-		panel.add(interruptButton, BorderLayout.SOUTH);
+		panel.add(interruptButton(), BorderLayout.SOUTH);
 		
 		timer = new Timer(lengthName() + " break");
 		timer.listener(this);
 		timer.start(time);
 		
 		return panel;
+	}
+
+	private JButton interruptButton() {
+		JButton button = new JButton("Interrupt");
+		button.addActionListener(this);
+		return button;
 	}
 
 	private Component remainingTime(Time time) {

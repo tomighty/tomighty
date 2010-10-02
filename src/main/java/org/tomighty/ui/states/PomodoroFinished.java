@@ -28,15 +28,11 @@ import javax.swing.JPanel;
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.messages.ChangeUiState;
 import org.tomighty.ui.LabelFactory;
-import org.tomighty.ui.UiState;
 
-public class PomodoroFinished implements UiState {
+public class PomodoroFinished extends UiStateSupport {
 
 	@Override
 	public Component render() throws Exception {
-		JPanel panel = new JPanel();
-		panel.setOpaque(false);
-		panel.setLayout(new BorderLayout());
 		panel.add(LabelFactory.small("Pomodoro finished"), BorderLayout.NORTH);
 		panel.add(LabelFactory.medium("Take a break"), BorderLayout.CENTER);
 		panel.add(buttons(), BorderLayout.SOUTH);
