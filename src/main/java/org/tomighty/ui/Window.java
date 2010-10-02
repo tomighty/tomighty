@@ -17,11 +17,14 @@ Copyright 2010 Célio Cidral Junior
 package org.tomighty.ui;
 
 import java.awt.Component;
+import java.awt.Point;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 
 import javax.swing.JFrame;
 
+import org.tomighty.ui.location.Closest;
+import org.tomighty.ui.location.WindowLocation;
 import org.tomighty.util.Images;
 
 @SuppressWarnings("serial")
@@ -44,6 +47,16 @@ public class Window extends JFrame {
 
 	public void setComponent(Component component) {
 		panel.setComponent(component);
+	}
+	
+	public void show(Point mouseLocation) {
+		if(mouseLocation != null)
+		{
+			WindowLocation location = Closest.windowLocation(mouseLocation);
+			Point point = location.determine(getSize());
+			setLocation(point);
+		}
+		setVisible(true);
 	}
 	
 	private class HideWindowWhenLosingFocus implements WindowFocusListener {

@@ -17,9 +17,6 @@ Copyright 2010 Célio Cidral Junior
 package org.tomighty;
 
 import java.awt.Component;
-import java.awt.GraphicsEnvironment;
-import java.awt.Point;
-import java.awt.Rectangle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -71,35 +68,19 @@ public class Tomighty {
 		window.setComponent(component);
 	}
 	
-	private void showWindow() {
-		showWindow(null);
-	}
-	
-	private void showWindow(Point mouseLocation) {
-		if(mouseLocation != null)
-		{
-			GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();	
-			Rectangle bounds = env.getMaximumWindowBounds();
-			int x = mouseLocation.x - window.getWidth() / 2;
-			int y = bounds.height - window.getHeight() - 5;
-			window.setLocation(x, y);
-		}
-		window.setVisible(true);
-	}
-
 	private class SwitchState implements Subscriber<ChangeUiState> {
 		@Override
 		public void receive(ChangeUiState message) {
 			Class<? extends UiState> stateClass = message.getStateClass();
 			render(stateClass);
-			showWindow();
+			window.show(null);
 		}
 	}
 	
 	private class ShowWindow implements Subscriber<TrayClick> {
 		@Override
 		public void receive(TrayClick message) {
-			showWindow(message.mouseLocation());
+			window.show(message.mouseLocation());
 		}
 	}
 	
