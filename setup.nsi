@@ -70,6 +70,12 @@ Section "Tomighty"
     writeUninstaller "$INSTDIR\tomighty_uninstall.exe"
 SectionEnd
 
+Section "Start Menu Shortcuts"
+    CreateDirectory "$SMPROGRAMS\${PROJECT_NAME}"
+    CreateShortCut "$SMPROGRAMS\${PROJECT_NAME}\Tomighty.lnk" "$INSTDIR\${PROJECT_ARTIFACT_ID}-${PROJECT_VERSION}.exe" "" "$INSTDIR\${PROJECT_ARTIFACT_ID}-${PROJECT_VERSION}.exe" 0
+    CreateShortCut "$SMPROGRAMS\${PROJECT_NAME}\Uninstall.lnk" "$INSTDIR\tomighty_uninstall.exe" "" "$INSTDIR\tomighty_uninstall.exe" 0
+SectionEnd
+
 ; Installer functions
 Function .onInstSuccess
 
