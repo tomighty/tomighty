@@ -5,25 +5,21 @@ import java.util.Properties;
 
 import org.tomighty.util.Props;
 
-public class Config {
+public class Configuration {
 	
 	private static final File CONFIG_FILE = new File(System.getProperty("user.home") + "/.tomighty");
-	private static Properties properties;
+	private final Properties properties = Props.load(CONFIG_FILE);
 	
-	static {
-		properties = Props.load(CONFIG_FILE);
-	}
-	
-	public static boolean asBoolean(String name, boolean defaultValue) {
+	public boolean asBoolean(String name, boolean defaultValue) {
 		String value = properties.getProperty(name);
 		return value == null ? defaultValue : Boolean.parseBoolean(value);
 	}
 
-	public static void set(String name, boolean value) {
+	public void set(String name, boolean value) {
 		set(name, String.valueOf(value));
 	}
 
-	private static void set(String name, String value) {
+	private void set(String name, String value) {
 		properties.setProperty(name, value);
 		Props.store(properties, CONFIG_FILE);
 	}

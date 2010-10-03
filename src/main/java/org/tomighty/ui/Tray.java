@@ -29,7 +29,7 @@ import java.awt.event.MouseEvent;
 
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.messages.TrayClick;
-import org.tomighty.config.Config;
+import org.tomighty.config.Configuration;
 import org.tomighty.ioc.Container;
 import org.tomighty.ioc.Inject;
 import org.tomighty.util.Images;
@@ -38,6 +38,7 @@ public class Tray {
 
 	@Inject private Container container;
 	@Inject private Bus bus;
+	@Inject private Configuration config;
 	
 	public void start() {
 		TrayIcon icon = new TrayIcon(Images.get("/tomato-16x16.png"));
@@ -50,10 +51,10 @@ public class Tray {
 		} catch (AWTException e) {
 			throw new RuntimeException(e);
 		}
-		boolean firstRun = Config.asBoolean("firstRun", true);
+		boolean firstRun = config.asBoolean("firstRun", true);
 		if(firstRun) {
 			icon.displayMessage("First time using Tomighty?", "Click here to show it", MessageType.INFO);
-			Config.set("firstRun", false);
+			config.set("firstRun", false);
 		}
 	}
 
