@@ -17,8 +17,6 @@ Copyright 2010 Célio Cidral Junior
 package org.tomighty;
 
 import java.awt.Component;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -28,28 +26,27 @@ import org.tomighty.bus.Subscriber;
 import org.tomighty.bus.messages.ChangeUiState;
 import org.tomighty.bus.messages.TrayClick;
 import org.tomighty.ioc.Container;
+import org.tomighty.ioc.Factory;
 import org.tomighty.ioc.Inject;
+import org.tomighty.ioc.New;
+import org.tomighty.log.Log;
 import org.tomighty.ui.Tray;
 import org.tomighty.ui.UiState;
 import org.tomighty.ui.Window;
 import org.tomighty.ui.states.InitialState;
-import org.tomighty.util.New;
 
 public class Tomighty implements Runnable {
 	
 	@Inject private Window window;
 	@Inject private Tray tray;
-	private Logger logger;
+	@Inject private Factory factory;
+	@Inject @New private Log log;
 
 	public static void main(String[] args) throws Exception {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		Container container = new Container();
 		Tomighty tomighty = container.get(Tomighty.class);
 		SwingUtilities.invokeLater(tomighty);
-	}
-
-	public Tomighty() {
-		logger = Logger.getLogger(getClass().getName());
 	}
 	
 	@Override
@@ -61,12 +58,12 @@ public class Tomighty implements Runnable {
 	}
 	
 	private void render(Class<? extends UiState> stateClass) {
-		UiState state = New.instanceOf(stateClass);
+		UiState state = factory.create(stateClass);
 		Component component;
 		try {
 			component = state.render();
-		} catch (Exception e) {
-			logger.log(Level.SEVERE, "Failed to render state: "+state, e);
+		} catch (Exception error) {
+			log.error("Failed to render state: "+state, error);
 			return;
 		}
 		window.setComponent(component);

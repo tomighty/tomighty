@@ -3,25 +3,30 @@ package org.tomighty.ioc;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.tomighty.util.New;
-
 public class Container {
 	
-	private Map<Class<?>, Object> map = new HashMap<Class<?>, Object>();
+	private final Factory factory = new Factory();
 	
-	private Injector injector = new Injector(this);
+	private final Injector injector = new Injector(this, factory);
+	
+	private final Map<Class<?>, Object> map = new HashMap<Class<?>, Object>();
 	
 	public Container() {
+		factory.injector(injector);
 		map.put(Container.class, this);
+		map.put(Factory.class, factory);
 		map.put(Injector.class, injector);
+	}
+	
+	public <T> T get(Class<T> clazz) {
+		return get(clazz, null);
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> T get(Class<T> clazz) {
+	public <T> T get(Class<T> clazz, Object needer) {
 		Object instance = map.get(clazz);
 		if(instance == null) {
-			instance = New.instanceOf(clazz);
-			injector.inject(instance);
+			instance = factory.create(clazz, needer);
 			map.put(clazz, instance);
 		}
 		return (T) instance;
