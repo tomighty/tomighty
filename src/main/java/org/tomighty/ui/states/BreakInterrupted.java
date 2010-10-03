@@ -21,7 +21,6 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import org.tomighty.bus.Bus;
 import org.tomighty.bus.messages.ChangeUiState;
 import org.tomighty.ui.LabelFactory;
 
@@ -36,7 +35,7 @@ public class BreakInterrupted extends UiStateSupport implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Bus.publish(new ChangeUiState(Pomodoro.class));
+		bus.publish(new ChangeUiState(Pomodoro.class));
 	}
 
 }

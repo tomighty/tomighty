@@ -23,10 +23,9 @@ import java.util.Map;
 
 public class Bus {
 	
-	private static Map<Class<?>, List<Subscriber<?>>> map = new HashMap<Class<?>, List<Subscriber<?>>>();
+	private Map<Class<?>, List<Subscriber<?>>> map = new HashMap<Class<?>, List<Subscriber<?>>>();
 
-	public static <T> void subscribe(Subscriber<T> subscriber, Class<T> messageType)
-	{
+	public <T> void subscribe(Subscriber<T> subscriber, Class<T> messageType) {
 		List<Subscriber<?>> list = map.get(messageType);
 		if(list == null) {
 			list = new ArrayList<Subscriber<?>>();
@@ -36,7 +35,7 @@ public class Bus {
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static void publish(Object message) {
+	public void publish(Object message) {
 		List<Subscriber<?>> list = map.get(message.getClass());
 		if(list == null) {
 			return;

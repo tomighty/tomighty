@@ -26,7 +26,6 @@ import java.io.IOException;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import org.tomighty.bus.Bus;
 import org.tomighty.bus.messages.ChangeUiState;
 import org.tomighty.util.Images;
 
@@ -47,7 +46,7 @@ public class InitialState extends UiStateSupport implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		Bus.publish(new ChangeUiState(Pomodoro.class));
+		bus.publish(new ChangeUiState(Pomodoro.class));
 	}
 
 }

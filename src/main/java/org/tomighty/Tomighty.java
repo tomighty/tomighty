@@ -39,6 +39,7 @@ public class Tomighty implements Runnable {
 	
 	@Inject private Window window;
 	@Inject private Tray tray;
+	@Inject private Bus bus;
 	@Inject private Factory factory;
 	@Inject @New private Log log;
 
@@ -51,8 +52,8 @@ public class Tomighty implements Runnable {
 	
 	@Override
 	public void run() {
-		Bus.subscribe(new SwitchState(), ChangeUiState.class);
-		Bus.subscribe(new ShowWindow(), TrayClick.class);
+		bus.subscribe(new SwitchState(), ChangeUiState.class);
+		bus.subscribe(new ShowWindow(), TrayClick.class);
 		render(InitialState.class);
 		tray.start();
 	}

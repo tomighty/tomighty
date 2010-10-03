@@ -7,10 +7,13 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import org.tomighty.bus.Bus;
+import org.tomighty.ioc.Inject;
 import org.tomighty.ui.UiState;
 
 public abstract class UiStateSupport implements UiState {
 
+	@Inject protected Bus bus;
 	protected final JPanel panel;
 
 	public UiStateSupport() {

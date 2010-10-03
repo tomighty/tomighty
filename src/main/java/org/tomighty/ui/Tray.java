@@ -36,8 +36,8 @@ import org.tomighty.util.Images;
 
 public class Tray {
 
-	@Inject
-	private Container container;
+	@Inject private Container container;
+	@Inject private Bus bus;
 	
 	public void start() {
 		TrayIcon icon = new TrayIcon(Images.get("/tomato-16x16.png"));
@@ -75,7 +75,7 @@ public class Tray {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			if(e.getButton() == MouseEvent.BUTTON1) {
-				Bus.publish(new TrayClick(e.getLocationOnScreen()));
+				bus.publish(new TrayClick(e.getLocationOnScreen()));
 			}
 		}
 	}

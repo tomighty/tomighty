@@ -21,7 +21,6 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import org.tomighty.bus.Bus;
 import org.tomighty.bus.messages.ChangeUiState;
 import org.tomighty.time.Time;
 import org.tomighty.time.Timer;
@@ -67,13 +66,13 @@ public abstract class TimerSupport extends UiStateSupport implements ActionListe
 	}
 
 	private void finished() {
-		Bus.publish(new ChangeUiState(finishedState()));
+		bus.publish(new ChangeUiState(finishedState()));
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		timer.stop();
-		Bus.publish(new ChangeUiState(interruptedState()));
+		bus.publish(new ChangeUiState(interruptedState()));
 	}
 
 }

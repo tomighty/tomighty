@@ -15,6 +15,13 @@ public class Injector {
 
 	public void inject(Object instance) {
 		Class<?> clazz = instance.getClass();
+		do {
+			inject(instance, clazz);
+			clazz = clazz.getSuperclass();
+		} while(!clazz.equals(Object.class));
+	}
+
+	private void inject(Object instance, Class<?> clazz) {
 		Field[] fields = clazz.getDeclaredFields();
 		for(Field field : fields) {
 			boolean injectable = field.isAnnotationPresent(Inject.class);

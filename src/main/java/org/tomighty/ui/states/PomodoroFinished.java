@@ -25,7 +25,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import org.tomighty.bus.Bus;
 import org.tomighty.bus.messages.ChangeUiState;
 import org.tomighty.ui.LabelFactory;
 
@@ -50,7 +49,7 @@ public class PomodoroFinished extends UiStateSupport {
 		return createButton("Short", new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Bus.publish(new ChangeUiState(ShortBreak.class));
+				bus.publish(new ChangeUiState(ShortBreak.class));
 			}
 		});
 	}
@@ -59,7 +58,7 @@ public class PomodoroFinished extends UiStateSupport {
 		return createButton("Long", new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Bus.publish(new ChangeUiState(LongBreak.class));
+				bus.publish(new ChangeUiState(LongBreak.class));
 			}
 		});
 	}
