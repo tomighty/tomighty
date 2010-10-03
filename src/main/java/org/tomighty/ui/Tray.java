@@ -30,10 +30,15 @@ import java.awt.event.MouseEvent;
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.messages.TrayClick;
 import org.tomighty.config.Config;
+import org.tomighty.ioc.Container;
+import org.tomighty.ioc.Inject;
 import org.tomighty.util.Images;
 
 public class Tray {
 
+	@Inject
+	private Container container;
+	
 	public void start() {
 		TrayIcon icon = new TrayIcon(Images.get("/tomato-16x16.png"));
 		icon.addMouseListener(new TrayListener());
@@ -53,11 +58,17 @@ public class Tray {
 	}
 
 	private PopupMenu createMenu() {
-		MenuItem closeItem = new MenuItem("Close");
-		PopupMenu popupMenu = new PopupMenu();
-		popupMenu.add(closeItem);
-		closeItem.addActionListener(new Exit());
-		return popupMenu;
+		PopupMenu menu = new PopupMenu();
+		menu.add(menuItem("About...", new About()));
+		menu.addSeparator();
+		menu.add(menuItem("Close", new Exit()));
+		return menu;
+	}
+
+	private MenuItem menuItem(String text, ActionListener listener) {
+		MenuItem item = new MenuItem(text);
+		item.addActionListener(listener);
+		return item;
 	}
 	
 	private class TrayListener extends MouseAdapter {
@@ -66,6 +77,14 @@ public class Tray {
 			if(e.getButton() == MouseEvent.BUTTON1) {
 				Bus.publish(new TrayClick(e.getLocationOnScreen()));
 			}
+		}
+	}
+	
+	private class About implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			AboutDialog about = container.get(AboutDialog.class);
+			about.showDialog();
 		}
 	}
 	

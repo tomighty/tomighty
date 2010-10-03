@@ -27,6 +27,8 @@ import org.tomighty.bus.Bus;
 import org.tomighty.bus.Subscriber;
 import org.tomighty.bus.messages.ChangeUiState;
 import org.tomighty.bus.messages.TrayClick;
+import org.tomighty.ioc.Container;
+import org.tomighty.ioc.Inject;
 import org.tomighty.ui.Tray;
 import org.tomighty.ui.UiState;
 import org.tomighty.ui.Window;
@@ -35,19 +37,19 @@ import org.tomighty.util.New;
 
 public class Tomighty implements Runnable {
 	
-	private Window window;
+	@Inject private Window window;
+	@Inject private Tray tray;
 	private Logger logger;
-	private Tray tray;
 
 	public static void main(String[] args) throws Exception {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		SwingUtilities.invokeLater(new Tomighty());
+		Container container = new Container();
+		Tomighty tomighty = container.get(Tomighty.class);
+		SwingUtilities.invokeLater(tomighty);
 	}
 
 	public Tomighty() {
 		logger = Logger.getLogger(getClass().getName());
-		window = new Window();
-		tray = new Tray();
 	}
 	
 	@Override
