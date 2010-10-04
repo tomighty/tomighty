@@ -26,7 +26,7 @@ import javax.swing.JFrame;
 import org.tomighty.config.Options;
 import org.tomighty.ioc.Inject;
 import org.tomighty.ui.location.Closest;
-import org.tomighty.ui.location.WindowLocation;
+import org.tomighty.ui.location.Location;
 import org.tomighty.util.Images;
 
 @SuppressWarnings("serial")
@@ -55,7 +55,7 @@ public class Window extends JFrame {
 	public void show(Point mouseLocation) {
 		if(mouseLocation != null)
 		{
-			WindowLocation location = Closest.windowLocation(mouseLocation);
+			Location location = Closest.location(mouseLocation);
 			Point point = location.determine(getSize());
 			setLocation(point);
 		}

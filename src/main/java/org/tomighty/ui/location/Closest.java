@@ -7,14 +7,14 @@ import java.util.List;
 
 public class Closest {
 
-	public static WindowLocation windowLocation(Point mouseLocation) {
-		List<WindowLocation> locations = new ArrayList<WindowLocation>();
-		locations.add(new Top(mouseLocation));
-		locations.add(new Left(mouseLocation));
-		locations.add(new Bottom(mouseLocation));
-		locations.add(new Right(mouseLocation));
-		WindowLocation closest = null;
-		for(WindowLocation location : locations) {
+	public static Location location(Point mouseLocation) {
+		List<Location> list = new ArrayList<Location>();
+		list.add(new Top(mouseLocation));
+		list.add(new Left(mouseLocation));
+		list.add(new Bottom(mouseLocation));
+		list.add(new Right(mouseLocation));
+		Location closest = null;
+		for(Location location : list) {
 			if(closest == null || location.distanceFromScreenSide() < closest.distanceFromScreenSide()) {
 				closest = location;
 			}

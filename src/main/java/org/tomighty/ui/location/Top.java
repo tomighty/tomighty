@@ -3,7 +3,7 @@ package org.tomighty.ui.location;
 import java.awt.Dimension;
 import java.awt.Point;
 
-public class Top extends WindowLocationSupport {
+public class Top extends LocationSupport {
 
 	public Top(Point mouse) {
 		super(mouse);

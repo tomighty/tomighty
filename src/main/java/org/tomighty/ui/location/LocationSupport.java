@@ -6,13 +6,13 @@ import java.awt.Point;
 import java.awt.Rectangle;
 
 
-public abstract class WindowLocationSupport implements WindowLocation {
+public abstract class LocationSupport implements Location {
 	
 	protected static final int MARGIN = 5;
 
 	protected final Point mouse;
 
-	protected WindowLocationSupport(Point mouseLocation) {
+	protected LocationSupport(Point mouseLocation) {
 		this.mouse = mouseLocation;
 	}
 	
