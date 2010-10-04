@@ -32,15 +32,17 @@ import org.tomighty.bus.messages.TrayClick;
 import org.tomighty.config.Configuration;
 import org.tomighty.ioc.Container;
 import org.tomighty.ioc.Inject;
+import org.tomighty.ui.options.OptionsDialog;
 import org.tomighty.util.Images;
 
-public class Tray {
+public class Tray implements Runnable {
 
 	@Inject private Container container;
-	@Inject private Bus bus;
 	@Inject private Configuration config;
+	@Inject private Bus bus;
 	
-	public void start() {
+	@Override
+	public void run() {
 		TrayIcon icon = new TrayIcon(Images.get("/tomato-16x16.png"));
 		icon.addMouseListener(new TrayListener());
 		icon.setToolTip("Click to show/hide Tomighty");
@@ -60,7 +62,8 @@ public class Tray {
 
 	private PopupMenu createMenu() {
 		PopupMenu menu = new PopupMenu();
-		menu.add(menuItem("About...", new About()));
+		menu.add(menuItem("Options", new Options()));
+		menu.add(menuItem("About", new About()));
 		menu.addSeparator();
 		menu.add(menuItem("Close", new Exit()));
 		return menu;
@@ -78,6 +81,14 @@ public class Tray {
 			if(e.getButton() == MouseEvent.BUTTON1) {
 				bus.publish(new TrayClick(e.getLocationOnScreen()));
 			}
+		}
+	}
+	
+	private class Options implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			OptionsDialog dialog = container.get(OptionsDialog.class);
+			dialog.showDialog();
 		}
 	}
 	

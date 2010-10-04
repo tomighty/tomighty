@@ -25,6 +25,7 @@ import org.tomighty.bus.Bus;
 import org.tomighty.bus.Subscriber;
 import org.tomighty.bus.messages.ChangeUiState;
 import org.tomighty.bus.messages.TrayClick;
+import org.tomighty.config.Options;
 import org.tomighty.ioc.Container;
 import org.tomighty.ioc.Factory;
 import org.tomighty.ioc.Inject;
@@ -38,7 +39,7 @@ import org.tomighty.ui.states.InitialState;
 public class Tomighty implements Runnable {
 	
 	@Inject private Window window;
-	@Inject private Tray tray;
+	@Inject private Options options;
 	@Inject private Bus bus;
 	@Inject private Factory factory;
 	@Inject @New private Log log;
@@ -47,7 +48,9 @@ public class Tomighty implements Runnable {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		Container container = new Container();
 		Tomighty tomighty = container.get(Tomighty.class);
+		Tray tray = container.get(Tray.class);
 		SwingUtilities.invokeLater(tomighty);
+		SwingUtilities.invokeLater(tray);
 	}
 	
 	@Override
@@ -55,7 +58,6 @@ public class Tomighty implements Runnable {
 		bus.subscribe(new SwitchState(), ChangeUiState.class);
 		bus.subscribe(new ShowWindow(), TrayClick.class);
 		render(InitialState.class);
-		tray.start();
 	}
 	
 	private void render(Class<? extends UiState> stateClass) {
@@ -82,7 +84,11 @@ public class Tomighty implements Runnable {
 	private class ShowWindow implements Subscriber<TrayClick> {
 		@Override
 		public void receive(TrayClick message) {
-			window.show(message.mouseLocation());
+			if(options.autoHide() || !window.isVisible()) {
+				window.show(message.mouseLocation());
+			} else {
+				window.setVisible(false);
+			}
 		}
 	}
 	

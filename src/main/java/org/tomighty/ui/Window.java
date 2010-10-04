@@ -23,6 +23,8 @@ import java.awt.event.WindowFocusListener;
 
 import javax.swing.JFrame;
 
+import org.tomighty.config.Options;
+import org.tomighty.ioc.Inject;
 import org.tomighty.ui.location.Closest;
 import org.tomighty.ui.location.WindowLocation;
 import org.tomighty.util.Images;
@@ -30,6 +32,7 @@ import org.tomighty.util.Images;
 @SuppressWarnings("serial")
 public class Window extends JFrame {
 
+	@Inject private Options options;
 	private Panel panel = new Panel();
 
 	public Window() {
@@ -65,7 +68,9 @@ public class Window extends JFrame {
 		
 		@Override
 		public void windowLostFocus(WindowEvent e) {
-			setVisible(false);
+			if(options.autoHide()) {
+				setVisible(false);
+			}
 		}
 	}
 	
