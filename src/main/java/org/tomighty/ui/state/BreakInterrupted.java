@@ -14,7 +14,7 @@ Copyright 2010 Célio Cidral Junior
    limitations under the License.
 */
 
-package org.tomighty.ui.states;
+package org.tomighty.ui.state;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -24,12 +24,12 @@ import java.awt.event.ActionListener;
 import org.tomighty.bus.messages.ChangeUiState;
 import org.tomighty.ui.LabelFactory;
 
-public class PomodoroInterrupted extends UiStateSupport implements ActionListener {
+public class BreakInterrupted extends UiStateSupport implements ActionListener {
 
 	@Override
 	public Component render() throws Exception {
-		panel.add(LabelFactory.medium("Pomodoro interrupted"), BorderLayout.CENTER);
-		panel.add(createButton("Restart", this), BorderLayout.SOUTH);
+		panel.add(LabelFactory.medium("Break interrupted"), BorderLayout.CENTER);
+		panel.add(createButton("Start Pomodoro", this), BorderLayout.SOUTH);
 		return panel;
 	}
 

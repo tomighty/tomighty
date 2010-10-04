@@ -14,7 +14,7 @@ Copyright 2010 Célio Cidral Junior
    limitations under the License.
 */
 
-package org.tomighty.ui.states;
+package org.tomighty.ui.state;
 
 import java.awt.BorderLayout;
 import java.awt.Component;

@@ -1,4 +1,4 @@
-package org.tomighty.ui.states;
+package org.tomighty.ui.state;
 
 import java.awt.BorderLayout;
 import java.awt.LayoutManager;

@@ -34,7 +34,7 @@ import org.tomighty.log.Log;
 import org.tomighty.ui.Tray;
 import org.tomighty.ui.UiState;
 import org.tomighty.ui.Window;
-import org.tomighty.ui.states.InitialState;
+import org.tomighty.ui.state.InitialState;
 
 public class Tomighty implements Runnable {
 	

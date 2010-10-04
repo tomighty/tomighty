@@ -14,34 +14,30 @@ Copyright 2010 Célio Cidral Junior
    limitations under the License.
 */
 
-package org.tomighty.ui.states;
+package org.tomighty.ui.state;
 
 import java.awt.event.ActionListener;
 
-import org.tomighty.time.Time;
 import org.tomighty.time.TimerListener;
 import org.tomighty.ui.UiState;
 
-public class Pomodoro extends TimerSupport implements ActionListener, TimerListener {
+public abstract class Break extends TimerSupport implements ActionListener, TimerListener {
 
+	protected abstract String name();
+	
 	@Override
 	protected String title() {
-		return "Pomodoro";
-	}
-
-	@Override
-	protected Time initialTime() {
-		return new Time(25);
-	}
-
-	@Override
-	protected Class<? extends UiState> finishedState() {
-		return PomodoroFinished.class;
-	}
-
-	@Override
-	protected Class<? extends UiState> interruptedState() {
-		return PomodoroInterrupted.class;
+		return name()+" break";
 	}
 	
+	@Override
+	protected Class<? extends UiState> finishedState() {
+		return BreakFinished.class;
+	}
+	
+	@Override
+	protected Class<? extends UiState> interruptedState() {
+		return BreakInterrupted.class;
+	}
+
 }

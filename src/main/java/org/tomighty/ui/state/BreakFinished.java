@@ -14,20 +14,28 @@ Copyright 2010 Célio Cidral Junior
    limitations under the License.
 */
 
-package org.tomighty.ui.states;
+package org.tomighty.ui.state;
 
-import org.tomighty.time.Time;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class ShortBreak extends Break {
+import org.tomighty.bus.messages.ChangeUiState;
+import org.tomighty.ui.LabelFactory;
+
+public class BreakFinished extends UiStateSupport implements ActionListener {
 
 	@Override
-	protected String name() {
-		return "Short";
+	public Component render() throws Exception {
+		panel.add(LabelFactory.medium("Break finished"), BorderLayout.CENTER);
+		panel.add(createButton("Start Pomodoro", this), BorderLayout.SOUTH);
+		return panel;
 	}
 
 	@Override
-	protected Time initialTime() {
-		return new Time(5);
+	public void actionPerformed(ActionEvent e) {
+		bus.publish(new ChangeUiState(Pomodoro.class));
 	}
 
 }

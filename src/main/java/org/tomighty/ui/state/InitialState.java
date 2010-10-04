@@ -14,23 +14,34 @@ Copyright 2010 Célio Cidral Junior
    limitations under the License.
 */
 
-package org.tomighty.ui.states;
+package org.tomighty.ui.state;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 
 import org.tomighty.bus.messages.ChangeUiState;
-import org.tomighty.ui.LabelFactory;
+import org.tomighty.util.Images;
 
-public class BreakFinished extends UiStateSupport implements ActionListener {
+public class InitialState extends UiStateSupport implements ActionListener {
 
 	@Override
 	public Component render() throws Exception {
-		panel.add(LabelFactory.medium("Break finished"), BorderLayout.CENTER);
+		panel.add(tomato(), BorderLayout.CENTER);
 		panel.add(createButton("Start Pomodoro", this), BorderLayout.SOUTH);
 		return panel;
+	}
+
+	private Component tomato() throws IOException {
+		Image image = Images.get("/tomato-48x48.png");
+		ImageIcon imageIcon = new ImageIcon(image);
+		return new JLabel(imageIcon);
 	}
 
 	@Override
