@@ -32,6 +32,7 @@ import org.tomighty.bus.messages.TrayClick;
 import org.tomighty.config.Configuration;
 import org.tomighty.ioc.Container;
 import org.tomighty.ioc.Inject;
+import org.tomighty.ui.about.AboutDialog;
 import org.tomighty.ui.options.OptionsDialog;
 import org.tomighty.util.Images;
 
