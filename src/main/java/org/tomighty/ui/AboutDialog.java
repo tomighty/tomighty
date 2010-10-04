@@ -41,6 +41,7 @@ public class AboutDialog extends JDialog {
 		setAlwaysOnTop(true);
 		setContentPane(panel);
 		setIconImage(Images.get("/tomato-16x16.png"));
+		setResizable(false);
 	}
 
 	private void createPanel() {
