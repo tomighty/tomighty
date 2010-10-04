@@ -59,7 +59,8 @@ public class OptionsDialog extends JDialog {
 	}
 
 	private Component options() {
-		autoHideOption = new JCheckBox("Hide window when focus is lost");
+		autoHideOption = new JCheckBox("Auto hide window");
+		autoHideOption.setToolTipText("Should the window hide itself when losing focus?");
 		JPanel panel = new JPanel();
 		panel.add(autoHideOption);
 		return panel;
