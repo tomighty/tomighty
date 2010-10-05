@@ -48,7 +48,7 @@
 ; Modern Interface Pages
 
   !define MUI_DIRECTORYPAGE_VERIFYONLEAVE
-  !insertmacro MUI_PAGE_LICENSE .\COPYRIGHT
+  !insertmacro MUI_PAGE_LICENSE .\LICENSE
   !insertmacro MUI_PAGE_DIRECTORY
   !insertmacro MUI_PAGE_COMPONENTS
   !insertmacro MUI_PAGE_INSTFILES
