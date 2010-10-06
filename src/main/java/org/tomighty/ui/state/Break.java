@@ -16,12 +16,9 @@ Copyright 2010 Célio Cidral Junior
 
 package org.tomighty.ui.state;
 
-import java.awt.event.ActionListener;
-
-import org.tomighty.time.TimerListener;
 import org.tomighty.ui.UiState;
 
-public abstract class Break extends TimerSupport implements ActionListener, TimerListener {
+public abstract class Break extends TimerSupport {
 
 	protected abstract String name();
 	

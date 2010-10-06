@@ -16,10 +16,11 @@ Copyright 2010 Célio Cidral Junior
 
 package org.tomighty.ui.state;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 
 import org.tomighty.bus.messages.ChangeUiState;
 import org.tomighty.time.Time;
@@ -29,50 +30,52 @@ import org.tomighty.ui.Label;
 import org.tomighty.ui.LabelFactory;
 import org.tomighty.ui.UiState;
 
-public abstract class TimerSupport extends UiStateSupport implements ActionListener, TimerListener {
+public abstract class TimerSupport extends UiStateSupport implements TimerListener {
 
 	private Label remainingTime;
 	private Timer timer;
 
-	protected abstract String title();
 	protected abstract Time initialTime();
 	protected abstract Class<? extends UiState> finishedState();
 	protected abstract Class<? extends UiState> interruptedState();
-
+	
 	@Override
-	public Component render() throws Exception {
+	protected Component createContent() {
 		Time time = initialTime();
-		
-		remainingTime = LabelFactory.big(time.toString());
-		
-		panel.add(LabelFactory.small(title()), BorderLayout.NORTH);
-		panel.add(remainingTime, BorderLayout.CENTER);
-		panel.add(createButton("Interrupt", this), BorderLayout.SOUTH);
-		
 		timer = new Timer(title());
 		timer.listener(this);
 		timer.start(time);
-		
-		return panel;
+		remainingTime = LabelFactory.big(time.toString());
+		return remainingTime;
+	}
+
+	@Override
+	protected Action[] primaryActions() {
+		return new Action[] {
+			new Interrupt()
+		};
 	}
 
 	@Override
 	public void tick(Time time) {
 		if(time.isZero()) {
-			finished();
+			bus.publish(new ChangeUiState(finishedState()));
 		} else {
 			remainingTime.setText(time.toString());
 		}
 	}
 
-	private void finished() {
-		bus.publish(new ChangeUiState(finishedState()));
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		timer.stop();
-		bus.publish(new ChangeUiState(interruptedState()));
+	@SuppressWarnings("serial")
+	private class Interrupt extends AbstractAction {
+		public Interrupt() {
+			super("Interrupt");
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			timer.stop();
+			bus.publish(new ChangeUiState(interruptedState()));
+		}
 	}
 
 }

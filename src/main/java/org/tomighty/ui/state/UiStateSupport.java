@@ -16,41 +16,63 @@ Copyright 2010 Célio Cidral Junior
 
 package org.tomighty.ui.state;
 
-import java.awt.BorderLayout;
-import java.awt.LayoutManager;
-import java.awt.event.ActionListener;
+import static java.awt.BorderLayout.*;
 
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.GridLayout;
+import java.awt.LayoutManager;
+
+import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import org.tomighty.bus.Bus;
 import org.tomighty.ioc.Inject;
+import org.tomighty.ioc.Injector;
+import org.tomighty.ui.Label;
 import org.tomighty.ui.UiState;
 
 public abstract class UiStateSupport implements UiState {
 
+	@Inject private Injector injector;
 	@Inject protected Bus bus;
-	protected final JPanel panel;
+	
+	protected abstract String title();
+	protected abstract Component createContent();
+	protected abstract Action[] primaryActions();
+	
+	@Override
+	public final Component render() throws Exception {
+		JPanel panel = createPanel(new BorderLayout());
+		if(title() != null) {
+			panel.add(createHeader(), NORTH);
+		}
+		panel.add(createContent(), CENTER);
+		panel.add(createButtons(), SOUTH);
+		return panel;
+	}
 
-	public UiStateSupport() {
-		panel = createPanel();
+	private Component createHeader() {
+		return new Label(title());
+	}
+
+	private Component createButtons() {
+		Action[] actions = primaryActions();
+		JPanel buttons = createPanel(new GridLayout(1, actions.length, 3, 0));
+		for(Action action : actions) {
+			injector.inject(action);
+			JButton button = new JButton(action);
+			button.setOpaque(false);
+			buttons.add(button);
+		}
+		return buttons;
 	}
 	
-	protected static final JPanel createPanel() {
-		return createPanel(new BorderLayout());
-	}
-	
-	protected static final JPanel createPanel(LayoutManager layout) {
+	private static final JPanel createPanel(LayoutManager layout) {
 		JPanel panel = new JPanel(layout);
 		panel.setOpaque(false);
 		return panel;
-	}
-	
-	protected static final JButton createButton(String text, ActionListener listener) {
-		JButton button = new JButton(text);
-		button.addActionListener(listener);
-		button.setOpaque(false);
-		return button;
 	}
 
 }

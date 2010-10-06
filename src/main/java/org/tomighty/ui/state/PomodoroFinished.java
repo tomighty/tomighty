@@ -16,51 +16,30 @@ Copyright 2010 Célio Cidral Junior
 
 package org.tomighty.ui.state;
 
-import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-import javax.swing.JPanel;
+import javax.swing.Action;
 
-import org.tomighty.bus.messages.ChangeUiState;
 import org.tomighty.ui.LabelFactory;
 
 public class PomodoroFinished extends UiStateSupport {
 
 	@Override
-	public Component render() throws Exception {
-		panel.add(LabelFactory.small("Pomodoro finished"), BorderLayout.NORTH);
-		panel.add(LabelFactory.medium("Take a break"), BorderLayout.CENTER);
-		panel.add(buttons(), BorderLayout.SOUTH);
-		return panel;
+	protected String title() {
+		return "Pomodoro finished";
 	}
 
-	private Component buttons() {
-		JPanel panel = createPanel(new GridLayout(1, 2, 3, 0));
-		panel.add(shortBreak());
-		panel.add(longBreak());
-		return panel;
-	}
-	
-	private JButton shortBreak() {
-		return createButton("Short", new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				bus.publish(new ChangeUiState(ShortBreak.class));
-			}
-		});
+	@Override
+	protected Component createContent() {
+		return LabelFactory.medium("Take a break");
 	}
 
-	private JButton longBreak() {
-		return createButton("Long", new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				bus.publish(new ChangeUiState(LongBreak.class));
-			}
-		});
+	@Override
+	protected Action[] primaryActions() {
+		return new Action[] {
+			new ToState("Short", ShortBreak.class),
+			new ToState("Long",  LongBreak.class)
+		};
 	}
 
 }

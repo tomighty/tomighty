@@ -16,34 +16,30 @@ Copyright 2010 Célio Cidral Junior
 
 package org.tomighty.ui.state;
 
-import java.awt.Component;
-import java.awt.Image;
+import java.awt.event.ActionEvent;
 
-import javax.swing.Action;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
+import javax.swing.AbstractAction;
 
-import org.tomighty.util.Images;
+import org.tomighty.bus.Bus;
+import org.tomighty.bus.messages.ChangeUiState;
+import org.tomighty.ioc.Inject;
+import org.tomighty.ui.UiState;
 
-public class InitialState extends UiStateSupport {
+@SuppressWarnings("serial")
+public class ToState extends AbstractAction {
+	
+	@Inject private Bus bus;
 
-	@Override
-	protected String title() {
-		return "Tomighty";
+	private final Class<? extends UiState> stateClass;
+
+	public ToState(String name, Class<? extends UiState> stateClass) {
+		super(name);
+		this.stateClass = stateClass;
 	}
-
+	
 	@Override
-	protected Component createContent() {
-		Image image = Images.get("/tomato-48x48.png");
-		ImageIcon imageIcon = new ImageIcon(image);
-		return new JLabel(imageIcon);
-	}
-
-	@Override
-	protected Action[] primaryActions() {
-		return new Action[] {
-			new ToState("Start pomodoro", Pomodoro.class)
-		};
+	public void actionPerformed(ActionEvent e) {
+		bus.publish(new ChangeUiState(stateClass));
 	}
 
 }

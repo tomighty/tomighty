@@ -16,13 +16,11 @@ Copyright 2010 Célio Cidral Junior
 
 package org.tomighty.ui.state;
 
-import java.awt.event.ActionListener;
-
 import org.tomighty.time.Time;
 import org.tomighty.time.TimerListener;
 import org.tomighty.ui.UiState;
 
-public class Pomodoro extends TimerSupport implements ActionListener, TimerListener {
+public class Pomodoro extends TimerSupport implements TimerListener {
 
 	@Override
 	protected String title() {
