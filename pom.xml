@@ -4,7 +4,7 @@
 	<groupId>org.tomighty</groupId>
 	<artifactId>tomighty</artifactId>
 	<packaging>jar</packaging>
-	<version>0.2</version>
+	<version>0.3</version>
 	<name>Tomighty</name>
 	<url>http://code.google.com/p/tomighty/</url>
 	
