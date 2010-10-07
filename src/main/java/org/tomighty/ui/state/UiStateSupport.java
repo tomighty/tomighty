@@ -16,7 +16,9 @@ Copyright 2010 Célio Cidral Junior
 
 package org.tomighty.ui.state;
 
-import static java.awt.BorderLayout.*;
+import static java.awt.BorderLayout.CENTER;
+import static java.awt.BorderLayout.NORTH;
+import static java.awt.BorderLayout.SOUTH;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -25,13 +27,17 @@ import java.awt.LayoutManager;
 
 import javax.swing.Action;
 import javax.swing.JButton;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 
 import org.tomighty.bus.Bus;
 import org.tomighty.ioc.Inject;
 import org.tomighty.ioc.Injector;
 import org.tomighty.ui.Label;
 import org.tomighty.ui.UiState;
+import org.tomighty.ui.layout.DockLayout;
+import org.tomighty.ui.layout.Docking;
 
 public abstract class UiStateSupport implements UiState {
 
@@ -41,22 +47,28 @@ public abstract class UiStateSupport implements UiState {
 	protected abstract String title();
 	protected abstract Component createContent();
 	protected abstract Action[] primaryActions();
+	protected abstract Action[] secondaryActions();
 	
 	@Override
 	public final Component render() throws Exception {
-		JPanel panel = createPanel(new BorderLayout());
-		if(title() != null) {
-			panel.add(createHeader(), NORTH);
+		JPanel component = createComponent();
+		Action[] secondaryActions = secondaryActions();
+		if(secondaryActions == null) {
+			return component;
 		}
-		panel.add(createContent(), CENTER);
-		panel.add(createButtons(), SOUTH);
-		return panel;
+		return addSecondaryActionsTo(component, secondaryActions);
 	}
-
-	private Component createHeader() {
-		return new Label(title());
+	
+	private JPanel createComponent() {
+		JPanel component = createPanel();
+		if(title() != null) {
+			component.add(new Label(title()), NORTH);
+		}
+		component.add(createContent(), CENTER);
+		component.add(createButtons(), SOUTH);
+		return component;
 	}
-
+	
 	private Component createButtons() {
 		Action[] actions = primaryActions();
 		JPanel buttons = createPanel(new GridLayout(1, actions.length, 3, 0));
@@ -67,6 +79,29 @@ public abstract class UiStateSupport implements UiState {
 			buttons.add(button);
 		}
 		return buttons;
+	}
+	
+	private Component addSecondaryActionsTo(JPanel component, Action[] actions) {
+		JPopupMenu menu = createSecondaryActionsMenu(actions);
+		PopupMenuButton button = new PopupMenuButton(menu);
+		JPanel panel = createPanel(new DockLayout());
+		panel.add(component, Docking.fill());
+		panel.add(button, Docking.rightTop(2, 2));
+		return panel;
+	}
+
+	private JPopupMenu createSecondaryActionsMenu(Action[] actions) {
+		JPopupMenu menu = new JPopupMenu();
+		for(Action action : actions) {
+			injector.inject(action);
+			JMenuItem item = new JMenuItem(action);
+			menu.add(item);
+		}
+		return menu;
+	}
+	
+	private JPanel createPanel() {
+		return createPanel(new BorderLayout());
 	}
 	
 	private static final JPanel createPanel(LayoutManager layout) {

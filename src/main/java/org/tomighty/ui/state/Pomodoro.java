@@ -16,6 +16,8 @@ Copyright 2010 Célio Cidral Junior
 
 package org.tomighty.ui.state;
 
+import javax.swing.Action;
+
 import org.tomighty.time.Time;
 import org.tomighty.time.TimerListener;
 import org.tomighty.ui.UiState;
@@ -40,6 +42,15 @@ public class Pomodoro extends TimerSupport implements TimerListener {
 	@Override
 	protected Class<? extends UiState> interruptedState() {
 		return PomodoroInterrupted.class;
+	}
+
+	@Override
+	protected Action[] secondaryActions() {
+		return new Action[] {
+			new ToState("Restart pomodoro", Pomodoro.class),
+			new ToState("Short break", ShortBreak.class),
+			new ToState("Long break", LongBreak.class)
+		};
 	}
 	
 }

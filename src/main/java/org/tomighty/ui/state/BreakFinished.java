@@ -41,4 +41,12 @@ public class BreakFinished extends UiStateSupport {
 		};
 	}
 
+	@Override
+	protected Action[] secondaryActions() {
+		return new Action[] {
+			new ToState("Short break", ShortBreak.class),
+			new ToState("Long break", LongBreak.class)
+		};
+	}
+
 }

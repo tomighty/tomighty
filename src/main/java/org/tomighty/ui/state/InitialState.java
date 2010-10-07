@@ -46,4 +46,9 @@ public class InitialState extends UiStateSupport {
 		};
 	}
 
+	@Override
+	protected Action[] secondaryActions() {
+		return null;
+	}
+
 }

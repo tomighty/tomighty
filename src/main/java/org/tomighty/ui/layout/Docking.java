@@ -14,31 +14,19 @@ Copyright 2010 Célio Cidral Junior
    limitations under the License.
 */
 
-package org.tomighty.ui.state;
+package org.tomighty.ui.layout;
 
-import javax.swing.Action;
+public class Docking {
 
-import org.tomighty.time.Time;
-
-public class ShortBreak extends Break {
-
-	@Override
-	protected String name() {
-		return "Short";
+	static final String FILL = "Fill";
+	static final String RIGHT_TOP = "TopRight";
+	
+	public static String fill() {
+		return FILL;
 	}
-
-	@Override
-	protected Time initialTime() {
-		return new Time(5);
-	}
-
-	@Override
-	protected Action[] secondaryActions() {
-		return new Action[] {
-			new ToState("Restart break", ShortBreak.class),
-			new ToState("Long break", LongBreak.class),
-			new ToState("New pomodoro", Pomodoro.class)
-		};
+	
+	public static String rightTop(int right, int top) {
+		return RIGHT_TOP + "=" + right + "." + top;
 	}
 
 }

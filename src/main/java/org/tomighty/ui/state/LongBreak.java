@@ -16,6 +16,8 @@ Copyright 2010 Célio Cidral Junior
 
 package org.tomighty.ui.state;
 
+import javax.swing.Action;
+
 import org.tomighty.time.Time;
 
 public class LongBreak extends Break {
@@ -28,6 +30,15 @@ public class LongBreak extends Break {
 	@Override
 	protected Time initialTime() {
 		return new Time(15);
+	}
+
+	@Override
+	protected Action[] secondaryActions() {
+		return new Action[] {
+			new ToState("Restart break", LongBreak.class),
+			new ToState("Short break", ShortBreak.class),
+			new ToState("New pomodoro", Pomodoro.class)
+		};
 	}
 
 }

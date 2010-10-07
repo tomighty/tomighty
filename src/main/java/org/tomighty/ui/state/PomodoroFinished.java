@@ -42,4 +42,11 @@ public class PomodoroFinished extends UiStateSupport {
 		};
 	}
 
+	@Override
+	protected Action[] secondaryActions() {
+		return new Action[] {
+			new ToState("New pomodoro", Pomodoro.class)
+		};
+	}
+
 }
