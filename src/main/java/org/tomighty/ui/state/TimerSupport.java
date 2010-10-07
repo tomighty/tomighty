@@ -26,13 +26,12 @@ import org.tomighty.bus.messages.ChangeUiState;
 import org.tomighty.time.Time;
 import org.tomighty.time.Timer;
 import org.tomighty.time.TimerListener;
-import org.tomighty.ui.Label;
-import org.tomighty.ui.LabelFactory;
 import org.tomighty.ui.UiState;
+import org.tomighty.ui.widget.TextPanel;
 
 public abstract class TimerSupport extends UiStateSupport implements TimerListener {
 
-	private Label remainingTime;
+	private TextPanel remainingTime;
 	private Timer timer;
 
 	protected abstract Time initialTime();
@@ -45,7 +44,7 @@ public abstract class TimerSupport extends UiStateSupport implements TimerListen
 		timer = new Timer(title());
 		timer.listener(this);
 		timer.start(time);
-		remainingTime = LabelFactory.big(time.toString());
+		remainingTime = Label.big(time.toString());
 		return remainingTime;
 	}
 

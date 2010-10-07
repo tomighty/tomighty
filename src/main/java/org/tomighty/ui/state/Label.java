@@ -14,30 +14,44 @@ Copyright 2010 Célio Cidral Junior
    limitations under the License.
  */
 
-package org.tomighty.ui;
+package org.tomighty.ui.state;
 
+import java.awt.Color;
 import java.awt.Font;
 
-public class LabelFactory {
+import org.tomighty.ui.Colors;
+import org.tomighty.ui.widget.AlignX;
+import org.tomighty.ui.widget.AlignY;
+import org.tomighty.ui.widget.Padding;
+import org.tomighty.ui.widget.TextPanel;
+
+public class Label {
 	
-	public static Label small(String text) {
+	public static TextPanel small(String text) {
 		return create(0f, text);
 	}
 
-	public static Label medium(String text) {
+	public static TextPanel medium(String text) {
 		return create(18f, text);
 	}
 
-	public static Label big(String text) {
+	public static TextPanel big(String text) {
 		return create(30f, text);
 	}
 
-	public static Label create(float size, String text) {
-		Label label = new Label(text);
+	public static TextPanel create(float size, String text) {
+		TextPanel label = new TextPanel();
+		label.setForeground(Color.WHITE);
+		label.setShadowColor(Colors.DARK);
+		label.setAlignX(AlignX.CENTER);
+		label.setAlignY(AlignY.CENTER);
+		label.setAntialiasing(true);
+		label.setPadding(new Padding(2f));
 		if (size > 0f) {
 			Font font = label.getFont();
 			label.setFont(font.deriveFont(size));
 		}
+		label.setText(text);
 		return label;
 	}
 

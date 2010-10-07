@@ -20,7 +20,6 @@ import java.awt.Component;
 
 import javax.swing.Action;
 
-import org.tomighty.ui.LabelFactory;
 
 public class BreakFinished extends UiStateSupport {
 
@@ -31,7 +30,7 @@ public class BreakFinished extends UiStateSupport {
 
 	@Override
 	protected Component createContent() {
-		return LabelFactory.medium("Break finished");
+		return Label.medium("Break finished");
 	}
 
 	@Override

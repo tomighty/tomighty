@@ -34,7 +34,6 @@ import javax.swing.JPopupMenu;
 import org.tomighty.bus.Bus;
 import org.tomighty.ioc.Inject;
 import org.tomighty.ioc.Injector;
-import org.tomighty.ui.Label;
 import org.tomighty.ui.UiState;
 import org.tomighty.ui.layout.DockLayout;
 import org.tomighty.ui.layout.Docking;
@@ -61,8 +60,9 @@ public abstract class UiStateSupport implements UiState {
 	
 	private JPanel createComponent() {
 		JPanel component = createPanel();
-		if(title() != null) {
-			component.add(new Label(title()), NORTH);
+		String title = title();
+		if(title != null) {
+			component.add(Label.small(title), NORTH);
 		}
 		component.add(createContent(), CENTER);
 		component.add(createButtons(), SOUTH);
@@ -86,7 +86,7 @@ public abstract class UiStateSupport implements UiState {
 		PopupMenuButton button = new PopupMenuButton(menu);
 		JPanel panel = createPanel(new DockLayout());
 		panel.add(component, Docking.fill());
-		panel.add(button, Docking.rightTop(2, 2));
+		panel.add(button, Docking.rightTop(1, 1));
 		return panel;
 	}
 
