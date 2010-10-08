@@ -116,7 +116,7 @@ public class TextPanel extends JComponent {
 			return;
 		}
 		if(outdated) {
-			cache = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
+			cache = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_ARGB);
 			Graphics2D imageGraphics = cache.createGraphics();
 			try {
 				new TextRenderer().render(imageGraphics);
