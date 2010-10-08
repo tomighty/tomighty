@@ -29,7 +29,7 @@ public class InitialState extends UiStateSupport {
 
 	@Override
 	protected String title() {
-		return "Tomighty";
+		return null;
 	}
 
 	@Override
