@@ -75,7 +75,6 @@ public abstract class UiStateSupport implements UiState {
 		for(Action action : actions) {
 			injector.inject(action);
 			JButton button = new JButton(action);
-			button.setOpaque(false);
 			buttons.add(button);
 		}
 		return buttons;
