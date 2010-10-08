@@ -37,6 +37,8 @@ import org.tomighty.ioc.Injector;
 import org.tomighty.ui.UiState;
 import org.tomighty.ui.layout.DockLayout;
 import org.tomighty.ui.layout.Docking;
+import org.tomighty.ui.state.widget.LabelFactory;
+import org.tomighty.ui.state.widget.PopupMenuButton;
 
 public abstract class UiStateSupport implements UiState {
 

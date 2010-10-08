@@ -20,6 +20,8 @@ import java.awt.Component;
 
 import javax.swing.Action;
 
+import org.tomighty.ui.state.widget.LabelFactory;
+
 
 public class PomodoroInterrupted extends UiStateSupport {
 

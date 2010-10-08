@@ -27,6 +27,7 @@ import org.tomighty.time.Time;
 import org.tomighty.time.Timer;
 import org.tomighty.time.TimerListener;
 import org.tomighty.ui.UiState;
+import org.tomighty.ui.state.widget.LabelFactory;
 import org.tomighty.ui.widget.TextPanel;
 
 public abstract class TimerSupport extends UiStateSupport implements TimerListener {
