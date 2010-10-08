@@ -62,7 +62,7 @@ public abstract class UiStateSupport implements UiState {
 		JPanel component = createPanel();
 		String title = title();
 		if(title != null) {
-			component.add(Label.small(title), NORTH);
+			component.add(LabelFactory.small(title), NORTH);
 		}
 		component.add(createContent(), CENTER);
 		component.add(createButtons(), SOUTH);

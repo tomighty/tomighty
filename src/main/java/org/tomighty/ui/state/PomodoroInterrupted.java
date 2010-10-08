@@ -30,7 +30,7 @@ public class PomodoroInterrupted extends UiStateSupport {
 
 	@Override
 	protected Component createContent() {
-		return Label.medium("Pomodoro interrupted");
+		return LabelFactory.medium("Pomodoro interrupted");
 	}
 
 	@Override

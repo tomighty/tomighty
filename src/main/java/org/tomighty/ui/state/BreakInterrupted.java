@@ -30,7 +30,7 @@ public class BreakInterrupted extends UiStateSupport {
 
 	@Override
 	protected Component createContent() {
-		return Label.medium("Break interrupted");
+		return LabelFactory.medium("Break interrupted");
 	}
 
 	@Override

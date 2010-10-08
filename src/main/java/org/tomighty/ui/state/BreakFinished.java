@@ -30,7 +30,7 @@ public class BreakFinished extends UiStateSupport {
 
 	@Override
 	protected Component createContent() {
-		return Label.medium("Break finished");
+		return LabelFactory.medium("Break finished");
 	}
 
 	@Override

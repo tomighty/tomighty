@@ -44,7 +44,7 @@ public abstract class TimerSupport extends UiStateSupport implements TimerListen
 		timer = new Timer(title());
 		timer.listener(this);
 		timer.start(time);
-		remainingTime = Label.big(time.toString());
+		remainingTime = LabelFactory.big(time.toString());
 		return remainingTime;
 	}
 

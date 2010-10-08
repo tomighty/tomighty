@@ -30,7 +30,7 @@ public class PomodoroFinished extends UiStateSupport {
 
 	@Override
 	protected Component createContent() {
-		return Label.medium("Take a break");
+		return LabelFactory.medium("Take a break");
 	}
 
 	@Override
