@@ -24,6 +24,7 @@ import java.awt.Component;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -32,6 +33,8 @@ import javax.swing.border.Border;
 @SuppressWarnings("serial")
 class Panel extends JPanel {
 	
+	private BufferedImage cache;
+
 	public Panel() {
 		super(new BorderLayout());
 		Border border = BorderFactory.createEmptyBorder(6, 6, 6, 6);
@@ -46,10 +49,18 @@ class Panel extends JPanel {
 	
 	@Override
 	protected void paintComponent(Graphics g) {
-		Graphics2D g2d = (Graphics2D) g;
-		paintBackground(g2d);
-		drawOuterBorder(g2d);
-		drawInnerBorder(g2d);
+		if(cache == null) {
+			cache = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
+			Graphics2D g2d = cache.createGraphics();
+			try {
+				paintBackground(g2d);
+				drawOuterBorder(g2d);
+				drawInnerBorder(g2d);
+			} finally {
+				g2d.dispose();
+			}
+		}
+		g.drawImage(cache, 0, 0, null);
 	}
 
 	private void drawInnerBorder(Graphics2D g2d) {
