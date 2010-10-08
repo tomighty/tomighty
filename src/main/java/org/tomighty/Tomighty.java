@@ -28,6 +28,7 @@ import org.tomighty.bus.messages.TrayClick;
 import org.tomighty.config.Options;
 import org.tomighty.ioc.Container;
 import org.tomighty.ioc.Factory;
+import org.tomighty.ioc.Initializable;
 import org.tomighty.ioc.Inject;
 import org.tomighty.ioc.New;
 import org.tomighty.log.Log;
@@ -36,7 +37,7 @@ import org.tomighty.ui.UiState;
 import org.tomighty.ui.Window;
 import org.tomighty.ui.state.InitialState;
 
-public class Tomighty implements Runnable {
+public class Tomighty implements Initializable, Runnable {
 	
 	@Inject private Window window;
 	@Inject private Options options;
@@ -54,9 +55,13 @@ public class Tomighty implements Runnable {
 	}
 	
 	@Override
-	public void run() {
+	public void initialize() {
 		bus.subscribe(new SwitchState(), ChangeUiState.class);
 		bus.subscribe(new ShowWindow(), TrayClick.class);
+	}
+	
+	@Override
+	public void run() {
 		render(InitialState.class);
 	}
 	

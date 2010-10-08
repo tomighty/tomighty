@@ -37,6 +37,9 @@ public class Factory {
 			instance = provider.createFor(needer);
 		}
 		injector.inject(instance);
+		if(instance instanceof Initializable) {
+			((Initializable)instance).initialize();
+		}
 		return instance;
 
 	}
