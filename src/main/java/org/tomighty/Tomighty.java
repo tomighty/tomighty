@@ -18,7 +18,8 @@ package org.tomighty;
 
 import java.awt.Component;
 
-import javax.swing.SwingUtilities;
+import static javax.swing.SwingUtilities.*;
+
 import javax.swing.UIManager;
 
 import org.tomighty.bus.Bus;
@@ -50,8 +51,8 @@ public class Tomighty implements Initializable, Runnable {
 		Container container = new Container();
 		Tomighty tomighty = container.get(Tomighty.class);
 		Tray tray = container.get(Tray.class);
-		SwingUtilities.invokeLater(tomighty);
-		SwingUtilities.invokeLater(tray);
+		invokeLater(tomighty);
+		invokeLater(tray);
 	}
 	
 	@Override
@@ -79,21 +80,31 @@ public class Tomighty implements Initializable, Runnable {
 	
 	private class SwitchState implements Subscriber<ChangeUiState> {
 		@Override
-		public void receive(ChangeUiState message) {
-			Class<? extends UiState> stateClass = message.getStateClass();
-			render(stateClass);
-			window.show(null);
+		public void receive(final ChangeUiState message) {
+			invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					Class<? extends UiState> stateClass = message.getStateClass();
+					render(stateClass);
+					window.show(null);
+				}
+			});
 		}
 	}
 	
 	private class ShowWindow implements Subscriber<TrayClick> {
 		@Override
-		public void receive(TrayClick message) {
-			if(options.autoHide() || !window.isVisible()) {
-				window.show(message.mouseLocation());
-			} else {
-				window.setVisible(false);
-			}
+		public void receive(final TrayClick message) {
+			invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					if(options.autoHide() || !window.isVisible()) {
+						window.show(message.mouseLocation());
+					} else {
+						window.setVisible(false);
+					}
+				}
+			});
 		}
 	}
 	

@@ -16,6 +16,8 @@ Copyright 2010 Célio Cidral Junior
 
 package org.tomighty.ui.state;
 
+import static javax.swing.SwingUtilities.*;
+
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 
@@ -56,11 +58,16 @@ public abstract class TimerSupport extends UiStateSupport implements CountdownTi
 	}
 
 	@Override
-	public void tick(Time time) {
+	public void tick(final Time time) {
 		if(time.isZero()) {
 			bus.publish(new ChangeUiState(finishedState()));
 		} else {
-			remainingTime.setText(time.toString());
+			invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					remainingTime.setText(time.toString());
+				}
+			});
 		}
 	}
 
