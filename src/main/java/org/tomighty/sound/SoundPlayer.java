@@ -41,7 +41,6 @@ public class SoundPlayer {
 				@Override
 				public void update(LineEvent event) {
 					if(event.getType().equals(LineEvent.Type.STOP)) {
-						System.out.println("Clip closed");
 						clip.close();
 					}
 				}
