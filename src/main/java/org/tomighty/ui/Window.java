@@ -33,7 +33,7 @@ import org.tomighty.util.Images;
 public class Window extends JFrame {
 
 	@Inject private Options options;
-	private Panel panel = new Panel();
+	private DarkPanel panel = new DarkPanel();
 
 	public Window() {
 		super("Tomighty");

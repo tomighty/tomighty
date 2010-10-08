@@ -31,11 +31,11 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 @SuppressWarnings("serial")
-class Panel extends JPanel {
+class DarkPanel extends JPanel {
 	
 	private BufferedImage cache;
 
-	public Panel() {
+	public DarkPanel() {
 		super(new BorderLayout());
 		Border border = BorderFactory.createEmptyBorder(6, 6, 6, 6);
 		setBorder(border);
