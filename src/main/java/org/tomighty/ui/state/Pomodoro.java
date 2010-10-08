@@ -19,10 +19,9 @@ package org.tomighty.ui.state;
 import javax.swing.Action;
 
 import org.tomighty.time.Time;
-import org.tomighty.time.CountdownTimerListener;
 import org.tomighty.ui.UiState;
 
-public class Pomodoro extends TimerSupport implements CountdownTimerListener {
+public class Pomodoro extends TimerSupport {
 
 	@Override
 	protected String title() {
