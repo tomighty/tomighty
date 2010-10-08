@@ -16,35 +16,29 @@ Copyright 2010 Célio Cidral Junior
 
 package org.tomighty.time;
 
+import java.util.Timer;
 import java.util.TimerTask;
 
 public class CountdownTimer {
 
 	private static final int ONE_SECOND = 1000;
-	private final String name;
-	private Time time;
-	private CountdownTimerListener listener;
-	private java.util.Timer timer;
 	
-	public CountdownTimer(String name) {
-		this.name = name;
-	}
-
-	public void listener(CountdownTimerListener listener) {
-		this.listener = listener;
-	}
-
-	public void start(Time time) {
-		if(timer != null) {
-			throw new IllegalStateException("Cannot start more than once");
-		}
+	private Time time;
+	private Timer timer;
+	private CountdownTimerListener listener;
+	
+	public void start(Time time, CountdownTimerListener listener) {
+		stop();
 		this.time = time;
-		timer = new java.util.Timer(getClass().getName()+": "+name);
+		this.listener = listener;
+		timer = new Timer(getClass().getSimpleName()+": "+listener.getClass().getSimpleName());
 		timer.scheduleAtFixedRate(new Updater(), ONE_SECOND, ONE_SECOND);
 	}
 
 	public void stop() {
-		timer.cancel();
+		if(timer != null) {
+			timer.cancel();
+		}
 	}
 	
 	private class Updater extends TimerTask {
