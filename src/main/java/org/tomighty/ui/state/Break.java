@@ -16,9 +16,14 @@ Copyright 2010 Célio Cidral Junior
 
 package org.tomighty.ui.state;
 
+import org.tomighty.ioc.Inject;
+import org.tomighty.sound.Sound;
+import org.tomighty.sound.Sounds;
 import org.tomighty.ui.UiState;
 
 public abstract class Break extends TimerSupport {
+
+	@Inject private Sounds sounds;
 
 	protected abstract String name();
 	
@@ -35,6 +40,11 @@ public abstract class Break extends TimerSupport {
 	@Override
 	protected Class<? extends UiState> interruptedState() {
 		return BreakInterrupted.class;
+	}
+	
+	@Override
+	protected Sound finishSound() {
+		return sounds.breakFinished();
 	}
 
 }

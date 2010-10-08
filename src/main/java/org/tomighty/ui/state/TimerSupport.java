@@ -26,6 +26,8 @@ import javax.swing.Action;
 
 import org.tomighty.bus.messages.ChangeUiState;
 import org.tomighty.ioc.Inject;
+import org.tomighty.sound.Sound;
+import org.tomighty.sound.SoundPlayer;
 import org.tomighty.time.CountdownTimer;
 import org.tomighty.time.CountdownTimerListener;
 import org.tomighty.time.Time;
@@ -36,11 +38,13 @@ import org.tomighty.ui.widget.TextPanel;
 public abstract class TimerSupport extends UiStateSupport implements CountdownTimerListener {
 
 	@Inject private CountdownTimer timer;
+	@Inject private SoundPlayer soundPlayer;
 	private TextPanel remainingTime;
 
 	protected abstract Time initialTime();
 	protected abstract Class<? extends UiState> finishedState();
 	protected abstract Class<? extends UiState> interruptedState();
+	protected abstract Sound finishSound();
 	
 	@Override
 	protected Component createContent() {
@@ -59,16 +63,18 @@ public abstract class TimerSupport extends UiStateSupport implements CountdownTi
 
 	@Override
 	public void tick(final Time time) {
-		if(time.isZero()) {
-			bus.publish(new ChangeUiState(finishedState()));
-		} else {
-			invokeLater(new Runnable() {
-				@Override
-				public void run() {
-					remainingTime.setText(time.toString());
-				}
-			});
-		}
+		invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				remainingTime.setText(time.toString());
+			}
+		});
+	}
+	
+	@Override
+	public void countdownFinished() {
+		soundPlayer.play(finishSound());
+		bus.publish(new ChangeUiState(finishedState()));
 	}
 
 	@SuppressWarnings("serial")

@@ -48,6 +48,7 @@ public class CountdownTimer {
 			listener.tick(time);
 			if(time.isZero()) {
 				stop();
+				listener.countdownFinished();
 			}
 		}
 	}

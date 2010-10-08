@@ -20,4 +20,6 @@ public interface CountdownTimerListener {
 	
 	void tick(Time time);
 
+	void countdownFinished();
+
 }
