@@ -18,19 +18,19 @@ package org.tomighty.time;
 
 import java.util.TimerTask;
 
-public class Timer {
+public class CountdownTimer {
 
 	private static final int ONE_SECOND = 1000;
 	private final String name;
 	private Time time;
-	private TimerListener listener;
+	private CountdownTimerListener listener;
 	private java.util.Timer timer;
 	
-	public Timer(String name) {
+	public CountdownTimer(String name) {
 		this.name = name;
 	}
 
-	public void listener(TimerListener listener) {
+	public void listener(CountdownTimerListener listener) {
 		this.listener = listener;
 	}
 

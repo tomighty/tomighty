@@ -16,7 +16,7 @@ Copyright 2010 Célio Cidral Junior
 
 package org.tomighty.time;
 
-public interface TimerListener {
+public interface CountdownTimerListener {
 	
 	void tick(Time time);
 

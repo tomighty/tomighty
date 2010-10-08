@@ -24,16 +24,16 @@ import javax.swing.Action;
 
 import org.tomighty.bus.messages.ChangeUiState;
 import org.tomighty.time.Time;
-import org.tomighty.time.Timer;
-import org.tomighty.time.TimerListener;
+import org.tomighty.time.CountdownTimer;
+import org.tomighty.time.CountdownTimerListener;
 import org.tomighty.ui.UiState;
 import org.tomighty.ui.state.widget.LabelFactory;
 import org.tomighty.ui.widget.TextPanel;
 
-public abstract class TimerSupport extends UiStateSupport implements TimerListener {
+public abstract class TimerSupport extends UiStateSupport implements CountdownTimerListener {
 
 	private TextPanel remainingTime;
-	private Timer timer;
+	private CountdownTimer timer;
 
 	protected abstract Time initialTime();
 	protected abstract Class<? extends UiState> finishedState();
@@ -42,7 +42,7 @@ public abstract class TimerSupport extends UiStateSupport implements TimerListen
 	@Override
 	protected Component createContent() {
 		Time time = initialTime();
-		timer = new Timer(title());
+		timer = new CountdownTimer(title());
 		timer.listener(this);
 		timer.start(time);
 		remainingTime = LabelFactory.big(time.toString());
