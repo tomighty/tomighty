@@ -39,6 +39,7 @@ import org.tomighty.ui.layout.DockLayout;
 import org.tomighty.ui.layout.Docking;
 import org.tomighty.ui.state.widget.LabelFactory;
 import org.tomighty.ui.state.widget.PopupMenuButton;
+import org.tomighty.ui.state.widget.SexyButtonUI;
 
 public abstract class UiStateSupport implements UiState {
 
@@ -77,6 +78,8 @@ public abstract class UiStateSupport implements UiState {
 		for(Action action : actions) {
 			injector.inject(action);
 			JButton button = new JButton(action);
+			button.setOpaque(false);
+			button.setUI(SexyButtonUI.INSTANCE);
 			buttons.add(button);
 		}
 		return buttons;
