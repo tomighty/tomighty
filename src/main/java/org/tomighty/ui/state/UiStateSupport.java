@@ -37,8 +37,8 @@ import org.tomighty.ioc.Injector;
 import org.tomighty.ui.UiState;
 import org.tomighty.ui.layout.DockLayout;
 import org.tomighty.ui.layout.Docking;
-import org.tomighty.ui.state.widget.LabelFactory;
-import org.tomighty.ui.state.widget.PopupMenuButton;
+import org.tomighty.ui.state.widget.SexyLabel;
+import org.tomighty.ui.state.widget.SexyArrowButton;
 import org.tomighty.ui.state.widget.SexyButtonUI;
 
 public abstract class UiStateSupport implements UiState {
@@ -65,7 +65,7 @@ public abstract class UiStateSupport implements UiState {
 		JPanel component = createPanel();
 		String title = title();
 		if(title != null) {
-			component.add(LabelFactory.small(title), NORTH);
+			component.add(SexyLabel.small(title), NORTH);
 		}
 		component.add(createContent(), CENTER);
 		component.add(createButtons(), SOUTH);
@@ -87,7 +87,7 @@ public abstract class UiStateSupport implements UiState {
 	
 	private Component addSecondaryActionsTo(JPanel component, Action[] actions) {
 		JPopupMenu menu = createSecondaryActionsMenu(actions);
-		PopupMenuButton button = new PopupMenuButton(menu);
+		SexyArrowButton button = new SexyArrowButton(menu);
 		JPanel panel = createPanel(new DockLayout());
 		panel.add(component, Docking.fill());
 		panel.add(button, Docking.rightTop(1, 1));

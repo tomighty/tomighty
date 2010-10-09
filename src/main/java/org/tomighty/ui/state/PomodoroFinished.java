@@ -20,7 +20,7 @@ import java.awt.Component;
 
 import javax.swing.Action;
 
-import org.tomighty.ui.state.widget.LabelFactory;
+import org.tomighty.ui.state.widget.SexyLabel;
 
 
 public class PomodoroFinished extends UiStateSupport {
@@ -32,7 +32,7 @@ public class PomodoroFinished extends UiStateSupport {
 
 	@Override
 	protected Component createContent() {
-		return LabelFactory.medium("Take a break");
+		return SexyLabel.medium("Take a break");
 	}
 
 	@Override

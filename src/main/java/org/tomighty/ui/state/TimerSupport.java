@@ -32,7 +32,7 @@ import org.tomighty.time.CountdownTimer;
 import org.tomighty.time.CountdownTimerListener;
 import org.tomighty.time.Time;
 import org.tomighty.ui.UiState;
-import org.tomighty.ui.state.widget.LabelFactory;
+import org.tomighty.ui.state.widget.SexyLabel;
 import org.tomighty.ui.widget.TextPanel;
 
 public abstract class TimerSupport extends UiStateSupport implements CountdownTimerListener {
@@ -50,7 +50,7 @@ public abstract class TimerSupport extends UiStateSupport implements CountdownTi
 	protected Component createContent() {
 		Time time = initialTime();
 		timer.start(time, this);
-		remainingTime = LabelFactory.big(time.toString());
+		remainingTime = SexyLabel.big(time.toString());
 		return remainingTime;
 	}
 

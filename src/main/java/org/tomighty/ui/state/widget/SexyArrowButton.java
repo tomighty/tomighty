@@ -34,7 +34,7 @@ import javax.swing.JPopupMenu;
 import org.tomighty.ui.Colors;
 
 @SuppressWarnings("serial")
-public class PopupMenuButton extends JComponent {
+public class SexyArrowButton extends JComponent {
 	
 	private static final Color BG_COLOR_START = new Color(130, 130, 130);
 	private static final Color BG_COLOR_END = new Color(44, 44, 44);
@@ -43,7 +43,7 @@ public class PopupMenuButton extends JComponent {
 	private JPopupMenu menu;
 	private boolean isMouseOver = false;
 
-	public PopupMenuButton(JPopupMenu menu) {
+	public SexyArrowButton(JPopupMenu menu) {
 		this.menu = menu;
 		setSize(new Dimension(17, 16));
 		setPreferredSize(getSize());
@@ -87,7 +87,7 @@ public class PopupMenuButton extends JComponent {
 	}
 	
 	private void showMenu() {
-		menu.show(PopupMenuButton.this, 0, getHeight());
+		menu.show(SexyArrowButton.this, 0, getHeight());
 	}
 	
 	private class ClickListener extends MouseAdapter {

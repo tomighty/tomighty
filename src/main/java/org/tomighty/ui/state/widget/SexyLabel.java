@@ -25,7 +25,7 @@ import org.tomighty.ui.widget.AlignY;
 import org.tomighty.ui.widget.Padding;
 import org.tomighty.ui.widget.TextPanel;
 
-public class LabelFactory {
+public class SexyLabel {
 	
 	public static TextPanel small(String text) {
 		return create(0f, text);
