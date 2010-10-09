@@ -32,7 +32,7 @@ public class SexyLabel {
 	}
 
 	public static TextPanel medium(String text) {
-		return create(18f, text);
+		return create(19f, text);
 	}
 
 	public static TextPanel big(String text) {
