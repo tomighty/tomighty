@@ -24,6 +24,8 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.GridLayout;
 import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.Action;
 import javax.swing.JButton;
@@ -37,9 +39,9 @@ import org.tomighty.ioc.Injector;
 import org.tomighty.ui.UiState;
 import org.tomighty.ui.layout.DockLayout;
 import org.tomighty.ui.layout.Docking;
-import org.tomighty.ui.state.widget.SexyLabel;
-import org.tomighty.ui.state.widget.SexyArrowButton;
+import org.tomighty.ui.state.widget.SexyArrowButtonUI;
 import org.tomighty.ui.state.widget.SexyButtonUI;
+import org.tomighty.ui.state.widget.SexyLabel;
 
 public abstract class UiStateSupport implements UiState {
 
@@ -86,8 +88,15 @@ public abstract class UiStateSupport implements UiState {
 	}
 	
 	private Component addSecondaryActionsTo(JPanel component, Action[] actions) {
-		JPopupMenu menu = createSecondaryActionsMenu(actions);
-		SexyArrowButton button = new SexyArrowButton(menu);
+		final JPopupMenu menu = createSecondaryActionsMenu(actions);
+		final JButton button = new JButton();
+		button.setUI(SexyArrowButtonUI.INSTANCE);
+		button.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				menu.show(button, 0, button.getHeight());
+			}
+		});
 		JPanel panel = createPanel(new DockLayout());
 		panel.add(component, Docking.fill());
 		panel.add(button, Docking.rightTop(1, 1));
