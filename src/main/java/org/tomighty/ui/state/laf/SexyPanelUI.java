@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package org.tomighty.ui.state.widget;
+package org.tomighty.ui.state.laf;
 
 import static org.tomighty.ui.Colors.DARK;
 import static org.tomighty.ui.Colors.INNER_BORDER;

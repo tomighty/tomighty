@@ -14,7 +14,7 @@ Copyright 2010 Célio Cidral Junior
    limitations under the License.
 */
 
-package org.tomighty.ui.state.widget;
+package org.tomighty.ui.state.laf;
 
 import java.awt.Color;
 import java.awt.Dimension;

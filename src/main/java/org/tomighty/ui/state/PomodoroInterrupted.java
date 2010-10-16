@@ -20,7 +20,7 @@ import java.awt.Component;
 
 import javax.swing.Action;
 
-import org.tomighty.ui.state.widget.SexyLabel;
+import org.tomighty.ui.state.laf.SexyLabel;
 
 
 public class PomodoroInterrupted extends UiStateSupport {

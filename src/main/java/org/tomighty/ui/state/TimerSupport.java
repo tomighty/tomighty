@@ -33,7 +33,7 @@ import org.tomighty.time.CountdownTimer;
 import org.tomighty.time.CountdownTimerListener;
 import org.tomighty.time.Time;
 import org.tomighty.ui.UiState;
-import org.tomighty.ui.state.widget.SexyLabel;
+import org.tomighty.ui.state.laf.SexyLabel;
 
 public abstract class TimerSupport extends UiStateSupport implements CountdownTimerListener {
 
