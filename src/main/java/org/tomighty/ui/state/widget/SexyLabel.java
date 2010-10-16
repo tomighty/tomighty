@@ -19,34 +19,29 @@ package org.tomighty.ui.state.widget;
 import java.awt.Color;
 import java.awt.Font;
 
+import javax.swing.JLabel;
+
 import org.tomighty.ui.Colors;
-import org.tomighty.ui.widget.AlignX;
-import org.tomighty.ui.widget.AlignY;
-import org.tomighty.ui.widget.Padding;
-import org.tomighty.ui.widget.TextPanel;
 
 public class SexyLabel {
 	
-	public static TextPanel small(String text) {
+	public static JLabel small(String text) {
 		return create(0f, text);
 	}
 
-	public static TextPanel medium(String text) {
+	public static JLabel medium(String text) {
 		return create(19f, text);
 	}
 
-	public static TextPanel big(String text) {
+	public static JLabel big(String text) {
 		return create(30f, text);
 	}
 
-	public static TextPanel create(float size, String text) {
-		TextPanel label = new TextPanel();
+	public static JLabel create(float size, String text) {
+		JLabel label = new JLabel();
 		label.setForeground(Color.WHITE);
-		label.setShadowColor(Colors.DARK);
-		label.setAlignX(AlignX.CENTER);
-		label.setAlignY(AlignY.CENTER);
-		label.setAntialiasing(true);
-		label.setPadding(new Padding(2f));
+		label.setBackground(Colors.DARK);
+		label.setUI(SexyLabelUI.INSTANCE);
 		if (size > 0f) {
 			Font font = label.getFont();
 			label.setFont(font.deriveFont(size));

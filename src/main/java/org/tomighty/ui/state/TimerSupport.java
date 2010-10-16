@@ -16,13 +16,14 @@ Copyright 2010 Célio Cidral Junior
 
 package org.tomighty.ui.state;
 
-import static javax.swing.SwingUtilities.*;
+import static javax.swing.SwingUtilities.invokeLater;
 
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.JLabel;
 
 import org.tomighty.bus.messages.ChangeUiState;
 import org.tomighty.ioc.Inject;
@@ -33,13 +34,12 @@ import org.tomighty.time.CountdownTimerListener;
 import org.tomighty.time.Time;
 import org.tomighty.ui.UiState;
 import org.tomighty.ui.state.widget.SexyLabel;
-import org.tomighty.ui.widget.TextPanel;
 
 public abstract class TimerSupport extends UiStateSupport implements CountdownTimerListener {
 
 	@Inject private CountdownTimer timer;
 	@Inject private SoundPlayer soundPlayer;
-	private TextPanel remainingTime;
+	private JLabel remainingTime;
 
 	protected abstract Time initialTime();
 	protected abstract Class<? extends UiState> finishedState();
