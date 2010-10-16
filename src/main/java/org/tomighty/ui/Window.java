@@ -22,21 +22,24 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import org.tomighty.config.Options;
 import org.tomighty.ioc.Inject;
 import org.tomighty.ui.location.Closest;
 import org.tomighty.ui.location.Location;
+import org.tomighty.ui.state.widget.SexyPanelUI;
 import org.tomighty.util.Images;
 
 @SuppressWarnings("serial")
 public class Window extends JFrame {
 
 	@Inject private Options options;
-	private DarkPanel panel = new DarkPanel();
+	private JPanel panel = new JPanel();
 
 	public Window() {
 		super("Tomighty");
+		panel.setUI(SexyPanelUI.INSTANCE);
 		setAlwaysOnTop(true);
 		setContentPane(panel);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -49,7 +52,8 @@ public class Window extends JFrame {
 	}
 
 	public void setComponent(Component component) {
-		panel.setComponent(component);
+		panel.removeAll();
+		panel.add(component);
 	}
 	
 	public void show(Point mouseLocation) {
