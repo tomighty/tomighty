@@ -21,5 +21,9 @@ import java.awt.Component;
 public interface UiState {
 
 	Component render() throws Exception;
+	
+	void afterRendering();
+
+	void beforeDetaching();
 
 }

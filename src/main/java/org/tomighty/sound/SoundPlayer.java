@@ -17,10 +17,14 @@
 package org.tomighty.sound;
 
 import java.io.InputStream;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.Line;
 import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineListener;
 
@@ -32,21 +36,47 @@ public class SoundPlayer {
 	
 	@Inject @New private Log log;
 
+	private Map<Sound, Clip> activeClips = Collections.synchronizedMap(new HashMap<Sound, Clip>());
+
 	public void play(Sound sound) {
+		play(sound, false);
+	}
+	
+	public void playRepeatedly(Sound sound) {
+		play(sound, true);
+	}
+
+	public void stop(Sound sound) {
+		Clip clip = activeClips.get(sound);
+		if(clip != null) {
+			clip.stop();
+			activeClips.remove(sound);
+		}
+	}
+
+	private void play(final Sound sound, boolean repeatedly) {
+		stop(sound);
 		try {
 			InputStream stream = sound.inputStream();
 			AudioInputStream input = AudioSystem.getAudioInputStream(stream);
-			final Clip clip = AudioSystem.getClip();
+			Clip clip = AudioSystem.getClip();
 			clip.addLineListener(new LineListener() {
 				@Override
 				public void update(LineEvent event) {
 					if(event.getType().equals(LineEvent.Type.STOP)) {
-						clip.close();
+						Line line = event.getLine();
+						line.close();
+						activeClips.remove(sound);
 					}
 				}
 			});
 			clip.open(input);
-			clip.start();
+			if(repeatedly) {
+				clip.loop(Clip.LOOP_CONTINUOUSLY);
+			} else {
+				clip.start();
+			}
+			activeClips.put(sound, clip);
 		} catch (Exception e) {
 			log.error("Error while playing sound: "+sound, e);
 		}

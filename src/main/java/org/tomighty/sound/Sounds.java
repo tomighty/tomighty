@@ -19,6 +19,7 @@ package org.tomighty.sound;
 public class Sounds {
 
 	private static final ResourceSound DESK_BELL = new ResourceSound("/deskbell.wav");
+	private static final ResourceSound TIC_TAC = new ResourceSound("/tictac.wav");
 
 	public Sound pomodoroFinished() {
 		return DESK_BELL;
@@ -26,6 +27,10 @@ public class Sounds {
 
 	public Sound breakFinished() {
 		return DESK_BELL;
+	}
+
+	public Sound tictac() {
+		return TIC_TAC;
 	}
 
 }

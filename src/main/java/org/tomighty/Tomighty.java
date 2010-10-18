@@ -45,6 +45,7 @@ public class Tomighty implements Initializable, Runnable {
 	@Inject private Bus bus;
 	@Inject private Factory factory;
 	@Inject @New private Log log;
+	private UiState currentState;
 
 	public static void main(String[] args) throws Exception {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -67,15 +68,19 @@ public class Tomighty implements Initializable, Runnable {
 	}
 	
 	private void render(Class<? extends UiState> stateClass) {
-		UiState state = factory.create(stateClass);
+		if(currentState != null) {
+			currentState.beforeDetaching();
+		}
+		currentState = factory.create(stateClass);
 		Component component;
 		try {
-			component = state.render();
+			component = currentState.render();
 		} catch (Exception error) {
-			log.error("Failed to render state: "+state, error);
+			log.error("Failed to render state: "+currentState, error);
 			return;
 		}
 		window.setComponent(component);
+		currentState.afterRendering();
 	}
 	
 	private class SwitchState implements Subscriber<ChangeUiState> {

@@ -29,6 +29,7 @@ import org.tomighty.bus.messages.ChangeUiState;
 import org.tomighty.ioc.Inject;
 import org.tomighty.sound.Sound;
 import org.tomighty.sound.SoundPlayer;
+import org.tomighty.sound.Sounds;
 import org.tomighty.time.CountdownTimer;
 import org.tomighty.time.CountdownTimerListener;
 import org.tomighty.time.Time;
@@ -38,6 +39,7 @@ import org.tomighty.ui.state.laf.SexyLabel;
 public abstract class TimerSupport extends UiStateSupport implements CountdownTimerListener {
 
 	@Inject private CountdownTimer timer;
+	@Inject private Sounds sounds;
 	@Inject private SoundPlayer soundPlayer;
 	private JLabel remainingTime;
 
@@ -48,10 +50,21 @@ public abstract class TimerSupport extends UiStateSupport implements CountdownTi
 	
 	@Override
 	protected Component createContent() {
-		Time time = initialTime();
-		timer.start(time, this);
-		remainingTime = SexyLabel.big(time.toString());
+		remainingTime = SexyLabel.big();
 		return remainingTime;
+	}
+	
+	@Override
+	public void afterRendering() {
+		Time time = initialTime();
+		remainingTime.setText(time.toString());
+		timer.start(time, this);
+		soundPlayer.playRepeatedly(sounds.tictac());
+	}
+	
+	@Override
+	public void beforeDetaching() {
+		soundPlayer.stop(sounds.tictac());
 	}
 
 	@Override

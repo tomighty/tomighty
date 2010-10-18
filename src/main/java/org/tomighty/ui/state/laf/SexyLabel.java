@@ -32,6 +32,10 @@ public class SexyLabel {
 	public static JLabel medium(String text) {
 		return create(19f, text);
 	}
+	
+	public static JLabel big() {
+		return big(null);
+	}
 
 	public static JLabel big(String text) {
 		return create(30f, text);

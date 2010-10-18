@@ -63,6 +63,14 @@ public abstract class UiStateSupport implements UiState {
 		return addSecondaryActionsTo(component, secondaryActions);
 	}
 	
+	@Override
+	public void afterRendering() {
+	}
+	
+	@Override
+	public void beforeDetaching() {
+	}
+	
 	private JPanel createComponent() {
 		JPanel component = createPanel();
 		String title = title();
