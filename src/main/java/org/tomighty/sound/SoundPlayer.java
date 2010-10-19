@@ -48,7 +48,6 @@ public class SoundPlayer {
 		Clip clip = activeClips.get(sound);
 		if(clip != null) {
 			clip.stop();
-			activeClips.remove(sound);
 		}
 	}
 	
