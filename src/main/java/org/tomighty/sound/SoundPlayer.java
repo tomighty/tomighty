@@ -34,7 +34,6 @@ import org.tomighty.log.Log;
 public class SoundPlayer {
 	
 	@Inject @New private Log log;
-
 	private Map<Sound, Clip> activeClips = Collections.synchronizedMap(new HashMap<Sound, Clip>());
 
 	public SoundChain play(Sound sound) {
@@ -94,9 +93,7 @@ public class SoundPlayer {
 	public class SoundChain {
 
 		private Sound sound;
-		
 		private SoundChain nextChain;
-
 		private boolean repeatedly;
 		
 		void play() {
