@@ -62,15 +62,7 @@ public class SoundPlayer {
 			InputStream stream = sound.inputStream();
 			AudioInputStream input = AudioSystem.getAudioInputStream(stream);
 			Clip clip = AudioSystem.getClip();
-			clip.addLineListener(new LineListener() {
-				@Override
-				public void update(LineEvent event) {
-					if(event.getType().equals(LineEvent.Type.STOP)) {
-						closeClip(sound);
-						chain.play();
-					}
-				}
-			});
+			clip.addLineListener(new ClipHandler(sound, chain));
 			clip.open(input);
 			if(repeatedly) {
 				clip.loop(Clip.LOOP_CONTINUOUSLY);
@@ -84,19 +76,13 @@ public class SoundPlayer {
 		return chain;
 	}
 	
-	private void closeClip(Sound sound) {
-		Clip clip = activeClips.get(sound);
-		clip.close();
-		activeClips.remove(sound);
-	}
-
 	public class SoundChain {
 
 		private Sound sound;
 		private SoundChain nextChain;
 		private boolean repeatedly;
 		
-		void play() {
+		void playNextSound() {
 			if(sound != null) {
 				SoundPlayer.this.play(sound, repeatedly, nextChain);
 			}
@@ -106,6 +92,32 @@ public class SoundPlayer {
 			this.sound = sound;
 			this.repeatedly = true;
 			return nextChain = new SoundChain();
+		}
+		
+	}
+	
+	private class ClipHandler implements LineListener {
+
+		private final Sound sound;
+		private final SoundChain chain;
+
+		public ClipHandler(Sound sound, SoundChain chain) {
+			this.sound = sound;
+			this.chain = chain;
+		}
+
+		@Override
+		public void update(LineEvent event) {
+			if(event.getType().equals(LineEvent.Type.STOP)) {
+				closeClip();
+				chain.playNextSound();
+			}
+		}
+
+		private void closeClip() {
+			Clip clip = activeClips.get(sound);
+			clip.close();
+			activeClips.remove(sound);
 		}
 		
 	}
