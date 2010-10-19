@@ -68,9 +68,7 @@ public class SoundPlayer {
 				public void update(LineEvent event) {
 					if(event.getType().equals(LineEvent.Type.STOP)) {
 						closeClip(sound);
-						if(chain.sound != null) {
-							play(chain.sound, chain.repeatedly, chain.nextChain);
-						}
+						chain.play();
 					}
 				}
 			});
@@ -100,6 +98,12 @@ public class SoundPlayer {
 		private SoundChain nextChain;
 
 		private boolean repeatedly;
+		
+		void play() {
+			if(sound != null) {
+				SoundPlayer.this.play(sound, repeatedly, nextChain);
+			}
+		}
 
 		public SoundChain playRepeatedly(Sound sound) {
 			this.sound = sound;
