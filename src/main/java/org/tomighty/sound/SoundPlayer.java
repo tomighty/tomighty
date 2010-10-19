@@ -24,7 +24,6 @@ import java.util.Map;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-import javax.sound.sampled.Line;
 import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineListener;
 
@@ -38,12 +37,12 @@ public class SoundPlayer {
 
 	private Map<Sound, Clip> activeClips = Collections.synchronizedMap(new HashMap<Sound, Clip>());
 
-	public void play(Sound sound) {
-		play(sound, false);
+	public SoundChain play(Sound sound) {
+		return play(sound, false);
 	}
 	
-	public void playRepeatedly(Sound sound) {
-		play(sound, true);
+	public SoundChain playRepeatedly(Sound sound) {
+		return play(sound, true);
 	}
 
 	public void stop(Sound sound) {
@@ -53,8 +52,12 @@ public class SoundPlayer {
 			activeClips.remove(sound);
 		}
 	}
+	
+	private SoundChain play(final Sound sound, boolean repeatedly) {
+		return play(sound, repeatedly, new SoundChain());
+	}
 
-	private void play(final Sound sound, boolean repeatedly) {
+	private SoundChain play(final Sound sound, boolean repeatedly, final SoundChain chain) {
 		stop(sound);
 		try {
 			InputStream stream = sound.inputStream();
@@ -64,9 +67,10 @@ public class SoundPlayer {
 				@Override
 				public void update(LineEvent event) {
 					if(event.getType().equals(LineEvent.Type.STOP)) {
-						Line line = event.getLine();
-						line.close();
-						activeClips.remove(sound);
+						closeClip(sound);
+						if(chain.sound != null) {
+							play(chain.sound, chain.repeatedly, chain.nextChain);
+						}
 					}
 				}
 			});
@@ -80,6 +84,29 @@ public class SoundPlayer {
 		} catch (Exception e) {
 			log.error("Error while playing sound: "+sound, e);
 		}
+		return chain;
+	}
+	
+	private void closeClip(Sound sound) {
+		Clip clip = activeClips.get(sound);
+		clip.close();
+		activeClips.remove(sound);
+	}
+
+	public class SoundChain {
+
+		private Sound sound;
+		
+		private SoundChain nextChain;
+
+		private boolean repeatedly;
+
+		public SoundChain playRepeatedly(Sound sound) {
+			this.sound = sound;
+			this.repeatedly = true;
+			return nextChain = new SoundChain();
+		}
+		
 	}
 
 }

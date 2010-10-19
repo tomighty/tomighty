@@ -59,7 +59,7 @@ public abstract class TimerSupport extends UiStateSupport implements CountdownTi
 		Time time = initialTime();
 		remainingTime.setText(time.toString());
 		timer.start(time, this);
-		soundPlayer.playRepeatedly(sounds.tictac());
+		soundPlayer.play(sounds.crank()).playRepeatedly(sounds.tictac());
 	}
 	
 	@Override

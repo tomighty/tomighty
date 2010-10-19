@@ -20,6 +20,7 @@ public class Sounds {
 
 	private static final ResourceSound DESK_BELL = new ResourceSound("/deskbell.wav");
 	private static final ResourceSound TIC_TAC = new ResourceSound("/tictac.wav");
+	private static final ResourceSound CRANK = new ResourceSound("/crank.wav");
 
 	public Sound pomodoroFinished() {
 		return DESK_BELL;
@@ -31,6 +32,10 @@ public class Sounds {
 
 	public Sound tictac() {
 		return TIC_TAC;
+	}
+
+	public Sound crank() {
+		return CRANK;
 	}
 
 }
