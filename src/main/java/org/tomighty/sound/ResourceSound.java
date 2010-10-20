@@ -35,5 +35,10 @@ public class ResourceSound implements Sound {
 	public String toString() {
 		return getClass().getSimpleName()+": "+resourceName;
 	}
+	
+	@Override
+	public boolean disabled() {
+		return false;
+	}
 
 }

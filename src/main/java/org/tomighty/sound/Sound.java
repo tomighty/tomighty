@@ -22,4 +22,6 @@ public interface Sound {
 
 	InputStream inputStream();
 
+	boolean disabled();
+
 }

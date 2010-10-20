@@ -27,7 +27,6 @@ import javax.swing.JLabel;
 
 import org.tomighty.bus.messages.ChangeUiState;
 import org.tomighty.ioc.Inject;
-import org.tomighty.sound.Sound;
 import org.tomighty.sound.SoundPlayer;
 import org.tomighty.sound.Sounds;
 import org.tomighty.time.CountdownTimer;
@@ -46,7 +45,6 @@ public abstract class TimerSupport extends UiStateSupport implements CountdownTi
 	protected abstract Time initialTime();
 	protected abstract Class<? extends UiState> finishedState();
 	protected abstract Class<? extends UiState> interruptedState();
-	protected abstract Sound finishSound();
 	
 	@Override
 	protected Component createContent() {
@@ -59,7 +57,7 @@ public abstract class TimerSupport extends UiStateSupport implements CountdownTi
 		Time time = initialTime();
 		remainingTime.setText(time.toString());
 		timer.start(time, this);
-		soundPlayer.play(sounds.crank()).playRepeatedly(sounds.tictac());
+		soundPlayer.play(sounds.wind()).playRepeatedly(sounds.tictac());
 	}
 	
 	@Override
@@ -86,7 +84,7 @@ public abstract class TimerSupport extends UiStateSupport implements CountdownTi
 	
 	@Override
 	public void countdownFinished() {
-		soundPlayer.play(finishSound());
+		soundPlayer.play(sounds.ding());
 		bus.publish(new ChangeUiState(finishedState()));
 	}
 

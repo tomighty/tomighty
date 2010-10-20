@@ -72,7 +72,7 @@ public class Window extends JFrame {
 		
 		@Override
 		public void windowLostFocus(WindowEvent e) {
-			if(options.autoHide()) {
+			if(options.ui().autoHideWindow()) {
 				setVisible(false);
 			}
 		}

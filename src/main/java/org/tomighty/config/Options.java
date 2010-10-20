@@ -20,16 +20,58 @@ import org.tomighty.ioc.Inject;
 
 public class Options {
 	
-	private static final String AUTOHIDE_WINDOW = "option.window.autohide";
+	private static final String UI_AUTOHIDE_WINDOW = "option.ui.window.autohide";
+	private static final String SOUND_WIND = "option.sound.timer.wind.enable";
+	private static final String SOUND_TICTAC = "option.sound.timer.tictac.enable";
+	private static final String SOUND_DING = "option.sound.timer.ding.enable";
 	
 	@Inject private Configuration config;
-
-	public boolean autoHide() {
-		return config.asBoolean(AUTOHIDE_WINDOW, true);
+	
+	private UserInterfaceOptions ui = new UserInterfaceOptions();
+	private SoundOptions sound = new SoundOptions();
+	
+	public UserInterfaceOptions ui() {
+		return ui;
 	}
+	
+	public SoundOptions sound() {
+		return sound;
+	}
+	
+	public class UserInterfaceOptions {
+		public boolean autoHideWindow() {
+			return config.asBoolean(UI_AUTOHIDE_WINDOW, true);
+		}
+		
+		public void autoHide(boolean autoHide) {
+			config.set(UI_AUTOHIDE_WINDOW, autoHide);
+		}
+	}
+	
+	public class SoundOptions {
+		public boolean wind() {
+			return config.asBoolean(SOUND_WIND, true);
+		}
 
-	public void autoHide(boolean autoHide) {
-		config.set(AUTOHIDE_WINDOW, autoHide);
+		public boolean tictac() {
+			return config.asBoolean(SOUND_TICTAC, true);
+		}
+
+		public boolean ding() {
+			return config.asBoolean(SOUND_DING, true);
+		}
+
+		public void wind(boolean enable) {
+			config.set(SOUND_WIND, enable);
+		}
+
+		public void tictac(boolean enable) {
+			config.set(SOUND_TICTAC, enable);
+		}
+
+		public void ding(boolean enable) {
+			config.set(SOUND_DING, enable);
+		}
 	}
 
 }

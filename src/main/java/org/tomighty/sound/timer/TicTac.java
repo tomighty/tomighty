@@ -14,29 +14,29 @@
  *    limitations under the License.
  */
 
-package org.tomighty.sound;
+package org.tomighty.sound.timer;
 
+import java.io.InputStream;
+
+import org.tomighty.config.Options;
 import org.tomighty.ioc.Inject;
-import org.tomighty.sound.timer.Ding;
-import org.tomighty.sound.timer.TicTac;
-import org.tomighty.sound.timer.Wind;
+import org.tomighty.sound.ResourceSound;
+import org.tomighty.sound.Sound;
 
-public class Sounds {
-
-	@Inject private Wind wind;
-	@Inject private TicTac ticTac;
-	@Inject private Ding ding;
-
-	public Sound wind() {
-		return wind;
-	}
+public class TicTac implements Sound {
 	
-	public Sound tictac() {
-		return ticTac;
+	private Sound defaultSound = new ResourceSound("/tictac.wav");
+
+	@Inject private Options options;
+
+	@Override
+	public InputStream inputStream() {
+		return defaultSound.inputStream();
 	}
 
-	public Sound ding() {
-		return ding;
+	@Override
+	public boolean disabled() {
+		return !options.sound().tictac();
 	}
-	
+
 }

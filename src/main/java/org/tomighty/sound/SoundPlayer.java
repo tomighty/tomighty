@@ -57,6 +57,10 @@ public class SoundPlayer {
 
 	private SoundChain play(final Sound sound, boolean repeatedly, final SoundChain chain) {
 		stop(sound);
+		if(sound.disabled()) {
+			chain.takeOver();
+			return chain;
+		}
 		try {
 			InputStream stream = sound.inputStream();
 			AudioInputStream input = AudioSystem.getAudioInputStream(stream);
@@ -80,6 +84,7 @@ public class SoundPlayer {
 		private Sound sound;
 		private SoundChain nextChain;
 		private boolean repeatedly;
+		private boolean takeOver = false;
 		
 		void playNextSound() {
 			if(sound != null) {
@@ -87,10 +92,18 @@ public class SoundPlayer {
 			}
 		}
 
+		void takeOver() {
+			this.takeOver = true;
+		}
+
 		public SoundChain playRepeatedly(Sound sound) {
 			this.sound = sound;
 			this.repeatedly = true;
-			return nextChain = new SoundChain();
+			this.nextChain = new SoundChain();
+			if(takeOver) {
+				playNextSound();
+			}
+			return nextChain;
 		}
 		
 	}

@@ -21,29 +21,43 @@ import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 
-import org.tomighty.config.Options;
+import org.tomighty.ioc.Factory;
+import org.tomighty.ioc.Initializable;
 import org.tomighty.ioc.Inject;
 import org.tomighty.util.Images;
 
 @SuppressWarnings("serial")
-public class OptionsDialog extends JDialog {
+public class OptionsDialog extends JDialog implements Initializable {
 
 	private static final int MARGIN_SIZE = 10;
 	
-	@Inject private Options options;
 	private JPanel contentPane;
-	private JCheckBox autoHideOption;
+	private JTabbedPane tabs;
+	
+	@Inject private Factory factory;
+	private List<OptionGroup> optionGroups = new ArrayList<OptionGroup>();
 	
 	public OptionsDialog() {
 		createContentPane();
 		configureDialog();
+	}
+	
+	@Override
+	public void initialize() {
+		optionGroups.add(factory.create(UserInterface.class));
+		optionGroups.add(factory.create(Sounds.class));
+		for(OptionGroup group : optionGroups) {
+			tabs.addTab(group.name(), group.asComponent());
+		}
 		pack();
 		setLocationRelativeTo(null);
 	}
@@ -55,7 +69,9 @@ public class OptionsDialog extends JDialog {
 	@Override
 	public void setVisible(boolean visible) {
 		if(visible) {
-			autoHideOption.setSelected(options.autoHide());
+			for(OptionGroup group : optionGroups) {
+				group.readConfiguration();
+			}
 		}
 		super.setVisible(visible);
 	}
@@ -75,11 +91,7 @@ public class OptionsDialog extends JDialog {
 	}
 
 	private Component options() {
-		autoHideOption = new JCheckBox("Auto hide window");
-		autoHideOption.setToolTipText("Should the window hide itself when losing focus?");
-		JPanel panel = new JPanel();
-		panel.add(autoHideOption);
-		return panel;
+		return tabs = new JTabbedPane();
 	}
 
 	private Component button() {
@@ -97,7 +109,9 @@ public class OptionsDialog extends JDialog {
 	private class Save implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			options.autoHide(autoHideOption.isSelected());
+			for(OptionGroup group : optionGroups) {
+				group.saveConfiguration();
+			}
 			setVisible(false);
 		}
 	}

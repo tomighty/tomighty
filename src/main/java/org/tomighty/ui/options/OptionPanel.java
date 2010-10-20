@@ -14,29 +14,18 @@
  *    limitations under the License.
  */
 
-package org.tomighty.sound;
+package org.tomighty.ui.options;
 
-import org.tomighty.ioc.Inject;
-import org.tomighty.sound.timer.Ding;
-import org.tomighty.sound.timer.TicTac;
-import org.tomighty.sound.timer.Wind;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JPanel;
 
-public class Sounds {
+@SuppressWarnings("serial")
+public abstract class OptionPanel extends JPanel {
 
-	@Inject private Wind wind;
-	@Inject private TicTac ticTac;
-	@Inject private Ding ding;
-
-	public Sound wind() {
-		return wind;
-	}
-	
-	public Sound tictac() {
-		return ticTac;
+	public OptionPanel() {
+		setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+		setBorder(BorderFactory.createEmptyBorder(6, 6, 6, 6));
 	}
 
-	public Sound ding() {
-		return ding;
-	}
-	
 }

@@ -18,16 +18,11 @@ package org.tomighty.ui.state;
 
 import javax.swing.Action;
 
-import org.tomighty.ioc.Inject;
-import org.tomighty.sound.Sound;
-import org.tomighty.sound.Sounds;
 import org.tomighty.time.Time;
 import org.tomighty.ui.UiState;
 
 public class Pomodoro extends TimerSupport {
 	
-	@Inject private Sounds sounds;
-
 	@Override
 	protected String title() {
 		return "Pomodoro";
@@ -55,11 +50,6 @@ public class Pomodoro extends TimerSupport {
 			new ToState("Short break", ShortBreak.class),
 			new ToState("Long break", LongBreak.class)
 		};
-	}
-
-	@Override
-	protected Sound finishSound() {
-		return sounds.pomodoroFinished();
 	}
 	
 }

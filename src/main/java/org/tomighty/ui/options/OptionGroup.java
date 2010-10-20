@@ -14,29 +14,18 @@
  *    limitations under the License.
  */
 
-package org.tomighty.sound;
+package org.tomighty.ui.options;
 
-import org.tomighty.ioc.Inject;
-import org.tomighty.sound.timer.Ding;
-import org.tomighty.sound.timer.TicTac;
-import org.tomighty.sound.timer.Wind;
+import java.awt.Component;
 
-public class Sounds {
+public interface OptionGroup {
 
-	@Inject private Wind wind;
-	@Inject private TicTac ticTac;
-	@Inject private Ding ding;
-
-	public Sound wind() {
-		return wind;
-	}
+	String name();
 	
-	public Sound tictac() {
-		return ticTac;
-	}
-
-	public Sound ding() {
-		return ding;
-	}
+	Component asComponent();
 	
+	void readConfiguration();
+
+	void saveConfiguration();
+
 }

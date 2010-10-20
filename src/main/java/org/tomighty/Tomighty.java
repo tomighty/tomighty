@@ -103,7 +103,7 @@ public class Tomighty implements Initializable, Runnable {
 			invokeLater(new Runnable() {
 				@Override
 				public void run() {
-					if(options.autoHide() || !window.isVisible()) {
+					if(options.ui().autoHideWindow() || !window.isVisible()) {
 						window.show(message.mouseLocation());
 					} else {
 						window.setVisible(false);
