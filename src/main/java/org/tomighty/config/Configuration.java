@@ -19,12 +19,36 @@ package org.tomighty.config;
 import java.io.File;
 import java.util.Properties;
 
+import org.tomighty.ioc.Initializable;
+import org.tomighty.ioc.Inject;
+import org.tomighty.ioc.New;
+import org.tomighty.log.Log;
 import org.tomighty.util.Props;
 
-public class Configuration {
+public class Configuration implements Initializable {
 	
-	private static final File CONFIG_FILE = new File(System.getProperty("user.home") + "/.tomighty");
-	private final Properties properties = Props.load(CONFIG_FILE);
+	private Properties properties;
+	private File configDir;
+	private File configFile;
+	@Inject @New Log log;
+	
+	@Override
+	public void initialize() {
+		File userHome = new File(System.getProperty("user.home"));
+		configDir = new File(userHome, ".tomighty");
+		configFile = new File(configDir, "tomighty.conf");
+		if(configDir.exists() && configDir.isFile()) {
+			try {
+				properties = Props.load(configDir);
+			} catch(Exception e) {
+				log.error("Error importing old config file", e);
+			}
+			configDir.delete();
+			saveConfiguration();
+		} else {
+			properties = Props.load(configFile);
+		}
+	}
 	
 	public boolean asBoolean(String name, boolean defaultValue) {
 		String value = properties.getProperty(name);
@@ -37,7 +61,14 @@ public class Configuration {
 
 	private void set(String name, String value) {
 		properties.setProperty(name, value);
-		Props.store(properties, CONFIG_FILE);
+		saveConfiguration();
+	}
+
+	private void saveConfiguration() {
+		if(!configDir.exists()) {
+			configDir.mkdirs();
+		}
+		Props.store(properties, configFile);
 	}
 	
 }
