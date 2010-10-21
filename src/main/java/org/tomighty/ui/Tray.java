@@ -46,7 +46,6 @@ public class Tray implements Runnable {
 	public void run() {
 		TrayIcon icon = new TrayIcon(Images.get("/tomato-16x16.png"));
 		icon.addMouseListener(new TrayListener());
-		icon.setToolTip("Click to show/hide Tomighty");
 		icon.setPopupMenu(createMenu());
 		SystemTray tray = SystemTray.getSystemTray();
 		try {
