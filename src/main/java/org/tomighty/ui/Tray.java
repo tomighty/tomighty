@@ -56,7 +56,7 @@ public class Tray implements Runnable {
 		}
 		boolean firstRun = config.asBoolean("firstRun", true);
 		if(firstRun) {
-			icon.displayMessage("First time using Tomighty?", "Click here to show it", MessageType.INFO);
+			icon.displayMessage("First time using Tomighty?", "Click here to start using it", MessageType.INFO);
 			config.set("firstRun", false);
 		}
 	}
