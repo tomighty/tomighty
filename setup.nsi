@@ -63,17 +63,25 @@
 ; Installer Sections
 
 Section "Tomighty"
+    SectionIn RO
     SetOutPath $INSTDIR
     SetOverwrite on
     File "target\${PROJECT_ARTIFACT_ID}-${PROJECT_VERSION}.exe"
-
     writeUninstaller "$INSTDIR\tomighty_uninstall.exe"
 SectionEnd
 
-Section "Start Menu Shortcuts"
+Section "Start menu shortcuts"
     CreateDirectory "$SMPROGRAMS\${PROJECT_NAME}"
     CreateShortCut "$SMPROGRAMS\${PROJECT_NAME}\Tomighty.lnk" "$INSTDIR\${PROJECT_ARTIFACT_ID}-${PROJECT_VERSION}.exe" "" "$INSTDIR\${PROJECT_ARTIFACT_ID}-${PROJECT_VERSION}.exe" 0
     CreateShortCut "$SMPROGRAMS\${PROJECT_NAME}\Uninstall.lnk" "$INSTDIR\tomighty_uninstall.exe" "" "$INSTDIR\tomighty_uninstall.exe" 0
+SectionEnd
+
+Section "Desktop shortcut"
+    CreateShortCut "$DESKTOP\Tomighty.lnk" "$INSTDIR\${PROJECT_ARTIFACT_ID}-${PROJECT_VERSION}.exe" "" "$INSTDIR\${PROJECT_ARTIFACT_ID}-${PROJECT_VERSION}.exe" 0
+SectionEnd
+
+Section "Quick launch shortcut"
+    CreateShortCut "$QUICKLAUNCH\Tomighty.lnk" "$INSTDIR\${PROJECT_ARTIFACT_ID}-${PROJECT_VERSION}.exe" "" "$INSTDIR\${PROJECT_ARTIFACT_ID}-${PROJECT_VERSION}.exe" 0
 SectionEnd
 
 ; Installer functions
@@ -83,6 +91,8 @@ FunctionEnd
 
 Section "uninstall"
   delete "$INSTDIR\${PROJECT_ARTIFACT_ID}-${PROJECT_VERSION}.exe"
+  delete "$INSTDIR\tomighty_uninstall.exe"
+  RMDir "$INSTDIR"
 SectionEnd
 
 Function .onInit
