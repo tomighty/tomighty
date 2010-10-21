@@ -14,24 +14,17 @@
  *    limitations under the License.
  */
 
-package org.tomighty.ui.options;
+package org.tomighty.util;
 
-import java.awt.LayoutManager;
+public class Strings {
 
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JPanel;
-
-@SuppressWarnings("serial")
-public abstract class OptionPanel extends JPanel {
-
-	public OptionPanel() {
-		setLayout(createLayout());
-		setBorder(BorderFactory.createEmptyBorder(6, 6, 6, 6));
+	public static boolean isInteger(String s) {
+		try {
+			Integer.parseInt(s);
+		} catch (NumberFormatException e) {
+			return false;
+		}
+		return true;
 	}
-
-	protected LayoutManager createLayout() {
-		return new BoxLayout(this, BoxLayout.PAGE_AXIS);
-	}
-
+	
 }

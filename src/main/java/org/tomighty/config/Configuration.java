@@ -50,12 +50,21 @@ public class Configuration implements Initializable {
 		}
 	}
 	
+	public int asInt(String name, int defaultValue) {
+		String value = properties.getProperty(name);
+		return value == null ? defaultValue : Integer.parseInt(value);
+	}
+	
 	public boolean asBoolean(String name, boolean defaultValue) {
 		String value = properties.getProperty(name);
 		return value == null ? defaultValue : Boolean.parseBoolean(value);
 	}
 
 	public void set(String name, boolean value) {
+		set(name, String.valueOf(value));
+	}
+
+	public void set(String name, int value) {
 		set(name, String.valueOf(value));
 	}
 

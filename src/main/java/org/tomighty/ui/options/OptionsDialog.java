@@ -53,6 +53,7 @@ public class OptionsDialog extends JDialog implements Initializable {
 	
 	@Override
 	public void initialize() {
+		optionGroups.add(factory.create(Times.class));
 		optionGroups.add(factory.create(UserInterface.class));
 		optionGroups.add(factory.create(Sounds.class));
 		for(OptionGroup group : optionGroups) {

@@ -20,6 +20,9 @@ import org.tomighty.ioc.Inject;
 
 public class Options {
 	
+	private static final String TIME_POMODORO = "option.time.pomodoro";
+	private static final String TIME_SHORT_BREAK = "option.time.shortBreak";
+	private static final String TIME_LONG_BREAK = "option.time.longBreak";
 	private static final String UI_AUTOHIDE_WINDOW = "option.ui.window.autohide";
 	private static final String SOUND_WIND = "option.sound.timer.wind.enable";
 	private static final String SOUND_TICTAC = "option.sound.timer.tictac.enable";
@@ -29,6 +32,7 @@ public class Options {
 	
 	private UserInterfaceOptions ui = new UserInterfaceOptions();
 	private SoundOptions sound = new SoundOptions();
+	private TimeOptions time = new TimeOptions();
 	
 	public UserInterfaceOptions ui() {
 		return ui;
@@ -36,6 +40,37 @@ public class Options {
 	
 	public SoundOptions sound() {
 		return sound;
+	}
+
+	public TimeOptions time() {
+		return time;
+	}
+	
+	public class TimeOptions {
+
+		public int pomodoro() {
+			return config.asInt(TIME_POMODORO, 25);
+		}
+
+		public int shortBreak() {
+			return config.asInt(TIME_SHORT_BREAK, 5);
+		}
+
+		public int longBreak() {
+			return config.asInt(TIME_LONG_BREAK, 15);
+		}
+
+		public void pomodoro(int minutes) {
+			config.set(TIME_POMODORO, minutes);
+		}
+
+		public void shortBreak(int minutes) {
+			config.set(TIME_SHORT_BREAK, minutes);
+		}
+
+		public void longBreak(int minutes) {
+			config.set(TIME_LONG_BREAK, minutes);
+		}
 	}
 	
 	public class UserInterfaceOptions {

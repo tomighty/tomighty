@@ -18,10 +18,14 @@ package org.tomighty.ui.state;
 
 import javax.swing.Action;
 
+import org.tomighty.config.Options;
+import org.tomighty.ioc.Inject;
 import org.tomighty.time.Time;
 
 public class LongBreak extends Break {
 
+	@Inject private Options options;
+	
 	@Override
 	protected String name() {
 		return "Long";
@@ -29,7 +33,8 @@ public class LongBreak extends Break {
 
 	@Override
 	protected Time initialTime() {
-		return new Time(15);
+		int minutes = options.time().longBreak();
+		return new Time(minutes);
 	}
 
 	@Override

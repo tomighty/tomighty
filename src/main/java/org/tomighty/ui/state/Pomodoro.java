@@ -18,10 +18,14 @@ package org.tomighty.ui.state;
 
 import javax.swing.Action;
 
+import org.tomighty.config.Options;
+import org.tomighty.ioc.Inject;
 import org.tomighty.time.Time;
 import org.tomighty.ui.UiState;
 
 public class Pomodoro extends TimerSupport {
+	
+	@Inject private Options options;
 	
 	@Override
 	protected String title() {
@@ -30,7 +34,8 @@ public class Pomodoro extends TimerSupport {
 
 	@Override
 	protected Time initialTime() {
-		return new Time(25);
+		int minutes = options.time().pomodoro();
+		return new Time(minutes);
 	}
 
 	@Override
