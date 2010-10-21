@@ -69,7 +69,8 @@ public class AboutDialog extends JDialog {
 	}
 
 	private Component title() {
-		JLabel title = new JLabel("Tomighty", JLabel.CENTER);
+		String version = Resources.text("/version.txt");
+		JLabel title = new JLabel("Tomighty "+version, JLabel.CENTER);
 		JLabel url = new JLabel("http://tomighty.googlecode.com", JLabel.CENTER);
 		title.setFont(title.getFont().deriveFont(25f));
 		JPanel panel = new JPanel(new BorderLayout());

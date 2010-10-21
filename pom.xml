@@ -9,6 +9,13 @@
 	<url>http://code.google.com/p/tomighty/</url>
 	
 	<build>
+		<resources>
+			<resource>
+				<filtering>true</filtering>
+				<directory>${basedir}/src/main/resources</directory>
+				<includes><include>*</include></includes>
+			</resource>
+		</resources>
 		<pluginManagement>
 			<plugins>
 				<plugin>
