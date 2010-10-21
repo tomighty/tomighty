@@ -79,7 +79,7 @@ public class AboutDialog extends JDialog {
 	}
 	
 	private Component text() {
-		String text = Resources.readText("/license.txt");
+		String text = Resources.text("/license.txt");
 		JTextArea textArea = new JTextArea(text);
 		textArea.setFont(getFont());
 		textArea.setBackground(getBackground());

@@ -23,7 +23,7 @@ import java.io.InputStreamReader;
 
 public class Resources {
 	
-	public static String readText(String resourceName) {
+	public static String text(String resourceName) {
 		InputStream input = Resources.class.getResourceAsStream(resourceName);
 		InputStreamReader reader = new InputStreamReader(input);
 		BufferedReader br = new BufferedReader(reader);
