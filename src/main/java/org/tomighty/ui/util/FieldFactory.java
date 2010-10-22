@@ -20,19 +20,14 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.text.NumberFormat;
 
-import javax.swing.InputVerifier;
-import javax.swing.JComponent;
 import javax.swing.JFormattedTextField;
 import javax.swing.JTextField;
-
-import org.tomighty.util.Strings;
 
 public class FieldFactory {
 	
 	public static JFormattedTextField createIntegerField(int minValue, int maxLength) {
 		JFormattedTextField field = new JFormattedTextField(NumberFormat.getIntegerInstance());
 		field.setHorizontalAlignment(JTextField.CENTER);
-		field.setInputVerifier(new IntegerValidator(minValue));
 		field.addKeyListener(new FieldListener(maxLength));
 		return field;
 	}
@@ -59,23 +54,6 @@ public class FieldFactory {
 			if(reachedMaxLength && noTextSelected) {
 				e.consume();
 			}
-		}
-		
-	}
-	
-	private static class IntegerValidator extends InputVerifier {
-		
-		private final int minValue;
-
-		public IntegerValidator(int minValue) {
-			this.minValue = minValue;
-		}
-
-		@Override
-		public boolean verify(JComponent input) {
-			JTextField field = (JTextField) input;
-			String text = field.getText();
-			return Strings.isInteger(text) && Integer.parseInt(text) >= minValue;
 		}
 		
 	}
