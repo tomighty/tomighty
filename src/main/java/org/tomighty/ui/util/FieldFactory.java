@@ -19,17 +19,48 @@ package org.tomighty.ui.util;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.text.NumberFormat;
+import java.text.ParseException;
 
 import javax.swing.JFormattedTextField;
+import javax.swing.JFormattedTextField.AbstractFormatter;
 import javax.swing.JTextField;
+import javax.swing.text.NumberFormatter;
 
 public class FieldFactory {
 	
 	public static JFormattedTextField createIntegerField(int minValue, int maxLength) {
-		JFormattedTextField field = new JFormattedTextField(NumberFormat.getIntegerInstance());
+		IntegerFormatter formatter = new IntegerFormatter(minValue);
+		JFormattedTextField field = new JFormattedTextField(formatter);
 		field.setHorizontalAlignment(JTextField.CENTER);
 		field.addKeyListener(new FieldListener(maxLength));
 		return field;
+	}
+	
+	@SuppressWarnings("serial")
+	private static class IntegerFormatter extends AbstractFormatter {
+		
+		private final int minValue;
+		private final NumberFormatter numberFormatter;
+
+		public IntegerFormatter(int minValue) {
+			this.minValue = minValue;
+			numberFormatter = new NumberFormatter(NumberFormat.getIntegerInstance());
+		}
+
+		@Override
+		public Object stringToValue(String text) throws ParseException {
+			Number value = (Number) numberFormatter.stringToValue(text);
+			if (value.intValue() < minValue) {
+				throw new ParseException("Value cannot be less than "+minValue, 0);
+			}
+			return value;
+		}
+
+		@Override
+		public String valueToString(Object value) throws ParseException {
+			return numberFormatter.valueToString(value);
+		}
+		
 	}
 	
 	private static class FieldListener extends KeyAdapter {
