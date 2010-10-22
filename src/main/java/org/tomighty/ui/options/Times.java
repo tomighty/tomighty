@@ -72,8 +72,8 @@ public class Times extends OptionPanel implements OptionGroup {
 	}
 
 	private int valueOf(JFormattedTextField field) {
-		Long value = (Long)field.getValue(); 
-		return value.intValue();
+		String text = field.getText(); 
+		return Integer.parseInt(text);
 	}
 
 	private JFormattedTextField addField(String label) {
