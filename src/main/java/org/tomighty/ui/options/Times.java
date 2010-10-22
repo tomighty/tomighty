@@ -59,9 +59,9 @@ public class Times extends OptionPanel implements OptionGroup {
 
 	@Override
 	public void readConfiguration() {
-		pomodoro.setText(String.valueOf(options.time().pomodoro()));
-		shortBreak.setText(String.valueOf(options.time().shortBreak()));
-		longBreak.setText(String.valueOf(options.time().longBreak()));
+		pomodoro.setValue(options.time().pomodoro());
+		shortBreak.setValue(options.time().shortBreak());
+		longBreak.setValue(options.time().longBreak());
 	}
 
 	@Override
