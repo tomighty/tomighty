@@ -25,6 +25,10 @@ public class Docking {
 		return FILL;
 	}
 	
+	public static String rightTop() {
+		return rightTop(0, 0);
+	}
+	
 	public static String rightTop(int right, int top) {
 		return RIGHT_TOP + "=" + right + "." + top;
 	}

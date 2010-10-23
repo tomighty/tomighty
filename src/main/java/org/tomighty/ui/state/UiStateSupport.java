@@ -107,7 +107,7 @@ public abstract class UiStateSupport implements UiState {
 		});
 		JPanel panel = createPanel(new DockLayout());
 		panel.add(component, Docking.fill());
-		panel.add(button, Docking.rightTop(1, 1));
+		panel.add(button, Docking.rightTop());
 		return panel;
 	}
 
