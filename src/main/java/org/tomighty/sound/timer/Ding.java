@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010 Célio Cidral Junior
+ * Copyright (c) 2010 CÃ©lio Cidral Junior
  * 
  *    Licensed under the Apache License, Version 2.0 (the "License");
  *    you may not use this file except in compliance with the License.
