@@ -16,6 +16,7 @@
 
 package org.tomighty.sound;
 
+import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.HashMap;
@@ -63,6 +64,8 @@ public class SoundPlayer {
 		}
 		try {
 			InputStream stream = sound.inputStream();
+			//wrap the stream in another one that supports mark/reset (see issue #31)
+			stream = new BufferedInputStream(stream);
 			AudioInputStream input = AudioSystem.getAudioInputStream(stream);
 			Clip clip = AudioSystem.getClip();
 			clip.addLineListener(new ClipHandler(sound, chain));
