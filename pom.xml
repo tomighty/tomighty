@@ -8,6 +8,13 @@
 	<name>Tomighty</name>
 	<url>http://code.google.com/p/tomighty/</url>
 	
+	<licenses>
+		<license>
+			<name>Apache 2</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+	
 	<build>
 		<resources>
 			<resource>
