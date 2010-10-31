@@ -27,26 +27,26 @@ public class PomodoroFinished extends UiStateSupport {
 
 	@Override
 	protected String title() {
-		return "Pomodoro finished";
+		return messages.get("Pomodoro finished");
 	}
 
 	@Override
 	protected Component createContent() {
-		return SexyLabel.medium("Take a break");
+		return SexyLabel.medium(messages.get("Take a break"));
 	}
 
 	@Override
 	protected Action[] primaryActions() {
 		return new Action[] {
-			new ToState("Short", ShortBreak.class),
-			new ToState("Long",  LongBreak.class)
+			new ToState(messages.get("Short"), ShortBreak.class),
+			new ToState(messages.get("Long"),  LongBreak.class)
 		};
 	}
 
 	@Override
 	protected Action[] secondaryActions() {
 		return new Action[] {
-			new ToState("New pomodoro", Pomodoro.class)
+			new ToState(messages.get("New pomodoro"), Pomodoro.class)
 		};
 	}
 

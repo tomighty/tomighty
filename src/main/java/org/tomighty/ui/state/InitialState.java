@@ -42,7 +42,7 @@ public class InitialState extends UiStateSupport {
 	@Override
 	protected Action[] primaryActions() {
 		return new Action[] {
-			new ToState("Start pomodoro", Pomodoro.class)
+			new ToState(messages.get("Start pomodoro"), Pomodoro.class)
 		};
 	}
 

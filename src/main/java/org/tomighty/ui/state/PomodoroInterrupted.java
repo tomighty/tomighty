@@ -32,21 +32,21 @@ public class PomodoroInterrupted extends UiStateSupport {
 
 	@Override
 	protected Component createContent() {
-		return SexyLabel.medium("Pomodoro interrupted");
+		return SexyLabel.medium(messages.get("Pomodoro interrupted"));
 	}
 
 	@Override
 	protected Action[] primaryActions() {
 		return new Action[] {
-			new ToState("Restart", Pomodoro.class)
+			new ToState(messages.get("Restart"), Pomodoro.class)
 		};
 	}
 
 	@Override
 	protected Action[] secondaryActions() {
 		return new Action[] {
-			new ToState("Short break", ShortBreak.class),
-			new ToState("Long break", LongBreak.class)
+			new ToState(messages.get("Short break"), ShortBreak.class),
+			new ToState(messages.get("Long break"), LongBreak.class)
 		};
 	}
 

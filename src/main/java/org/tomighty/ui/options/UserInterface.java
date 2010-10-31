@@ -21,24 +21,31 @@ import java.awt.Component;
 import javax.swing.JCheckBox;
 
 import org.tomighty.config.Options;
+import org.tomighty.i18n.Messages;
+import org.tomighty.ioc.Initializable;
 import org.tomighty.ioc.Inject;
 
 @SuppressWarnings("serial")
-public class UserInterface extends OptionPanel implements OptionGroup {
+public class UserInterface extends OptionPanel implements OptionGroup, Initializable {
 
 	@Inject private Options options;
+	@Inject private Messages messages;
 	
 	private JCheckBox autoHideOption;
 
 	public UserInterface() {
-		autoHideOption = new JCheckBox("Auto hide window");
-		autoHideOption.setToolTipText("Should the window hide itself when losing focus?");
+		autoHideOption = new JCheckBox();
 		add(autoHideOption);
+	}
+	
+	@Override
+	public void initialize() {
+		autoHideOption.setText(messages.get("Auto hide window"));
 	}
 
 	@Override
 	public String name() {
-		return "User interface";
+		return messages.get("User interface");
 	}
 
 	@Override

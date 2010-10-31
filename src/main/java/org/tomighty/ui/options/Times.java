@@ -24,19 +24,23 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 
 import org.tomighty.config.Options;
+import org.tomighty.i18n.Messages;
+import org.tomighty.ioc.Initializable;
 import org.tomighty.ioc.Inject;
 import org.tomighty.ui.util.FieldFactory;
 
 @SuppressWarnings("serial")
-public class Times extends OptionPanel implements OptionGroup {
+public class Times extends OptionPanel implements OptionGroup, Initializable {
 
 	@Inject private Options options;
-	
+	@Inject private Messages messages;
+
 	private JFormattedTextField pomodoro;
 	private JFormattedTextField shortBreak;
 	private JFormattedTextField longBreak;
 
-	public Times() {
+	@Override
+	public void initialize() {
 		pomodoro = addField("Pomodoro");
 		shortBreak = addField("Short break");
 		longBreak = addField("Long break");
@@ -49,7 +53,7 @@ public class Times extends OptionPanel implements OptionGroup {
 	
 	@Override
 	public String name() {
-		return "Times";
+		return messages.get("Times");
 	}
 
 	@Override
@@ -76,11 +80,13 @@ public class Times extends OptionPanel implements OptionGroup {
 		return Integer.parseInt(text);
 	}
 
-	private JFormattedTextField addField(String label) {
+	private JFormattedTextField addField(String name) {
 		JFormattedTextField field = FieldFactory.createIntegerField(1, 2);
-		add(new JLabel(label, JLabel.TRAILING));
+		JLabel label = new JLabel(messages.get(name), JLabel.TRAILING);
+		label.setLabelFor(field);
+		add(label);
 		add(field);
-		add(new JLabel("minutes"));
+		add(new JLabel(messages.get("minutes")));
 		return field;
 	}
 

@@ -21,26 +21,36 @@ import java.awt.Component;
 import javax.swing.JCheckBox;
 
 import org.tomighty.config.Options;
+import org.tomighty.i18n.Messages;
+import org.tomighty.ioc.Initializable;
 import org.tomighty.ioc.Inject;
 
 @SuppressWarnings("serial")
-public class Sounds extends OptionPanel implements OptionGroup {
+public class Sounds extends OptionPanel implements OptionGroup, Initializable {
 	
 	@Inject private Options options;
+	@Inject private Messages messages;
 
-	private JCheckBox wind = new JCheckBox("Enable wind sound");
-	private JCheckBox tictac = new JCheckBox("Enable tic-tac");
-	private JCheckBox ding = new JCheckBox("Enable ding sound");
+	private JCheckBox wind = new JCheckBox();
+	private JCheckBox tictac = new JCheckBox();
+	private JCheckBox ding = new JCheckBox();
 
 	public Sounds() {
 		add(wind);
 		add(tictac);
 		add(ding);
 	}
+	
+	@Override
+	public void initialize() {
+		wind.setText(messages.get("Enable wind sound"));
+		tictac.setText(messages.get("Enable tic-tac"));
+		ding.setText(messages.get("Enable ding sound"));
+	}
 
 	@Override
 	public String name() {
-		return "Sounds";
+		return messages.get("Sounds");
 	}
 
 	@Override

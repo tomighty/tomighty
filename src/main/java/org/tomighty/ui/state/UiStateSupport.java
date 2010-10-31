@@ -34,6 +34,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
 import org.tomighty.bus.Bus;
+import org.tomighty.i18n.Messages;
 import org.tomighty.ioc.Inject;
 import org.tomighty.ioc.Injector;
 import org.tomighty.ui.UiState;
@@ -47,6 +48,7 @@ public abstract class UiStateSupport implements UiState {
 
 	@Inject private Injector injector;
 	@Inject protected Bus bus;
+	@Inject protected Messages messages;
 	
 	protected abstract String title();
 	protected abstract Component createContent();

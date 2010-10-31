@@ -32,21 +32,21 @@ public class BreakFinished extends UiStateSupport {
 
 	@Override
 	protected Component createContent() {
-		return SexyLabel.medium("Break finished");
+		return SexyLabel.medium(messages.get("Break finished"));
 	}
 
 	@Override
 	protected Action[] primaryActions() {
 		return new Action[] {
-			new ToState("Start pomodoro", Pomodoro.class)
+			new ToState(messages.get("Start pomodoro"), Pomodoro.class)
 		};
 	}
 
 	@Override
 	protected Action[] secondaryActions() {
 		return new Action[] {
-			new ToState("Short break", ShortBreak.class),
-			new ToState("Long break", LongBreak.class)
+			new ToState(messages.get("Short break"), ShortBreak.class),
+			new ToState(messages.get("Long break"), LongBreak.class)
 		};
 	}
 

@@ -27,8 +27,8 @@ public class ShortBreak extends Break {
 	@Inject private Options options;
 	
 	@Override
-	protected String name() {
-		return "Short";
+	protected String title() {
+		return messages.get("Short break");
 	}
 
 	@Override
@@ -40,9 +40,9 @@ public class ShortBreak extends Break {
 	@Override
 	protected Action[] secondaryActions() {
 		return new Action[] {
-			new ToState("Restart break", ShortBreak.class),
-			new ToState("Long break", LongBreak.class),
-			new ToState("New pomodoro", Pomodoro.class)
+			new ToState(messages.get("Restart break"), ShortBreak.class),
+			new ToState(messages.get("Long break"), LongBreak.class),
+			new ToState(messages.get("New pomodoro"), Pomodoro.class)
 		};
 	}
 

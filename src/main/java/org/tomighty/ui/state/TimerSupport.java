@@ -91,7 +91,7 @@ public abstract class TimerSupport extends UiStateSupport implements CountdownTi
 	@SuppressWarnings("serial")
 	private class Interrupt extends AbstractAction {
 		public Interrupt() {
-			super("Interrupt");
+			super(messages.get("Interrupt"));
 		}
 		
 		@Override

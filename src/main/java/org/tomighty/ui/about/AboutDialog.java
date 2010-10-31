@@ -31,19 +31,31 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.Border;
 
+import org.tomighty.i18n.Messages;
+import org.tomighty.ioc.Initializable;
+import org.tomighty.ioc.Inject;
 import org.tomighty.util.Images;
 import org.tomighty.util.Resources;
 
 @SuppressWarnings("serial")
-public class AboutDialog extends JDialog {
+public class AboutDialog extends JDialog implements Initializable {
 	
 	private static final int MARGIN = 10;
 	
+	@Inject private Messages messages;
 	private JPanel panel;
+
+	private JButton closeButton;
 	
 	public AboutDialog() {
 		createPanel();
 		configureDialog();
+	}
+	
+	@Override
+	public void initialize() {
+		setTitle(messages.get("About Tomighty"));
+		closeButton.setText(messages.get("Close"));
 		pack();
 		setLocationRelativeTo(null);
 	}
@@ -53,7 +65,6 @@ public class AboutDialog extends JDialog {
 	}
 
 	private void configureDialog() {
-		setTitle("About Tomighty");
 		setAlwaysOnTop(true);
 		setContentPane(panel);
 		setIconImage(Images.get("/tomato-16x16.png"));
@@ -92,15 +103,15 @@ public class AboutDialog extends JDialog {
 	}
 
 	private Component closeButton() {
-		JButton button = new JButton("Close");
-		button.addActionListener(new ActionListener() {
+		closeButton = new JButton();
+		closeButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
 			}
 		});
 		JPanel panel = new JPanel(new FlowLayout());
-		panel.add(button);
+		panel.add(closeButton);
 		return panel;
 	}
 

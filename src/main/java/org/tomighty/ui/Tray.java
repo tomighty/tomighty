@@ -30,6 +30,7 @@ import java.awt.event.MouseEvent;
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.messages.TrayClick;
 import org.tomighty.config.Configuration;
+import org.tomighty.i18n.Messages;
 import org.tomighty.ioc.Container;
 import org.tomighty.ioc.Inject;
 import org.tomighty.ui.about.AboutDialog;
@@ -41,6 +42,7 @@ public class Tray implements Runnable {
 	@Inject private Container container;
 	@Inject private Configuration config;
 	@Inject private Bus bus;
+	@Inject private Messages messages;
 	
 	@Override
 	public void run() {
@@ -55,17 +57,23 @@ public class Tray implements Runnable {
 		}
 		boolean firstRun = config.asBoolean("firstRun", true);
 		if(firstRun) {
-			icon.displayMessage("First time using Tomighty?", "Click on the tomato icon to start using it", MessageType.INFO);
+			showWelcomeMessage(icon);
 			config.set("firstRun", false);
 		}
 	}
 
+	private void showWelcomeMessage(TrayIcon icon) {
+		String caption = messages.get("First time using Tomighty?");
+		String message = messages.get("Click on the tomato icon to start using it");
+		icon.displayMessage(caption, message, MessageType.INFO);
+	}
+
 	private PopupMenu createMenu() {
 		PopupMenu menu = new PopupMenu();
-		menu.add(menuItem("Options", new Options()));
-		menu.add(menuItem("About", new About()));
+		menu.add(menuItem(messages.get("Options"), new Options()));
+		menu.add(menuItem(messages.get("About"), new About()));
 		menu.addSeparator();
-		menu.add(menuItem("Close", new Exit()));
+		menu.add(menuItem(messages.get("Close"), new Exit()));
 		return menu;
 	}
 

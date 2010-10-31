@@ -30,6 +30,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import org.tomighty.i18n.Messages;
 import org.tomighty.ioc.Factory;
 import org.tomighty.ioc.Initializable;
 import org.tomighty.ioc.Inject;
@@ -42,9 +43,12 @@ public class OptionsDialog extends JDialog implements Initializable {
 	
 	private JPanel contentPane;
 	private JTabbedPane tabs;
+	private JButton saveButton;
+	private JButton cancelButton;
+	private List<OptionGroup> optionGroups = new ArrayList<OptionGroup>();
 	
 	@Inject private Factory factory;
-	private List<OptionGroup> optionGroups = new ArrayList<OptionGroup>();
+	@Inject private Messages messages;
 	
 	public OptionsDialog() {
 		createContentPane();
@@ -53,14 +57,21 @@ public class OptionsDialog extends JDialog implements Initializable {
 	
 	@Override
 	public void initialize() {
+		setTitle(messages.get("Options"));
+		saveButton.setText(messages.get("Save"));
+		cancelButton.setText(messages.get("Cancel"));
+		createOptionGroups();
+		pack();
+		setLocationRelativeTo(null);
+	}
+
+	private void createOptionGroups() {
 		optionGroups.add(factory.create(Times.class));
 		optionGroups.add(factory.create(UserInterface.class));
 		optionGroups.add(factory.create(Sounds.class));
 		for(OptionGroup group : optionGroups) {
 			tabs.addTab(group.name(), group.asComponent());
 		}
-		pack();
-		setLocationRelativeTo(null);
 	}
 
 	public void showDialog() {
@@ -78,7 +89,6 @@ public class OptionsDialog extends JDialog implements Initializable {
 	}
 	
 	private void configureDialog() {
-		setTitle("Options");
 		setContentPane(contentPane);
 		setIconImage(Images.get("/tomato-16x16.png"));
 		setResizable(false);
@@ -96,14 +106,14 @@ public class OptionsDialog extends JDialog implements Initializable {
 	}
 
 	private Component button() {
-		JButton save = new JButton("Save");
-		JButton cancel = new JButton("Cancel");
-		save.addActionListener(new Save());
-		cancel.addActionListener(new Cancel());
-		getRootPane().setDefaultButton(save);
+		saveButton = new JButton();
+		cancelButton = new JButton();
+		saveButton.addActionListener(new Save());
+		cancelButton.addActionListener(new Cancel());
+		getRootPane().setDefaultButton(saveButton);
 		JPanel panel = new JPanel(new FlowLayout());
-		panel.add(save);
-		panel.add(cancel);
+		panel.add(saveButton);
+		panel.add(cancelButton);
 		return panel;
 	}
 

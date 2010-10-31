@@ -20,13 +20,6 @@ import org.tomighty.ui.UiState;
 
 public abstract class Break extends TimerSupport {
 
-	protected abstract String name();
-	
-	@Override
-	protected String title() {
-		return name()+" break";
-	}
-	
 	@Override
 	protected Class<? extends UiState> finishedState() {
 		return BreakFinished.class;
