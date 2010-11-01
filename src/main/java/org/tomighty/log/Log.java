@@ -34,4 +34,8 @@ public class Log {
 	public void error(String msg, Throwable error) {
 		logger.log(Level.SEVERE, msg, error);
 	}
+
+	public void warn(String msg, Throwable error) {
+		logger.log(Level.WARNING, msg, error);
+	}
 }
