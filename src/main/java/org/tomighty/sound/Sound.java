@@ -16,11 +16,12 @@
 
 package org.tomighty.sound;
 
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 public interface Sound {
 
-	InputStream inputStream();
+	InputStream inputStream() throws FileNotFoundException;
 
 	boolean disabled();
 

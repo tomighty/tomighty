@@ -16,6 +16,7 @@
 
 package org.tomighty.sound.timer;
 
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 import org.tomighty.config.Options;
@@ -30,7 +31,7 @@ public class TicTac implements Sound {
 	@Inject private Options options;
 
 	@Override
-	public InputStream inputStream() {
+	public InputStream inputStream() throws FileNotFoundException {
 		return defaultSound.inputStream();
 	}
 

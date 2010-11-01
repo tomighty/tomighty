@@ -16,6 +16,7 @@
 
 package org.tomighty.sound;
 
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 public class ResourceSound implements Sound {
@@ -27,8 +28,12 @@ public class ResourceSound implements Sound {
 	}
 	
 	@Override
-	public InputStream inputStream() {
-		return getClass().getResourceAsStream(resourceName);
+	public InputStream inputStream() throws FileNotFoundException {
+		InputStream stream = getClass().getResourceAsStream(resourceName);
+		if(stream == null) {
+			throw new FileNotFoundException("Resource file not found: "+resourceName);
+		}
+		return stream;
 	}
 	
 	@Override
