@@ -24,7 +24,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import org.tomighty.ioc.Inject;
-import org.tomighty.util.Resources;
+import org.tomighty.resources.Resources;
 
 public class InitialState extends UiStateSupport {
 

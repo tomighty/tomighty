@@ -27,10 +27,10 @@ import javax.swing.JPanel;
 import org.tomighty.config.Options;
 import org.tomighty.ioc.Initializable;
 import org.tomighty.ioc.Inject;
+import org.tomighty.resources.Resources;
 import org.tomighty.ui.location.Closest;
 import org.tomighty.ui.location.Location;
 import org.tomighty.ui.state.laf.SexyPanelUI;
-import org.tomighty.util.Resources;
 
 @SuppressWarnings("serial")
 public class Window extends JFrame implements Initializable {

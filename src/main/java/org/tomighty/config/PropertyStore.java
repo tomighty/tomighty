@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package org.tomighty.util;
+package org.tomighty.config;
 
 import java.io.File;
 import java.io.FileReader;

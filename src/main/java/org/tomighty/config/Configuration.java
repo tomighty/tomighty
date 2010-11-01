@@ -23,7 +23,6 @@ import org.tomighty.ioc.Initializable;
 import org.tomighty.ioc.Inject;
 import org.tomighty.ioc.New;
 import org.tomighty.log.Log;
-import org.tomighty.util.PropertyStore;
 
 public class Configuration implements Initializable {
 	

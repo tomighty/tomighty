@@ -33,9 +33,9 @@ import org.tomighty.config.Configuration;
 import org.tomighty.i18n.Messages;
 import org.tomighty.ioc.Container;
 import org.tomighty.ioc.Inject;
+import org.tomighty.resources.Resources;
 import org.tomighty.ui.about.AboutDialog;
 import org.tomighty.ui.options.OptionsDialog;
-import org.tomighty.util.Resources;
 
 public class Tray implements Runnable {
 

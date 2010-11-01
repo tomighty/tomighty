@@ -34,7 +34,7 @@ import org.tomighty.i18n.Messages;
 import org.tomighty.ioc.Factory;
 import org.tomighty.ioc.Initializable;
 import org.tomighty.ioc.Inject;
-import org.tomighty.util.Resources;
+import org.tomighty.resources.Resources;
 
 @SuppressWarnings("serial")
 public class OptionsDialog extends JDialog implements Initializable {

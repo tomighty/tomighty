@@ -34,7 +34,7 @@ import javax.swing.border.Border;
 import org.tomighty.i18n.Messages;
 import org.tomighty.ioc.Initializable;
 import org.tomighty.ioc.Inject;
-import org.tomighty.util.Resources;
+import org.tomighty.resources.Resources;
 
 @SuppressWarnings("serial")
 public class AboutDialog extends JDialog implements Initializable {

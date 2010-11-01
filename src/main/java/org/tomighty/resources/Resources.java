@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package org.tomighty.util;
+package org.tomighty.resources;
 
 import java.awt.Image;
 import java.io.BufferedReader;
