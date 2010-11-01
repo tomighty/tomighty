@@ -21,14 +21,15 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.tomighty.ioc.Inject;
+import org.tomighty.log.Log;
 
 public class Props {
 	
-	private static final Logger LOGGER = Logger.getLogger(Props.class.getName());
+	@Inject private Log log;
 
-	public static Properties load(File file) {
+	public Properties load(File file) {
 		Properties properties = new Properties();
 		if(file.exists()) {
 			try {
@@ -39,13 +40,13 @@ public class Props {
 					reader.close();
 				}
 			} catch (IOException e) {
-				LOGGER.log(Level.WARNING, "Error while loading properties file: "+file, e);
+				log.warn("Error while loading properties file: "+file, e);
 			}
 		}
 		return properties;
 	}
 	
-	public static void store(Properties properties, File file) {
+	public void store(Properties properties, File file) {
 		try {
 			FileWriter writer = new FileWriter(file);
 			try {
@@ -54,7 +55,8 @@ public class Props {
 				writer.close();
 			}
 		} catch (IOException e) {
-			LOGGER.log(Level.WARNING, "Error while storing properties file: "+file, e);
+			log.warn("Error while storing properties file: "+file, e);
 		}
 	}
+
 }

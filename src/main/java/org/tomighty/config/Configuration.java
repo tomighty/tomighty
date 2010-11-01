@@ -30,6 +30,7 @@ public class Configuration implements Initializable {
 	private Properties properties;
 	private File configDir;
 	private File configFile;
+	@Inject Props propertyStore;
 	@Inject @New Log log;
 	
 	@Override
@@ -39,14 +40,14 @@ public class Configuration implements Initializable {
 		configFile = new File(configDir, "tomighty.conf");
 		if(configDir.exists() && configDir.isFile()) {
 			try {
-				properties = Props.load(configDir);
+				properties = propertyStore.load(configDir);
 			} catch(Exception e) {
 				log.error("Error importing old config file", e);
 			}
 			configDir.delete();
 			saveConfiguration();
 		} else {
-			properties = Props.load(configFile);
+			properties = propertyStore.load(configFile);
 		}
 	}
 	
@@ -77,7 +78,7 @@ public class Configuration implements Initializable {
 		if(!configDir.exists()) {
 			configDir.mkdirs();
 		}
-		Props.store(properties, configFile);
+		propertyStore.store(properties, configFile);
 	}
 	
 }
