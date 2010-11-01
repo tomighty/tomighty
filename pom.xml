@@ -23,64 +23,7 @@
 				<includes><include>*</include></includes>
 			</resource>
 		</resources>
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>nsis-maven-plugin</artifactId>
-					<version>1.0-20091114.095635-2</version>
-				</plugin>
-			</plugins>
-		</pluginManagement>
 		<plugins>
-			<plugin>
-				<groupId>com.akathist.maven.plugins.launch4j</groupId>
-				<artifactId>launch4j-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>l4j-gui</id>
-						<phase>package</phase>
-						<goals>
-							<goal>launch4j</goal>
-						</goals>
-						<configuration>
-							<headerType>gui</headerType>
-							<outfile>target/${artifactId}-${project.version}.exe</outfile>
-							<jar>target/${artifactId}-${project.version}.jar</jar>
-							<icon>img/tomato.ico</icon>
-							<errTitle>Tomighty</errTitle>
-							<jre>
-								<minVersion>1.5.0</minVersion>
-							</jre>
-							<versionInfo>
-								<fileVersion>${project.version}.0.0</fileVersion>
-								<txtFileVersion>${project.version}.0.0</txtFileVersion>
-								<fileDescription>Desktop timer for the Pomodoro Technique users</fileDescription>
-								<copyright>Copyright 2010 Celio Cidral Junior</copyright>
-								<productVersion>${project.version}.0.0</productVersion>
-								<txtProductVersion>${project.version}.0.0</txtProductVersion>
-								<productName>${project.name}</productName>
-								<internalName>${artifactId}</internalName>
-								<originalFilename>${artifactId}-${project.version}.exe</originalFilename>
-							</versionInfo>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>nsis-maven-plugin</artifactId>
-				<version>1.0-20091114.095635-2</version>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>generate-project</goal> <!-- create target/project.nsh -->
-							<goal>compile</goal>          <!-- compile setup.nsi into exe -->
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
@@ -105,21 +48,6 @@
 		</plugins>
 	</build>
 
-	<repositories>
-		<repository>
-			<id>codehaus-mojo</id>
-			<name>Codehaus Mojo</name>
-			<url>http://snapshots.repository.codehaus.org</url>
-			<releases><enabled>false</enabled></releases>
-			<snapshots><enabled>true</enabled></snapshots>
-		</repository>
-		<repository>
-			<id>akathist-repository</id>
-			<name>Akathist Repository</name>
-			<url>http://www.9stmaryrd.com/maven</url>
-		</repository>
-	</repositories>
-
 	<pluginRepositories>
 		<pluginRepository>
 			<id>codehaus-mojo</id>
@@ -134,5 +62,93 @@
 			<url>http://www.9stmaryrd.com/maven</url>
 		</pluginRepository>
 	</pluginRepositories>
+
+	<profiles>
+		<profile>
+			<id>Windows Platform</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+				<os>
+					<family>Windows</family>
+					<arch>x86</arch>
+				</os>
+			</activation>
+			<repositories>
+				<repository>
+					<id>codehaus-mojo</id>
+					<name>Codehaus Mojo</name>
+					<url>http://snapshots.repository.codehaus.org</url>
+					<releases><enabled>false</enabled></releases>
+					<snapshots><enabled>true</enabled></snapshots>
+				</repository>
+				<repository>
+					<id>akathist-repository</id>
+					<name>Akathist Repository</name>
+					<url>http://www.9stmaryrd.com/maven</url>
+				</repository>
+			</repositories>
+			<build>
+				<pluginManagement>
+					<plugins>
+						<plugin>
+							<groupId>org.codehaus.mojo</groupId>
+							<artifactId>nsis-maven-plugin</artifactId>
+							<version>1.0-20091114.095635-2</version>
+						</plugin>
+					</plugins>
+				</pluginManagement>
+				<plugins>
+					<plugin>
+						<groupId>com.akathist.maven.plugins.launch4j</groupId>
+						<artifactId>launch4j-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>l4j-gui</id>
+								<phase>package</phase>
+								<goals>
+									<goal>launch4j</goal>
+								</goals>
+								<configuration>
+									<headerType>gui</headerType>
+									<outfile>target/${artifactId}-${project.version}.exe</outfile>
+									<jar>target/${artifactId}-${project.version}.jar</jar>
+									<icon>img/tomato.ico</icon>
+									<errTitle>Tomighty</errTitle>
+									<jre>
+										<minVersion>1.5.0</minVersion>
+									</jre>
+									<versionInfo>
+										<fileVersion>${project.version}.0.0</fileVersion>
+										<txtFileVersion>${project.version}.0.0</txtFileVersion>
+										<fileDescription>Desktop timer for the Pomodoro Technique users</fileDescription>
+										<copyright>Copyright 2010 Celio Cidral Junior</copyright>
+										<productVersion>${project.version}.0.0</productVersion>
+										<txtProductVersion>${project.version}.0.0</txtProductVersion>
+										<productName>${project.name}</productName>
+										<internalName>${artifactId}</internalName>
+										<originalFilename>${artifactId}-${project.version}.exe</originalFilename>
+									</versionInfo>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>nsis-maven-plugin</artifactId>
+						<version>1.0-20091114.095635-2</version>
+						<executions>
+							<execution>
+								<phase>package</phase>
+								<goals>
+									<goal>generate-project</goal> <!-- create target/project.nsh -->
+									<goal>compile</goal>          <!-- compile setup.nsi into exe -->
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 </project>
