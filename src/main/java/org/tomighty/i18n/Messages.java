@@ -37,7 +37,7 @@ public class Messages implements Initializable {
 		Locale locale = Locale.getDefault();
 		String localeId = locale.getLanguage()+"_"+locale.getCountry();
 		log.info("Loading messages for locale "+localeId);
-		String resourceName = "/messages_"+localeId+".properties";
+		String resourceName = "/l10n/messages_"+localeId+".properties";
 		InputStream input = getClass().getResourceAsStream(resourceName);
 		if(input == null) {
 			log.info("Messages file not found: "+resourceName);
