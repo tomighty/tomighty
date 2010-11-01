@@ -16,16 +16,25 @@
 
 package org.tomighty.util;
 
+import java.awt.Image;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.nio.charset.Charset;
+
+import javax.imageio.ImageIO;
+
+import org.tomighty.ioc.Inject;
+import org.tomighty.log.Log;
 
 public class Resources {
 	
-	public static String text(String resourceName) {
-		InputStream input = Resources.class.getResourceAsStream(resourceName);
+	@Inject private Log log;
+	
+	public String text(String resourceName) {
+		InputStream input = getClass().getResourceAsStream(resourceName);
 		InputStreamReader reader = new InputStreamReader(input, Charset.forName("utf-8"));
 		BufferedReader br = new BufferedReader(reader);
 		StringBuilder text = new StringBuilder();
@@ -42,5 +51,15 @@ public class Resources {
 		}
 		return text.toString();
 	}
-	
+
+	public Image image(String resourceName) {
+		URL imageUrl = getClass().getResource(resourceName);
+		try {
+			return ImageIO.read(imageUrl);
+		} catch (IOException e) {
+			log.error("Could not load image: "+resourceName, e);
+			return null;
+		}
+	}
+
 }

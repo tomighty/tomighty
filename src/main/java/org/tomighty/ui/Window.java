@@ -25,16 +25,18 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import org.tomighty.config.Options;
+import org.tomighty.ioc.Initializable;
 import org.tomighty.ioc.Inject;
 import org.tomighty.ui.location.Closest;
 import org.tomighty.ui.location.Location;
 import org.tomighty.ui.state.laf.SexyPanelUI;
-import org.tomighty.util.Images;
+import org.tomighty.util.Resources;
 
 @SuppressWarnings("serial")
-public class Window extends JFrame {
+public class Window extends JFrame implements Initializable {
 
 	@Inject private Options options;
+	@Inject private Resources resources;
 	private JPanel panel = new JPanel();
 
 	public Window() {
@@ -47,8 +49,12 @@ public class Window extends JFrame {
 		setResizable(false);
 		setSize(152, 102);
 		setUndecorated(true);
-		setIconImage(Images.get("/tomato-48x48.png"));
 		addWindowFocusListener(new HideWindowWhenLosingFocus());
+	}
+	
+	@Override
+	public void initialize() {
+		setIconImage(resources.image("/tomato-48x48.png"));
 	}
 
 	public void setComponent(Component component) {

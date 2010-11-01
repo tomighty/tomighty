@@ -34,7 +34,6 @@ import javax.swing.border.Border;
 import org.tomighty.i18n.Messages;
 import org.tomighty.ioc.Initializable;
 import org.tomighty.ioc.Inject;
-import org.tomighty.util.Images;
 import org.tomighty.util.Resources;
 
 @SuppressWarnings("serial")
@@ -43,8 +42,11 @@ public class AboutDialog extends JDialog implements Initializable {
 	private static final int MARGIN = 10;
 	
 	@Inject private Messages messages;
+	@Inject private Resources resources;
 	private JPanel panel;
 
+	private JLabel title;
+	private JTextArea license;
 	private JButton closeButton;
 	
 	public AboutDialog() {
@@ -54,8 +56,11 @@ public class AboutDialog extends JDialog implements Initializable {
 	
 	@Override
 	public void initialize() {
-		setTitle(messages.get("About Tomighty"));
+		title.setText("Tomighty "+resources.text("/version.txt"));
+		license.setText(resources.text("/license.txt"));
 		closeButton.setText(messages.get("Close"));
+		setTitle(messages.get("About Tomighty"));
+		setIconImage(resources.image("/tomato-16x16.png"));
 		pack();
 		setLocationRelativeTo(null);
 	}
@@ -67,7 +72,6 @@ public class AboutDialog extends JDialog implements Initializable {
 	private void configureDialog() {
 		setAlwaysOnTop(true);
 		setContentPane(panel);
-		setIconImage(Images.get("/tomato-16x16.png"));
 		setResizable(false);
 	}
 
@@ -80,8 +84,8 @@ public class AboutDialog extends JDialog implements Initializable {
 	}
 
 	private Component title() {
-		String version = Resources.text("/version.txt");
-		JLabel title = new JLabel("Tomighty "+version, JLabel.CENTER);
+		title = new JLabel();
+		title.setHorizontalAlignment(JLabel.CENTER);
 		JLabel url = new JLabel("http://tomighty.googlecode.com", JLabel.CENTER);
 		title.setFont(title.getFont().deriveFont(25f));
 		JPanel panel = new JPanel(new BorderLayout());
@@ -91,15 +95,14 @@ public class AboutDialog extends JDialog implements Initializable {
 	}
 	
 	private Component text() {
-		String text = Resources.text("/license.txt");
-		JTextArea textArea = new JTextArea(text);
-		textArea.setFont(getFont());
-		textArea.setBackground(getBackground());
-		textArea.setEditable(false);
-		textArea.setBorder(BorderFactory.createCompoundBorder(
+		license = new JTextArea();
+		license.setFont(getFont());
+		license.setBackground(getBackground());
+		license.setEditable(false);
+		license.setBorder(BorderFactory.createCompoundBorder(
 				BorderFactory.createLineBorder(Color.GRAY), 
 				emptyBorder()));
-		return textArea;
+		return license;
 	}
 
 	private Component closeButton() {

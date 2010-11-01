@@ -23,10 +23,13 @@ import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import org.tomighty.util.Images;
+import org.tomighty.ioc.Inject;
+import org.tomighty.util.Resources;
 
 public class InitialState extends UiStateSupport {
 
+	@Inject private Resources resources;
+	
 	@Override
 	protected String title() {
 		return null;
@@ -34,7 +37,7 @@ public class InitialState extends UiStateSupport {
 
 	@Override
 	protected Component createContent() {
-		Image image = Images.get("/tomato-48x48.png");
+		Image image = resources.image("/tomato-48x48.png");
 		ImageIcon imageIcon = new ImageIcon(image);
 		return new JLabel(imageIcon);
 	}
