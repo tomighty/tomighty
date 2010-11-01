@@ -34,7 +34,7 @@ import org.tomighty.i18n.Messages;
 import org.tomighty.ioc.Factory;
 import org.tomighty.ioc.Initializable;
 import org.tomighty.ioc.Inject;
-import org.tomighty.resources.Resources;
+import org.tomighty.resources.Icons;
 
 @SuppressWarnings("serial")
 public class OptionsDialog extends JDialog implements Initializable {
@@ -49,7 +49,7 @@ public class OptionsDialog extends JDialog implements Initializable {
 	
 	@Inject private Factory factory;
 	@Inject private Messages messages;
-	@Inject private Resources resources;
+	@Inject private Icons icons;
 	
 	public OptionsDialog() {
 		createContentPane();
@@ -61,7 +61,7 @@ public class OptionsDialog extends JDialog implements Initializable {
 		saveButton.setText(messages.get("Save"));
 		cancelButton.setText(messages.get("Cancel"));
 		setTitle(messages.get("Options"));
-		setIconImage(resources.image("/tomato-16x16.png"));
+		setIconImage(icons.smallTomato());
 		createOptionGroups();
 		pack();
 		setLocationRelativeTo(null);

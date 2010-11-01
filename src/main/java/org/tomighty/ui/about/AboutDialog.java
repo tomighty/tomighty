@@ -34,6 +34,7 @@ import javax.swing.border.Border;
 import org.tomighty.i18n.Messages;
 import org.tomighty.ioc.Initializable;
 import org.tomighty.ioc.Inject;
+import org.tomighty.resources.Icons;
 import org.tomighty.resources.Resources;
 
 @SuppressWarnings("serial")
@@ -43,6 +44,7 @@ public class AboutDialog extends JDialog implements Initializable {
 	
 	@Inject private Messages messages;
 	@Inject private Resources resources;
+	@Inject private Icons icons;
 	private JPanel panel;
 
 	private JLabel title;
@@ -60,7 +62,7 @@ public class AboutDialog extends JDialog implements Initializable {
 		license.setText(resources.text("/license.txt"));
 		closeButton.setText(messages.get("Close"));
 		setTitle(messages.get("About Tomighty"));
-		setIconImage(resources.image("/tomato-16x16.png"));
+		setIconImage(icons.smallTomato());
 		pack();
 		setLocationRelativeTo(null);
 	}

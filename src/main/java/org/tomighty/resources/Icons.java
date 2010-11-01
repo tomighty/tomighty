@@ -14,44 +14,22 @@
  *    limitations under the License.
  */
 
-package org.tomighty.ui.state;
+package org.tomighty.resources;
 
-import java.awt.Component;
 import java.awt.Image;
 
-import javax.swing.Action;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-
 import org.tomighty.ioc.Inject;
-import org.tomighty.resources.Icons;
 
-public class InitialState extends UiStateSupport {
-
-	@Inject private Icons icons;
+public class Icons {
 	
-	@Override
-	protected String title() {
-		return null;
+	@Inject private Resources resources;
+
+	public Image smallTomato() {
+		return resources.image("/images/tomato-16x16.png");
 	}
 
-	@Override
-	protected Component createContent() {
-		Image image = icons.bigTomato();
-		ImageIcon imageIcon = new ImageIcon(image);
-		return new JLabel(imageIcon);
-	}
-
-	@Override
-	protected Action[] primaryActions() {
-		return new Action[] {
-			new ToState(messages.get("Start pomodoro"), Pomodoro.class)
-		};
-	}
-
-	@Override
-	protected Action[] secondaryActions() {
-		return null;
+	public Image bigTomato() {
+		return resources.image("/images/tomato-48x48.png");
 	}
 
 }

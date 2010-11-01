@@ -33,7 +33,7 @@ import org.tomighty.config.Configuration;
 import org.tomighty.i18n.Messages;
 import org.tomighty.ioc.Container;
 import org.tomighty.ioc.Inject;
-import org.tomighty.resources.Resources;
+import org.tomighty.resources.Icons;
 import org.tomighty.ui.about.AboutDialog;
 import org.tomighty.ui.options.OptionsDialog;
 
@@ -43,11 +43,11 @@ public class Tray implements Runnable {
 	@Inject private Configuration config;
 	@Inject private Bus bus;
 	@Inject private Messages messages;
-	@Inject private Resources resources;
+	@Inject private Icons icons;
 	
 	@Override
 	public void run() {
-		TrayIcon icon = new TrayIcon(resources.image("/tomato-16x16.png"));
+		TrayIcon icon = new TrayIcon(icons.smallTomato());
 		icon.addMouseListener(new TrayListener());
 		icon.setPopupMenu(createMenu());
 		SystemTray tray = SystemTray.getSystemTray();
