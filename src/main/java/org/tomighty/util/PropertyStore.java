@@ -25,7 +25,7 @@ import java.util.Properties;
 import org.tomighty.ioc.Inject;
 import org.tomighty.log.Log;
 
-public class Props {
+public class PropertyStore {
 	
 	@Inject private Log log;
 

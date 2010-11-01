@@ -23,14 +23,14 @@ import org.tomighty.ioc.Initializable;
 import org.tomighty.ioc.Inject;
 import org.tomighty.ioc.New;
 import org.tomighty.log.Log;
-import org.tomighty.util.Props;
+import org.tomighty.util.PropertyStore;
 
 public class Configuration implements Initializable {
 	
 	private Properties properties;
 	private File configDir;
 	private File configFile;
-	@Inject Props propertyStore;
+	@Inject PropertyStore propertyStore;
 	@Inject @New Log log;
 	
 	@Override
