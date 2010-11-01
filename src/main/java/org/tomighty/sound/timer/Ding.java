@@ -26,7 +26,7 @@ import org.tomighty.sound.Sound;
 
 public class Ding implements Sound {
 
-	private Sound defaultSound = new ResourceSound("/deskbell.wav");
+	private Sound defaultSound = new ResourceSound("/sounds/deskbell.wav");
 	
 	@Inject private Options options;
 

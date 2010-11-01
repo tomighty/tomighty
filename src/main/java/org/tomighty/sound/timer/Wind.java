@@ -26,7 +26,7 @@ import org.tomighty.sound.Sound;
 
 public class Wind implements Sound {
 	
-	private Sound defaultSound = new ResourceSound("/crank.wav");
+	private Sound defaultSound = new ResourceSound("/sounds/crank.wav");
 	
 	@Inject private Options options;
 
