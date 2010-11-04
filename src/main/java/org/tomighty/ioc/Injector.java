@@ -20,13 +20,13 @@ import java.lang.reflect.Field;
 
 public class Injector {
 
-	private final Container container;
+	private Container container;
 	
-	private final Factory factory;
+	private Factory factory;
 
-	public Injector(Container container, Factory factory) {
+	public void container(Container container) {
 		this.container = container;
-		this.factory = factory;
+		this.factory = container.get(Factory.class);
 	}
 
 	public void inject(Object instance) {

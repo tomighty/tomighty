@@ -23,15 +23,16 @@ public class Container {
 	
 	private final Factory factory = new Factory();
 	
-	private final Injector injector = new Injector(this, factory);
+	private final Injector injector = new Injector();
 	
 	private final Map<Class<?>, Object> map = new HashMap<Class<?>, Object>();
 	
 	public Container() {
-		factory.injector(injector);
 		map.put(Container.class, this);
 		map.put(Factory.class, factory);
 		map.put(Injector.class, injector);
+		factory.container(this);
+		injector.container(this);
 	}
 	
 	public <T> T get(Class<T> clazz) {

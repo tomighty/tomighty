@@ -16,12 +16,16 @@
 
 package org.tomighty.ioc;
 
+import java.lang.reflect.Constructor;
+
 public class Factory {
 	
 	private Injector injector;
+	private Container container;
 	
-	void injector(Injector injector) {
-		this.injector = injector;
+	void container(Container container) {
+		this.container = container;
+		this.injector = container.get(Injector.class);
 	}
 	
 	public <T> T create(Class<T> clazz) {
@@ -55,12 +59,39 @@ public class Factory {
 		}
 	}
 	
-	private static <T> T newInstanceOf(Class<T> clazz) {
+	private <T> T newInstanceOf(Class<T> clazz) {
 		try {
-			return clazz.newInstance();
+			Constructor<T> injectableConstructor = findInjectableConstructor(clazz);
+			if(injectableConstructor == null) {
+				return clazz.newInstance();
+			}
+			Object[] parameters = parametersFor(injectableConstructor);
+			return injectableConstructor.newInstance(parameters);
 		} catch (Exception e) {
 			throw new RuntimeException("Failed to create an instance of "+clazz, e);
 		}
+	}
+
+	private <T> Object[] parametersFor(Constructor<T> constructor) {
+		Class<?>[] types = constructor.getParameterTypes();
+		Object[] parameters = new Object[types.length];
+		for(int index = 0; index < types.length; index++) {
+			Class<?> type = types[index];
+			Object param = container.get(type);
+			parameters[index] = param;
+		}
+		return parameters;
+	}
+	
+	@SuppressWarnings("unchecked")
+	private <T> Constructor<T> findInjectableConstructor(Class<T> clazz) {
+		Constructor<T>[] constructors = (Constructor<T>[]) clazz.getConstructors();
+		for(Constructor<T> constructor : constructors) {
+			if(constructor.isAnnotationPresent(Inject.class)) {
+				return constructor;
+			}
+		}
+		return null;
 	}
 
 }
