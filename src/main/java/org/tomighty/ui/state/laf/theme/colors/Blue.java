@@ -14,37 +14,42 @@
  *    limitations under the License.
  */
 
-package org.tomighty.ui.state;
+package org.tomighty.ui.state.laf.theme.colors;
 
-import java.awt.Component;
+import java.awt.Color;
 
-import javax.swing.Action;
+import org.tomighty.ui.state.laf.theme.ColorTone;
 
-public class BreakInterrupted extends UiStateSupport {
+public class Blue implements ColorTone {
+
+	private static final Color BASE = new Color(48, 48, 80);
+	private static final Color LIGHT = BASE.brighter().brighter();
+	private static final Color DARK = BASE.darker().darker();
+	private static final Color LIGHT_BORDER = LIGHT.brighter();
 
 	@Override
-	protected String title() {
-		return null;
+	public Color light() {
+		return LIGHT;
 	}
 
 	@Override
-	protected Component createContent() {
-		return labelFactory.medium(messages.get("Break interrupted"));
+	public Color dark() {
+		return DARK;
 	}
 
 	@Override
-	protected Action[] primaryActions() {
-		return new Action[] {
-			new ToState(messages.get("Start pomodoro"), Pomodoro.class)
-		};
+	public Color lightBorder() {
+		return LIGHT_BORDER;
 	}
 
 	@Override
-	protected Action[] secondaryActions() {
-		return new Action[] {
-			new ToState(messages.get("Short break"), ShortBreak.class),
-			new ToState(messages.get("Long break"), LongBreak.class)
-		};
+	public Color shadowBorder() {
+		return DARK;
+	}
+
+	@Override
+	public Color text() {
+		return Color.WHITE;
 	}
 
 }

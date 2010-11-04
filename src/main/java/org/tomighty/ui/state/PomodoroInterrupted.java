@@ -20,9 +20,6 @@ import java.awt.Component;
 
 import javax.swing.Action;
 
-import org.tomighty.ui.state.laf.SexyLabel;
-
-
 public class PomodoroInterrupted extends UiStateSupport {
 
 	@Override
@@ -32,7 +29,7 @@ public class PomodoroInterrupted extends UiStateSupport {
 
 	@Override
 	protected Component createContent() {
-		return SexyLabel.medium(messages.get("Pomodoro interrupted"));
+		return labelFactory.medium(messages.get("Pomodoro interrupted"));
 	}
 
 	@Override

@@ -16,31 +16,48 @@
 
 package org.tomighty.ui.state.laf;
 
-import static org.tomighty.ui.Colors.DARK;
-import static org.tomighty.ui.Colors.INNER_BORDER;
-import static org.tomighty.ui.Colors.LIGHT;
-import static org.tomighty.ui.Colors.OUTER_BORDER;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
-import javax.swing.plaf.PanelUI;
 import javax.swing.plaf.basic.BasicPanelUI;
 
-public class SexyPanelUI extends BasicPanelUI {
+import org.tomighty.bus.Bus;
+import org.tomighty.bus.Subscriber;
+import org.tomighty.bus.messages.ThemeChanged;
+import org.tomighty.ioc.Inject;
+import org.tomighty.ui.state.laf.theme.ColorTone;
+import org.tomighty.ui.state.laf.theme.Theme;
 
-	public static final PanelUI INSTANCE = new SexyPanelUI();
+public class SexyPanelUI extends BasicPanelUI implements Subscriber<ThemeChanged> {
 
+	@Inject private Theme theme;
+	private List<JComponent> installedComponents = new ArrayList<JComponent>();
+	
+	@Inject
+	public SexyPanelUI(Bus bus) {
+		bus.subscribe(this, ThemeChanged.class);
+	}
+	
+	@Override
+	public void receive(ThemeChanged message) {
+		for(JComponent c : installedComponents) {
+			c.repaint();
+		}
+	}
+	
 	@Override
 	public void installUI(JComponent c) {
 		super.installUI(c);
 		c.setLayout(new BorderLayout());
 		c.setBorder(BorderFactory.createEmptyBorder(6, 6, 6, 6));
+		installedComponents.add(c);
 	}
 
 	@Override
@@ -54,19 +71,22 @@ public class SexyPanelUI extends BasicPanelUI {
 	}
 
 	private void drawInnerBorder(Graphics2D g2d, int width, int height) {
-		g2d.setColor(INNER_BORDER);
+		ColorTone colorTone = theme.colorTone();
+		g2d.setColor(colorTone.lightBorder());
 		g2d.drawRect(1, 1, width - 3, height - 3);
 	}
 
 	private void drawOuterBorder(Graphics2D g2d, int width, int height) {
-		g2d.setColor(OUTER_BORDER);
+		ColorTone colorTone = theme.colorTone();
+		g2d.setColor(colorTone.shadowBorder());
 		g2d.drawRect(0, 0, width - 1, height - 1);
 	}
 
 	private int paintBackground(Graphics2D g2d, int width, int height) {
+		ColorTone colorTone = theme.colorTone();
 		int half = height / 2;
-		paintGradient(0, height, width, LIGHT, DARK, g2d);
-		paintGradient(half, height, width, DARK, LIGHT, g2d);
+		paintGradient(0, height, width, colorTone.light(), colorTone.dark(), g2d);
+		paintGradient(half, height, width, colorTone.dark(), colorTone.light(), g2d);
 		return height;
 	}
 

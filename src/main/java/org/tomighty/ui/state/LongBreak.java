@@ -21,10 +21,16 @@ import javax.swing.Action;
 import org.tomighty.config.Options;
 import org.tomighty.ioc.Inject;
 import org.tomighty.time.Time;
+import org.tomighty.ui.state.laf.theme.ColorTone;
 
 public class LongBreak extends Break {
 
 	@Inject private Options options;
+	
+	@Override
+	public ColorTone colorTone() {
+		return ColorTone.BLUE;
+	}
 	
 	@Override
 	protected String title() {

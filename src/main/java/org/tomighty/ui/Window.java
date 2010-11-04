@@ -39,9 +39,10 @@ public class Window extends JFrame implements Initializable {
 	@Inject private Icons icons;
 	private JPanel panel = new JPanel();
 
-	public Window() {
+	@Inject
+	public Window(SexyPanelUI panelUI) {
 		super("Tomighty");
-		panel.setUI(SexyPanelUI.INSTANCE);
+		panel.setUI(panelUI);
 		setAlwaysOnTop(true);
 		setContentPane(panel);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

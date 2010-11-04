@@ -26,6 +26,7 @@ import org.tomighty.bus.Bus;
 import org.tomighty.bus.Subscriber;
 import org.tomighty.bus.messages.ChangeUiState;
 import org.tomighty.bus.messages.TrayClick;
+import org.tomighty.bus.messages.UiStateChanged;
 import org.tomighty.config.Options;
 import org.tomighty.ioc.Container;
 import org.tomighty.ioc.Factory;
@@ -92,6 +93,7 @@ public class Tomighty implements Initializable, Runnable {
 					Class<? extends UiState> stateClass = message.getStateClass();
 					render(stateClass);
 					window.show(null);
+					bus.publish(new UiStateChanged(currentState));
 				}
 			});
 		}

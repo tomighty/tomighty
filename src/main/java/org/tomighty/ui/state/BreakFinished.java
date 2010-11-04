@@ -20,9 +20,6 @@ import java.awt.Component;
 
 import javax.swing.Action;
 
-import org.tomighty.ui.state.laf.SexyLabel;
-
-
 public class BreakFinished extends UiStateSupport {
 
 	@Override
@@ -32,7 +29,7 @@ public class BreakFinished extends UiStateSupport {
 
 	@Override
 	protected Component createContent() {
-		return SexyLabel.medium(messages.get("Break finished"));
+		return labelFactory.medium(messages.get("Break finished"));
 	}
 
 	@Override

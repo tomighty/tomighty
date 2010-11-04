@@ -14,26 +14,30 @@
  *    limitations under the License.
  */
 
-package org.tomighty.ui;
+package org.tomighty.ui.state.laf.theme;
 
 import java.awt.Color;
 
-public class Colors {
-	
-	private static final int LIGHT_VALUE = 100;
-	
-	private static final int DARK_VALUE = 20;
-	
-	private static final int OUTER_BORDER_VALUE = 20;
-	
-	private static final int INNER_BORDER_VALUE = 120;
-	
-	public static final Color LIGHT = new Color(LIGHT_VALUE, LIGHT_VALUE, LIGHT_VALUE);
-	
-	public static final Color DARK = new Color(DARK_VALUE, DARK_VALUE, DARK_VALUE);
-	
-	public static final Color OUTER_BORDER = new Color(OUTER_BORDER_VALUE, OUTER_BORDER_VALUE, OUTER_BORDER_VALUE);
-	
-	public static final Color INNER_BORDER = new Color(INNER_BORDER_VALUE, INNER_BORDER_VALUE, INNER_BORDER_VALUE);
-	
+import org.tomighty.ui.state.laf.theme.colors.Black;
+import org.tomighty.ui.state.laf.theme.colors.Blue;
+import org.tomighty.ui.state.laf.theme.colors.Green;
+import org.tomighty.ui.state.laf.theme.colors.Red;
+
+public interface ColorTone {
+
+	ColorTone BLACK = new Black();
+	ColorTone RED = new Red();
+	ColorTone GREEN = new Green();
+	ColorTone BLUE = new Blue();
+
+	Color light();
+
+	Color dark();
+
+	Color lightBorder();
+
+	Color shadowBorder();
+
+	Color text();
+
 }

@@ -16,36 +16,35 @@
 
 package org.tomighty.ui.state.laf;
 
-import java.awt.Color;
 import java.awt.Font;
 
 import javax.swing.JLabel;
 
-import org.tomighty.ui.Colors;
+import org.tomighty.ioc.Inject;
 
 public class SexyLabel {
 	
-	public static JLabel small(String text) {
+	@Inject private SexyLabelUI labelUI;
+	
+	public JLabel small(String text) {
 		return create(0f, text);
 	}
 
-	public static JLabel medium(String text) {
+	public JLabel medium(String text) {
 		return create(19f, text);
 	}
 	
-	public static JLabel big() {
+	public JLabel big() {
 		return big(null);
 	}
 
-	public static JLabel big(String text) {
+	public JLabel big(String text) {
 		return create(38f, text);
 	}
 
-	public static JLabel create(float size, String text) {
+	public JLabel create(float size, String text) {
 		JLabel label = new JLabel();
-		label.setForeground(Color.WHITE);
-		label.setBackground(Colors.DARK);
-		label.setUI(SexyLabelUI.INSTANCE);
+		label.setUI(labelUI);
 		if (size > 0f) {
 			Font font = label.getFont();
 			label.setFont(font.deriveFont(size));

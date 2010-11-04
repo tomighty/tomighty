@@ -14,20 +14,20 @@
  *    limitations under the License.
  */
 
-package org.tomighty.ui;
+package org.tomighty.bus.messages;
 
-import java.awt.Component;
+import org.tomighty.ui.UiState;
 
-import org.tomighty.ui.state.laf.theme.ColorTone;
+public class UiStateChanged {
 
-public interface UiState {
-
-	Component render() throws Exception;
+	private UiState uiState;
 	
-	ColorTone colorTone();
-	
-	void afterRendering();
+	public UiStateChanged(UiState uiState) {
+		this.uiState = uiState;
+	}
 
-	void beforeDetaching();
+	public UiState uiState() {
+		return uiState;
+	}
 
 }

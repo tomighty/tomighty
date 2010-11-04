@@ -43,10 +43,13 @@ import org.tomighty.ui.layout.Docking;
 import org.tomighty.ui.state.laf.SexyArrowButtonUI;
 import org.tomighty.ui.state.laf.SexyButtonUI;
 import org.tomighty.ui.state.laf.SexyLabel;
+import org.tomighty.ui.state.laf.theme.ColorTone;
 
 public abstract class UiStateSupport implements UiState {
 
 	@Inject private Injector injector;
+	@Inject private SexyArrowButtonUI arrowButtonUI;
+	@Inject protected SexyLabel labelFactory;
 	@Inject protected Bus bus;
 	@Inject protected Messages messages;
 	
@@ -66,6 +69,11 @@ public abstract class UiStateSupport implements UiState {
 	}
 	
 	@Override
+	public ColorTone colorTone() {
+		return null;
+	}
+	
+	@Override
 	public void afterRendering() {
 	}
 	
@@ -77,7 +85,7 @@ public abstract class UiStateSupport implements UiState {
 		JPanel component = createPanel();
 		String title = title();
 		if(title != null) {
-			component.add(SexyLabel.small(title), NORTH);
+			component.add(labelFactory.small(title), NORTH);
 		}
 		component.add(createContent(), CENTER);
 		component.add(createButtons(), SOUTH);
@@ -100,7 +108,7 @@ public abstract class UiStateSupport implements UiState {
 	private Component addSecondaryActionsTo(JPanel component, Action[] actions) {
 		final JPopupMenu menu = createSecondaryActionsMenu(actions);
 		final JButton button = new JButton();
-		button.setUI(SexyArrowButtonUI.INSTANCE);
+		button.setUI(arrowButtonUI);
 		button.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {

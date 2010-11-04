@@ -33,7 +33,6 @@ import org.tomighty.time.CountdownTimer;
 import org.tomighty.time.CountdownTimerListener;
 import org.tomighty.time.Time;
 import org.tomighty.ui.UiState;
-import org.tomighty.ui.state.laf.SexyLabel;
 
 public abstract class TimerSupport extends UiStateSupport implements CountdownTimerListener {
 
@@ -48,7 +47,7 @@ public abstract class TimerSupport extends UiStateSupport implements CountdownTi
 	
 	@Override
 	protected Component createContent() {
-		remainingTime = SexyLabel.big();
+		remainingTime = labelFactory.big();
 		return remainingTime;
 	}
 	

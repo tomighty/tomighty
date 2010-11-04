@@ -22,10 +22,16 @@ import org.tomighty.config.Options;
 import org.tomighty.ioc.Inject;
 import org.tomighty.time.Time;
 import org.tomighty.ui.UiState;
+import org.tomighty.ui.state.laf.theme.ColorTone;
 
 public class Pomodoro extends TimerSupport {
 	
 	@Inject private Options options;
+	
+	@Override
+	public ColorTone colorTone() {
+		return ColorTone.RED;
+	}
 	
 	@Override
 	protected String title() {
