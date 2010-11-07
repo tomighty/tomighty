@@ -22,6 +22,7 @@ import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
@@ -31,6 +32,7 @@ import java.awt.Rectangle;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonModel;
 import javax.swing.JComponent;
+import javax.swing.UIManager;
 import javax.swing.plaf.ButtonUI;
 import javax.swing.plaf.basic.BasicButtonUI;
 
@@ -38,6 +40,7 @@ public class SexyButtonUI extends BasicButtonUI {
 
 	public static final ButtonUI INSTANCE = new SexyButtonUI();
 	
+	private static final Font FONT = UIManager.getFont("Button.font").deriveFont(12f);
 	private static final Color BG_LIGHT = new Color(230, 230, 230);
 	private static final Color BG_DARK = new Color(150, 150, 150);
 	private static final Color TEXT_LIGHT = new Color(210, 210, 210);
@@ -60,6 +63,7 @@ public class SexyButtonUI extends BasicButtonUI {
 	protected void paintText(Graphics g, AbstractButton button, Rectangle textRect, String text) {
 		Graphics2D g2d = createGraphics(g);
 		try {
+			g2d.setFont(FONT);
 			FontMetrics metrics = g2d.getFontMetrics();
 			int width = metrics.stringWidth(text);
 			int descent = metrics.getDescent();
