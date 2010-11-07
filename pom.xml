@@ -18,9 +18,14 @@
 	<build>
 		<resources>
 			<resource>
-				<filtering>true</filtering>
+				<filtering>false</filtering>
 				<directory>${basedir}/src/main/resources</directory>
 				<includes><include>**/*</include></includes>
+			</resource>
+			<resource>
+				<filtering>true</filtering>
+				<directory>${basedir}/src/main/resources</directory>
+				<includes><include>text/version.txt</include></includes>
 			</resource>
 		</resources>
 		<plugins>
