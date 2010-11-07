@@ -19,13 +19,18 @@
 		<resources>
 			<resource>
 				<filtering>false</filtering>
-				<directory>${basedir}/src/main/resources</directory>
+				<directory>${basedir}/src/main/images</directory>
+				<includes><include>**/*</include></includes>
+			</resource>
+			<resource>
+				<filtering>false</filtering>
+				<directory>${basedir}/src/main/sounds</directory>
 				<includes><include>**/*</include></includes>
 			</resource>
 			<resource>
 				<filtering>true</filtering>
-				<directory>${basedir}/src/main/resources</directory>
-				<includes><include>text/version.txt</include></includes>
+				<directory>${basedir}/src/main/text</directory>
+				<includes><include>**/*</include></includes>
 			</resource>
 		</resources>
 		<plugins>

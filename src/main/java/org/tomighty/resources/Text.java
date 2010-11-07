@@ -23,11 +23,11 @@ public class Text {
 	@Inject private Resources resources;
 
 	public String projectVersion() {
-		return resources.text("/text/version.txt");
+		return resources.text("/version.txt");
 	}
 	
 	public String license() {
-		return resources.text("/text/license.txt");
+		return resources.text("/license.txt");
 	}
 
 }

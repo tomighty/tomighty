@@ -25,11 +25,11 @@ public class Icons {
 	@Inject private Resources resources;
 
 	public Image smallTomato() {
-		return resources.image("/images/tomato-16x16.png");
+		return resources.image("/tomato-16x16.png");
 	}
 
 	public Image bigTomato() {
-		return resources.image("/images/tomato-48x48.png");
+		return resources.image("/tomato-48x48.png");
 	}
 
 }

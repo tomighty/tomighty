@@ -27,7 +27,7 @@ public class SexyLabel {
 	@Inject private SexyLabelUI labelUI;
 	
 	public JLabel small(String text) {
-		return create(0f, text);
+		return create(8f, text);
 	}
 
 	public JLabel medium(String text) {

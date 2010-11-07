@@ -26,7 +26,7 @@ import org.tomighty.sound.Sound;
 
 public class TicTac implements Sound {
 	
-	private Sound defaultSound = new ResourceSound("/sounds/tictac.wav");
+	private Sound defaultSound = new ResourceSound("/tictac.wav");
 
 	@Inject private Options options;
 
