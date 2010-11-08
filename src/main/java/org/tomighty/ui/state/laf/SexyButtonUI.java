@@ -40,7 +40,7 @@ public class SexyButtonUI extends BasicButtonUI {
 
 	public static final ButtonUI INSTANCE = new SexyButtonUI();
 	
-	private static final Font FONT = UIManager.getFont("Button.font").deriveFont(12f);
+	private static final Font FONT = UIManager.getFont("Button.font").deriveFont(11f);
 	private static final Color BG_LIGHT = new Color(230, 230, 230);
 	private static final Color BG_DARK = new Color(150, 150, 150);
 	private static final Color TEXT_LIGHT = new Color(210, 210, 210);
