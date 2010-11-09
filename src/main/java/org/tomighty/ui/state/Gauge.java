@@ -33,6 +33,7 @@ import org.tomighty.ioc.Inject;
 import org.tomighty.ui.UiState;
 import org.tomighty.ui.state.pomodoro.Pomodoro;
 import org.tomighty.ui.state.pomodoro.PomodoroFinished;
+import org.tomighty.util.Range;
 
 @SuppressWarnings("serial")
 public class Gauge extends JComponent implements Subscriber<UiStateChanged> {
@@ -40,10 +41,8 @@ public class Gauge extends JComponent implements Subscriber<UiStateChanged> {
 	private static final int LIGHT_SIZE = 5;
 	private static final int LIGHT_COUNT = 4;
 	private static final int GAP_BETWEEN_LIGHTS = 3;
-	private static final Color LIGHT_ON_COLOR_1 = new Color(227, 244, 144);
-	private static final Color LIGHT_ON_COLOR_2 = new Color(136, 130, 35);
-	private static final Color LIGHT_OFF_COLOR_1 = new Color(60, 60, 60);
-	private static final Color LIGHT_OFF_COLOR_2 = new Color(32, 32, 32);
+	private static final Range<Color> LIGHT_COLOR_ON = new Range<Color>(new Color(227, 244, 144), new Color(136, 130, 35));
+	private static final Range<Color> LIGHT_COLOR_OFF = new Range<Color>(new Color(60, 60, 60), new Color(32, 32, 32));
 	
 	private int finishedPomodoros = 0;
 	
@@ -73,24 +72,27 @@ public class Gauge extends JComponent implements Subscriber<UiStateChanged> {
 	protected void paintComponent(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		int x = getWidth() / 2 - getPreferredSize().width / 2;
+		int x = startingX();
 		for(int index = 0; index < LIGHT_COUNT; index++) {
-			Color startColor;
-			Color endColor;
-			if(index < finishedPomodoros) {
-				startColor = LIGHT_ON_COLOR_1;
-				endColor = LIGHT_ON_COLOR_2;
-			} else {
-				startColor = LIGHT_OFF_COLOR_1;
-				endColor = LIGHT_OFF_COLOR_2;
-			}
+			Range<Color> colors = colorForLight(index);
 			Point start = new Point(x, 0);
 			Point end = new Point(x + LIGHT_SIZE / 2, LIGHT_SIZE / 2);
-			Paint paint = new GradientPaint(start, startColor, end, endColor);
+			Paint paint = new GradientPaint(start, colors.start(), end, colors.end());
 			g2d.setPaint(paint);
 			g2d.fillOval(x, 0, LIGHT_SIZE, LIGHT_SIZE);
 			x += LIGHT_SIZE + GAP_BETWEEN_LIGHTS;
 		}
+	}
+
+	private Range<Color> colorForLight(int index) {
+		if(index < finishedPomodoros) {
+			return LIGHT_COLOR_ON;
+		}
+		return LIGHT_COLOR_OFF;
+	}
+
+	private int startingX() {
+		return getWidth() / 2 - getPreferredSize().width / 2;
 	}
 
 }
