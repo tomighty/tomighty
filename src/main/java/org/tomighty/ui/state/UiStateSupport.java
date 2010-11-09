@@ -88,19 +88,23 @@ public abstract class UiStateSupport implements UiState {
 	}
 	
 	private JPanel createComponent() {
-		JPanel north = createPanel(new BorderLayout(0, 3));
-		String title = title();
-		if(title != null) {
-			north.add(labelFactory.small(title), CENTER);
-		}
-		if(displaysGauge()) {
-			north.add(gauge, SOUTH);
-		}
 		JPanel component = createPanel();
-		component.add(north, NORTH);
+		component.add(createHeader(), NORTH);
 		component.add(createContent(), CENTER);
 		component.add(createButtons(), SOUTH);
 		return component;
+	}
+	
+	private JPanel createHeader() {
+		JPanel panel = createPanel(new BorderLayout(0, 3));
+		String title = title();
+		if(title != null) {
+			panel.add(labelFactory.small(title), CENTER);
+		}
+		if(displaysGauge()) {
+			panel.add(gauge, SOUTH);
+		}
+		return panel;
 	}
 	
 	private Component createButtons() {
