@@ -14,58 +14,44 @@
  *    limitations under the License.
  */
 
-package org.tomighty.ui.state;
+package org.tomighty.ui.state.breaks;
 
 import javax.swing.Action;
 
 import org.tomighty.config.Options;
 import org.tomighty.ioc.Inject;
 import org.tomighty.time.Time;
-import org.tomighty.ui.UiState;
+import org.tomighty.ui.state.ToState;
 import org.tomighty.ui.state.laf.theme.ColorTone;
+import org.tomighty.ui.state.pomodoro.Pomodoro;
 
-public class Pomodoro extends TimerSupport {
-	
+public class LongBreak extends Break {
+
 	@Inject private Options options;
 	
 	@Override
 	public ColorTone colorTone() {
-		return ColorTone.RED;
+		return ColorTone.BLUE;
 	}
 	
 	@Override
 	protected String title() {
-		return messages.get("Pomodoro");
+		return messages.get("Long break");
 	}
 
 	@Override
 	protected Time initialTime() {
-		int minutes = options.time().pomodoro();
+		int minutes = options.time().longBreak();
 		return new Time(minutes);
-	}
-	
-	@Override
-	protected boolean displaysGauge() {
-		return true;
-	}
-
-	@Override
-	protected Class<? extends UiState> finishedState() {
-		return PomodoroFinished.class;
-	}
-
-	@Override
-	protected Class<? extends UiState> interruptedState() {
-		return PomodoroInterrupted.class;
 	}
 
 	@Override
 	protected Action[] secondaryActions() {
 		return new Action[] {
-			new ToState(messages.get("Restart pomodoro"), Pomodoro.class),
+			new ToState(messages.get("Restart break"), LongBreak.class),
 			new ToState(messages.get("Short break"), ShortBreak.class),
-			new ToState(messages.get("Long break"), LongBreak.class)
+			new ToState(messages.get("New pomodoro"), Pomodoro.class)
 		};
 	}
-	
+
 }

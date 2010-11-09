@@ -14,41 +14,40 @@
  *    limitations under the License.
  */
 
-package org.tomighty.ui.state;
+package org.tomighty.ui.state.breaks;
 
 import java.awt.Component;
 
 import javax.swing.Action;
 
-public class PomodoroFinished extends UiStateSupport {
+import org.tomighty.ui.state.ToState;
+import org.tomighty.ui.state.UiStateSupport;
+import org.tomighty.ui.state.pomodoro.Pomodoro;
+
+public class BreakInterrupted extends UiStateSupport {
 
 	@Override
 	protected String title() {
-		return messages.get("Pomodoro finished");
-	}
-	
-	@Override
-	protected boolean displaysGauge() {
-		return true;
+		return null;
 	}
 
 	@Override
 	protected Component createContent() {
-		return labelFactory.medium(messages.get("Take a break"));
+		return labelFactory.medium(messages.get("Break interrupted"));
 	}
 
 	@Override
 	protected Action[] primaryActions() {
 		return new Action[] {
-			new ToState(messages.get("Short"), ShortBreak.class),
-			new ToState(messages.get("Long"),  LongBreak.class)
+			new ToState(messages.get("Start pomodoro"), Pomodoro.class)
 		};
 	}
 
 	@Override
 	protected Action[] secondaryActions() {
 		return new Action[] {
-			new ToState(messages.get("New pomodoro"), Pomodoro.class)
+			new ToState(messages.get("Short break"), ShortBreak.class),
+			new ToState(messages.get("Long break"), LongBreak.class)
 		};
 	}
 

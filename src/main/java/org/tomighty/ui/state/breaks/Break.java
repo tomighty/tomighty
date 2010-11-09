@@ -14,37 +14,21 @@
  *    limitations under the License.
  */
 
-package org.tomighty.ui.state;
+package org.tomighty.ui.state.breaks;
 
-import java.awt.Component;
+import org.tomighty.ui.UiState;
+import org.tomighty.ui.state.TimerSupport;
 
-import javax.swing.Action;
-
-public class BreakFinished extends UiStateSupport {
-
-	@Override
-	protected String title() {
-		return null;
-	}
+public abstract class Break extends TimerSupport {
 
 	@Override
-	protected Component createContent() {
-		return labelFactory.medium(messages.get("Break finished"));
+	protected Class<? extends UiState> finishedState() {
+		return BreakFinished.class;
 	}
-
+	
 	@Override
-	protected Action[] primaryActions() {
-		return new Action[] {
-			new ToState(messages.get("Start pomodoro"), Pomodoro.class)
-		};
+	protected Class<? extends UiState> interruptedState() {
+		return BreakInterrupted.class;
 	}
-
-	@Override
-	protected Action[] secondaryActions() {
-		return new Action[] {
-			new ToState(messages.get("Short break"), ShortBreak.class),
-			new ToState(messages.get("Long break"), LongBreak.class)
-		};
-	}
-
+	
 }

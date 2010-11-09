@@ -31,6 +31,8 @@ import org.tomighty.bus.Subscriber;
 import org.tomighty.bus.messages.UiStateChanged;
 import org.tomighty.ioc.Inject;
 import org.tomighty.ui.UiState;
+import org.tomighty.ui.state.pomodoro.Pomodoro;
+import org.tomighty.ui.state.pomodoro.PomodoroFinished;
 
 @SuppressWarnings("serial")
 public class Gauge extends JComponent implements Subscriber<UiStateChanged> {

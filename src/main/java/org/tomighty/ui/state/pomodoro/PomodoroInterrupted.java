@@ -14,23 +14,19 @@
  *    limitations under the License.
  */
 
-package org.tomighty.ui.state;
+package org.tomighty.ui.state.pomodoro;
 
 import java.awt.Component;
-import java.awt.Image;
 
 import javax.swing.Action;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 
-import org.tomighty.ioc.Inject;
-import org.tomighty.resources.Icons;
-import org.tomighty.ui.state.pomodoro.Pomodoro;
+import org.tomighty.ui.state.ToState;
+import org.tomighty.ui.state.UiStateSupport;
+import org.tomighty.ui.state.breaks.LongBreak;
+import org.tomighty.ui.state.breaks.ShortBreak;
 
-public class InitialState extends UiStateSupport {
+public class PomodoroInterrupted extends UiStateSupport {
 
-	@Inject private Icons icons;
-	
 	@Override
 	protected String title() {
 		return null;
@@ -38,21 +34,22 @@ public class InitialState extends UiStateSupport {
 
 	@Override
 	protected Component createContent() {
-		Image image = icons.bigTomato();
-		ImageIcon imageIcon = new ImageIcon(image);
-		return new JLabel(imageIcon);
+		return labelFactory.medium(messages.get("Pomodoro interrupted"));
 	}
 
 	@Override
 	protected Action[] primaryActions() {
 		return new Action[] {
-			new ToState(messages.get("Start pomodoro"), Pomodoro.class)
+			new ToState(messages.get("Restart"), Pomodoro.class)
 		};
 	}
 
 	@Override
 	protected Action[] secondaryActions() {
-		return null;
+		return new Action[] {
+			new ToState(messages.get("Short break"), ShortBreak.class),
+			new ToState(messages.get("Long break"), LongBreak.class)
+		};
 	}
 
 }
