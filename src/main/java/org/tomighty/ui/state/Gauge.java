@@ -38,6 +38,7 @@ import org.tomighty.ui.state.pomodoro.PomodoroFinished;
 public class Gauge extends JComponent implements Subscriber<UiStateChanged> {
 
 	private static final int LIGHT_SIZE = 5;
+	private static final int LIGHT_COUNT = 4;
 	private static final int GAP_BETWEEN_LIGHTS = 3;
 	private static final Color LIGHT_ON_COLOR_1 = new Color(227, 244, 144);
 	private static final Color LIGHT_ON_COLOR_2 = new Color(136, 130, 35);
@@ -49,7 +50,7 @@ public class Gauge extends JComponent implements Subscriber<UiStateChanged> {
 	@Inject
 	public Gauge(Bus bus) {
 		setOpaque(false);
-		int width = LIGHT_SIZE * 4 + GAP_BETWEEN_LIGHTS * 3 + 1;
+		int width = LIGHT_SIZE * LIGHT_COUNT + GAP_BETWEEN_LIGHTS * (LIGHT_COUNT - 1) + 1;
 		int height = LIGHT_SIZE + 1;
 		setSize(width, height);
 		setPreferredSize(getSize());
@@ -62,7 +63,7 @@ public class Gauge extends JComponent implements Subscriber<UiStateChanged> {
 		if(uiState instanceof PomodoroFinished) {
 			finishedPomodoros++;
 		} else if(uiState instanceof Pomodoro) {
-			if(finishedPomodoros >= 4) {
+			if(finishedPomodoros >= LIGHT_COUNT) {
 				finishedPomodoros = 0;
 			}
 		}
@@ -73,7 +74,7 @@ public class Gauge extends JComponent implements Subscriber<UiStateChanged> {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		int x = getWidth() / 2 - getPreferredSize().width / 2;
-		for(int index = 0; index < 4; index++) {
+		for(int index = 0; index < LIGHT_COUNT; index++) {
 			Color startColor;
 			Color endColor;
 			if(index < finishedPomodoros) {
