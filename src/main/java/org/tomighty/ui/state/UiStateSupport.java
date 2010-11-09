@@ -49,6 +49,8 @@ public abstract class UiStateSupport implements UiState {
 
 	@Inject private Injector injector;
 	@Inject private SexyArrowButtonUI arrowButtonUI;
+	@Inject private Gauge gauge;
+	
 	@Inject protected SexyLabel labelFactory;
 	@Inject protected Bus bus;
 	@Inject protected Messages messages;
@@ -57,6 +59,10 @@ public abstract class UiStateSupport implements UiState {
 	protected abstract Component createContent();
 	protected abstract Action[] primaryActions();
 	protected abstract Action[] secondaryActions();
+	
+	protected boolean displaysGauge() {
+		return false;
+	}
 	
 	@Override
 	public final Component render() throws Exception {
@@ -82,11 +88,16 @@ public abstract class UiStateSupport implements UiState {
 	}
 	
 	private JPanel createComponent() {
-		JPanel component = createPanel();
+		JPanel north = createPanel(new BorderLayout(0, 3));
 		String title = title();
 		if(title != null) {
-			component.add(labelFactory.small(title), NORTH);
+			north.add(labelFactory.small(title), CENTER);
 		}
+		if(displaysGauge()) {
+			north.add(gauge, SOUTH);
+		}
+		JPanel component = createPanel();
+		component.add(north, NORTH);
 		component.add(createContent(), CENTER);
 		component.add(createButtons(), SOUTH);
 		return component;
