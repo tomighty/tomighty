@@ -26,6 +26,11 @@ public class PomodoroFinished extends UiStateSupport {
 	protected String title() {
 		return messages.get("Pomodoro finished");
 	}
+	
+	@Override
+	protected boolean displaysGauge() {
+		return true;
+	}
 
 	@Override
 	protected Component createContent() {

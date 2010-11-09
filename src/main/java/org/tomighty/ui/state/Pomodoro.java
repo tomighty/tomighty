@@ -43,6 +43,11 @@ public class Pomodoro extends TimerSupport {
 		int minutes = options.time().pomodoro();
 		return new Time(minutes);
 	}
+	
+	@Override
+	protected boolean displaysGauge() {
+		return true;
+	}
 
 	@Override
 	protected Class<? extends UiState> finishedState() {
