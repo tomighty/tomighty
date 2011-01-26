@@ -68,7 +68,10 @@ public class SexyLabelUI extends BasicLabelUI {
 		}
 
 		private void configureGraphics(Graphics2D g) {
-			g.setRenderingHints((Map<?, ?>) Toolkit.getDefaultToolkit().getDesktopProperty("awt.font.desktophints"));
+			Map<?, ?> desktopHints = (Map<?, ?>) Toolkit.getDefaultToolkit().getDesktopProperty("awt.font.desktophints");
+			if(desktopHints != null) {
+				g.setRenderingHints(desktopHints);
+			}
 			g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		}
 		
