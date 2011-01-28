@@ -17,32 +17,67 @@
 package org.tomighty.bus;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.tomighty.ioc.Inject;
+import org.tomighty.log.Log;
+
 public class Bus {
 	
-	private Map<Class<?>, List<Subscriber<?>>> map = new HashMap<Class<?>, List<Subscriber<?>>>();
+	@Inject private Log log;
+	private Map<Class<?>, List<Subscriber<?>>> subscribersByType;
+	
+	public Bus() {
+		subscribersByType = Collections.synchronizedMap(new HashMap<Class<?>, List<Subscriber<?>>>());
+	}
 
 	public <T> void subscribe(Subscriber<T> subscriber, Class<T> messageType) {
-		List<Subscriber<?>> list = map.get(messageType);
+		List<Subscriber<?>> list = subscribersByType.get(messageType);
 		if(list == null) {
 			list = new ArrayList<Subscriber<?>>();
-			map.put(messageType, list);
+			subscribersByType.put(messageType, list);
 		}
-		list.add(subscriber);
+		synchronized (list) {
+			list.add(subscriber);
+		}
+	}
+	
+	public <T> void unsubscribe(Subscriber<T> subscriber, Class<T> messageType) {
+		List<Subscriber<?>> list = subscribersByType.get(messageType);
+		if(list != null) {
+			synchronized (list) {
+				list.remove(subscriber);
+			}
+		}
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void publish(Object message) {
-		List<Subscriber<?>> list = map.get(message.getClass());
+		Class<? extends Object> messageType = message.getClass();
+		List<Subscriber<?>> list = safeListOfSubscribers(messageType);
 		if(list == null) {
 			return;
 		}
 		for(Subscriber subscriber : list) {
-			subscriber.receive(message);
+			try {
+				subscriber.receive(message);
+			} catch(Throwable error) {
+				log.error("Error delivering message to subscriber: "+subscriber, error);
+			}
 		}
+	}
+
+	private <T> List<Subscriber<?>> safeListOfSubscribers(Class<T> messageType) {
+		List<Subscriber<?>> list = subscribersByType.get(messageType);
+		if(list != null) {
+			synchronized (list) {
+				return new ArrayList<Subscriber<?>>(list);
+			}
+		}
+		return null;
 	}
 
 }
