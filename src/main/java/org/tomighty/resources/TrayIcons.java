@@ -14,12 +14,24 @@
  *    limitations under the License.
  */
 
-package org.tomighty.time;
+package org.tomighty.resources;
 
-public interface CountdownTimerListener {
+import java.awt.Image;
+
+import org.tomighty.ioc.Inject;
+import org.tomighty.time.Time;
+
+public class TrayIcons {
 	
-	void tick(Time time);
+	@Inject private Resources resources;
 
-	void countdownFinished();
+	public Image tomato() {
+		return resources.image("/tomato-16x16.png");
+	}
+
+	public Image time(Time time) {
+		//TODO generate icon
+		return tomato();
+	}
 
 }

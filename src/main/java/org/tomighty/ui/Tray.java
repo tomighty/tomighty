@@ -17,6 +17,7 @@
 package org.tomighty.ui;
 
 import java.awt.AWTException;
+import java.awt.Image;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.SystemTray;
@@ -28,37 +29,49 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import org.tomighty.bus.Bus;
+import org.tomighty.bus.Subscriber;
+import org.tomighty.bus.messages.TimerTick;
+import org.tomighty.bus.messages.TimerEnd;
 import org.tomighty.bus.messages.TrayClick;
 import org.tomighty.config.Configuration;
 import org.tomighty.i18n.Messages;
 import org.tomighty.ioc.Container;
+import org.tomighty.ioc.Initializable;
 import org.tomighty.ioc.Inject;
-import org.tomighty.resources.Icons;
+import org.tomighty.resources.TrayIcons;
+import org.tomighty.time.Time;
 import org.tomighty.ui.about.AboutDialog;
 import org.tomighty.ui.options.OptionsDialog;
 
-public class Tray implements Runnable {
+public class Tray implements Runnable, Initializable {
 
 	@Inject private Container container;
 	@Inject private Configuration config;
 	@Inject private Bus bus;
 	@Inject private Messages messages;
-	@Inject private Icons icons;
+	@Inject private TrayIcons icons;
+	private TrayIcon trayIcon;
+	
+	@Override
+	public void initialize() {
+		bus.subscribe(new ShowRemainingTime(), TimerTick.class);
+		bus.subscribe(new ShowTomato(), TimerEnd.class);
+		trayIcon = new TrayIcon(icons.tomato());
+		trayIcon.addMouseListener(new TrayListener());
+		trayIcon.setPopupMenu(createMenu());
+	}
 	
 	@Override
 	public void run() {
-		TrayIcon icon = new TrayIcon(icons.smallTomato());
-		icon.addMouseListener(new TrayListener());
-		icon.setPopupMenu(createMenu());
 		SystemTray tray = SystemTray.getSystemTray();
 		try {
-			tray.add(icon);
+			tray.add(trayIcon);
 		} catch (AWTException e) {
 			throw new RuntimeException(e);
 		}
 		boolean firstRun = config.asBoolean("firstRun", true);
 		if(firstRun) {
-			showWelcomeMessage(icon);
+			showWelcomeMessage(trayIcon);
 			config.set("firstRun", false);
 		}
 	}
@@ -113,6 +126,23 @@ public class Tray implements Runnable {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			System.exit(0);
+		}
+	}
+	
+	private class ShowRemainingTime implements Subscriber<TimerTick> {
+		@Override
+		public void receive(TimerTick tick) {
+			Time time = tick.time();
+			Image image = icons.time(time);
+			trayIcon.setImage(image);
+		}
+	}
+	
+	private class ShowTomato implements Subscriber<TimerEnd> {
+		@Override
+		public void receive(TimerEnd end) {
+			Image image = icons.tomato();
+			trayIcon.setImage(image);
 		}
 	}
 

@@ -24,12 +24,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import org.tomighty.ioc.Inject;
-import org.tomighty.resources.Icons;
+import org.tomighty.resources.Images;
 import org.tomighty.ui.state.pomodoro.Pomodoro;
 
 public class InitialState extends UiStateSupport {
 
-	@Inject private Icons icons;
+	@Inject private Images images;
 	
 	@Override
 	protected String title() {
@@ -38,7 +38,7 @@ public class InitialState extends UiStateSupport {
 
 	@Override
 	protected Component createContent() {
-		Image image = icons.bigTomato();
+		Image image = images.tomato();
 		ImageIcon imageIcon = new ImageIcon(image);
 		return new JLabel(imageIcon);
 	}

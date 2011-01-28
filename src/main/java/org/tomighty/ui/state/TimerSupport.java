@@ -25,25 +25,36 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JLabel;
 
+import org.tomighty.bus.Subscriber;
 import org.tomighty.bus.messages.ChangeUiState;
+import org.tomighty.bus.messages.TimerEnd;
+import org.tomighty.bus.messages.TimerTick;
+import org.tomighty.ioc.Initializable;
 import org.tomighty.ioc.Inject;
 import org.tomighty.sound.SoundPlayer;
 import org.tomighty.sound.Sounds;
 import org.tomighty.time.CountdownTimer;
-import org.tomighty.time.CountdownTimerListener;
 import org.tomighty.time.Time;
 import org.tomighty.ui.UiState;
 
-public abstract class TimerSupport extends UiStateSupport implements CountdownTimerListener {
+public abstract class TimerSupport extends UiStateSupport implements Initializable {
 
 	@Inject private CountdownTimer timer;
 	@Inject private Sounds sounds;
 	@Inject private SoundPlayer soundPlayer;
 	private JLabel remainingTime;
+	private UpdateTime updateTime = new UpdateTime();
+	private EndTimer endTimer = new EndTimer();
 
 	protected abstract Time initialTime();
 	protected abstract Class<? extends UiState> finishedState();
 	protected abstract Class<? extends UiState> interruptedState();
+	
+	@Override
+	public void initialize() {
+		bus.subscribe(updateTime, TimerTick.class);
+		bus.subscribe(endTimer, TimerEnd.class);
+	}
 	
 	@Override
 	protected Component createContent() {
@@ -55,13 +66,15 @@ public abstract class TimerSupport extends UiStateSupport implements CountdownTi
 	public void afterRendering() {
 		Time time = initialTime();
 		remainingTime.setText(time.toString());
-		timer.start(time, this);
+		timer.start(time);
 		soundPlayer.play(sounds.wind()).playRepeatedly(sounds.tictac());
 	}
 	
 	@Override
 	public void beforeDetaching() {
 		soundPlayer.stop(sounds.tictac());
+		bus.unsubscribe(updateTime, TimerTick.class);
+		bus.unsubscribe(endTimer, TimerEnd.class);
 	}
 
 	@Override
@@ -69,22 +82,6 @@ public abstract class TimerSupport extends UiStateSupport implements CountdownTi
 		return new Action[] {
 			new Interrupt()
 		};
-	}
-
-	@Override
-	public void tick(final Time time) {
-		invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				remainingTime.setText(time.toString());
-			}
-		});
-	}
-	
-	@Override
-	public void countdownFinished() {
-		soundPlayer.play(sounds.ding());
-		bus.publish(new ChangeUiState(finishedState()));
 	}
 
 	@SuppressWarnings("serial")
@@ -97,6 +94,27 @@ public abstract class TimerSupport extends UiStateSupport implements CountdownTi
 		public void actionPerformed(ActionEvent e) {
 			timer.stop();
 			bus.publish(new ChangeUiState(interruptedState()));
+		}
+	}
+	
+	private class UpdateTime implements Subscriber<TimerTick> {
+		@Override
+		public void receive(TimerTick tick) {
+			final Time time = tick.time();
+			invokeLater(new Runnable() {
+				@Override
+				public void run() {
+					remainingTime.setText(time.toString());
+				}
+			});
+		}
+	}
+	
+	private class EndTimer implements Subscriber<TimerEnd> {
+		@Override
+		public void receive(TimerEnd end) {
+			soundPlayer.play(sounds.ding());
+			bus.publish(new ChangeUiState(finishedState()));
 		}
 	}
 

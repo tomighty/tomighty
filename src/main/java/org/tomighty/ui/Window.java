@@ -27,7 +27,7 @@ import javax.swing.JPanel;
 import org.tomighty.config.Options;
 import org.tomighty.ioc.Initializable;
 import org.tomighty.ioc.Inject;
-import org.tomighty.resources.Icons;
+import org.tomighty.resources.Images;
 import org.tomighty.ui.location.Closest;
 import org.tomighty.ui.location.Location;
 import org.tomighty.ui.state.laf.SexyPanelUI;
@@ -36,7 +36,7 @@ import org.tomighty.ui.state.laf.SexyPanelUI;
 public class Window extends JFrame implements Initializable {
 
 	@Inject private Options options;
-	@Inject private Icons icons;
+	@Inject private Images images;
 	private JPanel panel = new JPanel();
 
 	@Inject
@@ -55,7 +55,7 @@ public class Window extends JFrame implements Initializable {
 	
 	@Override
 	public void initialize() {
-		setIconImage(icons.bigTomato());
+		setIconImage(images.tomato());
 	}
 
 	public void setComponent(Component component) {

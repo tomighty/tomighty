@@ -19,19 +19,24 @@ package org.tomighty.time;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.tomighty.bus.Bus;
+import org.tomighty.bus.messages.TimerEnd;
+import org.tomighty.bus.messages.TimerTick;
+import org.tomighty.ioc.Inject;
+
 public class CountdownTimer {
 
 	private static final int ONE_SECOND = 1000;
 	
+	@Inject private Bus bus;
+	
 	private Time time;
 	private Timer timer;
-	private CountdownTimerListener listener;
 	
-	public void start(Time time, CountdownTimerListener listener) {
+	public void start(Time time) {
 		stop();
 		this.time = time;
-		this.listener = listener;
-		timer = new Timer(getClass().getSimpleName()+": "+listener.getClass().getSimpleName());
+		timer = new Timer(getClass().getSimpleName());
 		timer.scheduleAtFixedRate(new Updater(), ONE_SECOND, ONE_SECOND);
 	}
 
@@ -45,10 +50,10 @@ public class CountdownTimer {
 		@Override
 		public void run() {
 			time = time.minusOneSecond();
-			listener.tick(time);
+			bus.publish(new TimerTick(time));
 			if(time.isZero()) {
 				stop();
-				listener.countdownFinished();
+				bus.publish(new TimerEnd());
 			}
 		}
 	}

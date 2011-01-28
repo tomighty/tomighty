@@ -20,15 +20,11 @@ import java.awt.Image;
 
 import org.tomighty.ioc.Inject;
 
-public class Icons {
+public class Images {
 	
 	@Inject private Resources resources;
 
-	public Image smallTomato() {
-		return resources.image("/tomato-16x16.png");
-	}
-
-	public Image bigTomato() {
+	public Image tomato() {
 		return resources.image("/tomato-48x48.png");
 	}
 
