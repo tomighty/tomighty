@@ -16,22 +16,49 @@
 
 package org.tomighty.resources;
 
+import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.SystemTray;
+import java.awt.image.BufferedImage;
 
 import org.tomighty.ioc.Inject;
 import org.tomighty.time.Time;
+import org.tomighty.ui.state.laf.theme.ColorTone;
+import org.tomighty.ui.state.laf.theme.Theme;
+import org.tomighty.ui.util.Canvas;
 
 public class TrayIcons {
-	
-	@Inject private Resources resources;
 
+	@Inject
+	private Resources resources;
+	
+	@Inject
+	private Theme theme;
+	
 	public Image tomato() {
 		return resources.image("/tomato-16x16.png");
 	}
 
 	public Image time(Time time) {
-		//TODO generate icon
-		return tomato();
+		Dimension canvasSize = SystemTray.getSystemTray().getTrayIconSize();
+		String text = String.valueOf(time.minutes() > 0 ? time.minutes() : time.seconds());
+		float fontSize = (float)canvasSize.height * 0.58f;
+		ColorTone colors = theme.colorTone();
+		
+		BufferedImage image = new BufferedImage(canvasSize.width, canvasSize.height, BufferedImage.TYPE_INT_ARGB);
+		Graphics2D graphics = image.createGraphics();
+		try {
+			Canvas canvas = new Canvas(canvasSize, graphics);
+			canvas.fontSize(fontSize);
+			canvas.drawGradientBackground(colors);
+			canvas.drawBorder(colors.light().darker());
+			canvas.drawCentralizedText(text);
+		} finally {
+			graphics.dispose();
+		}
+
+		return image;
 	}
 
 }

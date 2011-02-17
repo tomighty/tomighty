@@ -42,9 +42,18 @@ public class Time {
 	
 	@Override
 	public String toString() {
-		int minutes = (int) Math.floor(seconds / 60.0);
-		int secs = seconds - minutes * 60;
-		return (minutes<10?"0":"") + minutes + ":" + (secs<10?"0":"") + secs;
+		int minutes = minutes();
+		int secs = seconds();
+		return (minutes < 10 ? "0" : "") + minutes + ":"
+				+ (secs < 10 ? "0" : "") + secs;
+	}
+
+	public int minutes() {
+		return (int) Math.floor((double) seconds / 60.0);
+	}
+
+	public int seconds() {
+		return seconds % 60;
 	}
 
 }
