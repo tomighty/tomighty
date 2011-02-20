@@ -17,12 +17,13 @@
 package org.tomighty.resources;
 
 import java.awt.Dimension;
-import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.SystemTray;
-import java.awt.image.BufferedImage;
 
 import org.tomighty.ioc.Inject;
+import org.tomighty.resources.cache.Cache;
+import org.tomighty.resources.cache.Caches;
+import org.tomighty.resources.cache.Icons;
 import org.tomighty.time.Time;
 import org.tomighty.ui.state.laf.theme.ColorTone;
 import org.tomighty.ui.state.laf.theme.Theme;
@@ -30,35 +31,38 @@ import org.tomighty.ui.util.Canvas;
 
 public class TrayIcons {
 
-	@Inject
-	private Resources resources;
-	
-	@Inject
-	private Theme theme;
+	@Inject private Resources resources;
+	@Inject private Theme theme;
+	@Inject private Caches caches;
 	
 	public Image tomato() {
 		return resources.image("/tomato-16x16.png");
 	}
 
 	public Image time(Time time) {
-		Dimension canvasSize = SystemTray.getSystemTray().getTrayIconSize();
-		String text = String.valueOf(time.minutes() > 0 ? time.minutes() : time.seconds());
-		float fontSize = (float)canvasSize.height * 0.58f;
-		ColorTone colors = theme.colorTone();
-		
-		BufferedImage image = new BufferedImage(canvasSize.width, canvasSize.height, BufferedImage.TYPE_INT_ARGB);
-		Graphics2D graphics = image.createGraphics();
-		try {
-			Canvas canvas = new Canvas(canvasSize, graphics);
-			canvas.fontSize(fontSize);
-			canvas.drawGradientBackground(colors);
-			canvas.drawBorder(colors.light().darker());
-			canvas.drawCentralizedText(text);
-		} finally {
-			graphics.dispose();
+		String iconName = iconNameFor(time);
+		Cache cache = caches.of(Icons.class);
+		if(cache.contains(iconName)) {
+			return cache.get(iconName);
 		}
-
-		return image;
+		
+		Dimension size = SystemTray.getSystemTray().getTrayIconSize();
+		ColorTone colors = theme.colorTone();
+		Canvas canvas = new Canvas(size);
+		canvas.fontSize((float)size.height * 0.58f);
+		canvas.drawGradientBackground(colors);
+		canvas.drawBorder(colors.light().darker());
+		canvas.drawCentralizedText(time.shortestString());
+		
+		cache.store(canvas.image(), iconName);
+		
+		return canvas.image();
+	}
+	
+	private String iconNameFor(Time time) {
+		Dimension size = SystemTray.getSystemTray().getTrayIconSize();
+		String colorName = theme.colorTone().getClass().getSimpleName();
+		return size.width + "x" + size.height + "_" + colorName + "_" + time.shortestString();
 	}
 
 }

@@ -39,14 +39,6 @@ public class Time {
 		time.seconds = this.seconds - 1;
 		return time;
 	}
-	
-	@Override
-	public String toString() {
-		int minutes = minutes();
-		int secs = seconds();
-		return (minutes < 10 ? "0" : "") + minutes + ":"
-				+ (secs < 10 ? "0" : "") + secs;
-	}
 
 	public int minutes() {
 		return (int) Math.floor((double) seconds / 60.0);
@@ -54,6 +46,18 @@ public class Time {
 
 	public int seconds() {
 		return seconds % 60;
+	}
+
+	public String shortestString() {
+		return String.valueOf(minutes() > 0 ? minutes() : seconds());
+	}
+	
+	@Override
+	public String toString() {
+		int minutes = minutes();
+		int secs = seconds();
+		return (minutes < 10 ? "0" : "") + minutes + ":"
+				+ (secs < 10 ? "0" : "") + secs;
 	}
 
 }

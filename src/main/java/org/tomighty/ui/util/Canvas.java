@@ -24,8 +24,10 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.font.FontRenderContext;
 import java.awt.font.TextLayout;
+import java.awt.image.BufferedImage;
 
 import javax.swing.UIManager;
 
@@ -33,16 +35,20 @@ import org.tomighty.ui.state.laf.theme.ColorTone;
 
 public class Canvas {
 
+	private BufferedImage image;
 	private int width;
 	private int height;
-	private Graphics2D originalGraphics;
 	private Font font;
 
-	public Canvas(Dimension size, Graphics2D graphics) {
+	public Canvas(Dimension size) {
+		image = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_ARGB);
 		this.width = size.width;
 		this.height = size.height;
-		this.originalGraphics = graphics;
 		this.font = UIManager.getDefaults().getFont("Label.font");
+	}
+
+	public Image image() {
+		return image;
 	}
 	
 	public void fontSize(float size) {
@@ -52,7 +58,7 @@ public class Canvas {
 	public void drawGradientBackground(ColorTone colors) {
 		Color start = colors.light();
 		Color end = colors.dark();
-		Graphics2D graphics = (Graphics2D) originalGraphics.create();
+		Graphics2D graphics = image.createGraphics();
 		try {
 			graphics.setPaint(new GradientPaint(0, 0, start, 0, height, end));
 			graphics.fillRect(0, 0, width - 1, height - 1);
@@ -63,7 +69,7 @@ public class Canvas {
 	}
 	
 	public void drawBorder(Color color) {
-		Graphics2D graphics = (Graphics2D) originalGraphics.create();
+		Graphics2D graphics = image.createGraphics();
 		try {
 			graphics.setColor(color);
 			graphics.drawRect(0, 0, width - 1, height - 1);
@@ -74,7 +80,7 @@ public class Canvas {
 	}
 
 	public void drawCentralizedText(String text) {
-		Graphics2D graphics = (Graphics2D) originalGraphics.create();
+		Graphics2D graphics = image.createGraphics();
 		try {
 			graphics.setFont(font);
 			graphics.setRenderingHint(KEY_TEXT_ANTIALIASING, VALUE_TEXT_ANTIALIAS_ON);

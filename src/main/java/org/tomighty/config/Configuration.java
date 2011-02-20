@@ -21,35 +21,20 @@ import java.util.Properties;
 
 import org.tomighty.ioc.Initializable;
 import org.tomighty.ioc.Inject;
-import org.tomighty.ioc.New;
-import org.tomighty.log.Log;
 
 public class Configuration implements Initializable {
 	
+	@Inject private Directories directories;
+	@Inject private PropertyStore propertyStore;
 	private Properties properties;
-	private File configDir;
 	private File configFile;
-	@Inject PropertyStore propertyStore;
-	@Inject @New Log log;
 	
 	@Override
 	public void initialize() {
-		File userHome = new File(System.getProperty("user.home"));
-		configDir = new File(userHome, ".tomighty");
-		configFile = new File(configDir, "tomighty.conf");
-		if(configDir.exists() && configDir.isFile()) {
-			try {
-				properties = propertyStore.load(configDir);
-			} catch(Exception e) {
-				log.error("Error importing old config file", e);
-			}
-			configDir.delete();
-			saveConfiguration();
-		} else {
-			properties = propertyStore.load(configFile);
-		}
+		configFile = new File(directories.configuration(), "tomighty.conf");
+		properties = propertyStore.load(configFile);
 	}
-	
+
 	public int asInt(String name, int defaultValue) {
 		String value = properties.getProperty(name);
 		return value == null ? defaultValue : Integer.parseInt(value);
@@ -74,9 +59,6 @@ public class Configuration implements Initializable {
 	}
 
 	private void saveConfiguration() {
-		if(!configDir.exists()) {
-			configDir.mkdirs();
-		}
 		propertyStore.store(properties, configFile);
 	}
 	
