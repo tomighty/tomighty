@@ -36,7 +36,12 @@ public class TrayIcons {
 	@Inject private Caches caches;
 	
 	public Image tomato() {
-		return resources.image("/tomato-16.png");
+		int size = traySize().height;
+		Image image = tomato(size);
+		if(image == null) {
+			image = tomato(16);
+		}
+		return image;
 	}
 
 	public Image time(Time time) {
@@ -46,7 +51,7 @@ public class TrayIcons {
 			return cache.get(iconName);
 		}
 		
-		Dimension size = SystemTray.getSystemTray().getTrayIconSize();
+		Dimension size = traySize();
 		ColorTone colors = theme.colorTone();
 		Canvas canvas = new Canvas(size);
 		canvas.fontSize((float)size.height * 0.58f);
@@ -60,9 +65,17 @@ public class TrayIcons {
 	}
 	
 	private String iconNameFor(Time time) {
-		Dimension size = SystemTray.getSystemTray().getTrayIconSize();
+		Dimension size = traySize();
 		String colorName = theme.colorTone().getClass().getSimpleName();
 		return size.width + "x" + size.height + "_" + colorName + "_" + time.shortestString();
+	}
+
+	private Image tomato(int size) {
+		return resources.image("/tomato-"+size+".png");
+	}
+
+	private Dimension traySize() {
+		return SystemTray.getSystemTray().getTrayIconSize();
 	}
 
 }
