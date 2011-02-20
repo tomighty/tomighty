@@ -17,6 +17,8 @@
 package org.tomighty.resources;
 
 import java.awt.Image;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.tomighty.ioc.Inject;
 
@@ -26,6 +28,15 @@ public class Images {
 
 	public Image tomato() {
 		return resources.image("/tomato-48.png");
+	}
+
+	public List<Image> tomatoes() {
+		List<Image> list = new ArrayList<Image>();
+		list.add(resources.image("/tomato-16.png"));
+		list.add(resources.image("/tomato-24.png"));
+		list.add(resources.image("/tomato-32.png"));
+		list.add(resources.image("/tomato-48.png"));
+		return list;
 	}
 
 }

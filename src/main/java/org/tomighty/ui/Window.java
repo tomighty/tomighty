@@ -55,7 +55,7 @@ public class Window extends JFrame implements Initializable {
 	
 	@Override
 	public void initialize() {
-		setIconImage(images.tomato());
+		setIconImages(images.tomatoes());
 	}
 
 	public void setComponent(Component component) {

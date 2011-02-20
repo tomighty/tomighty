@@ -61,7 +61,7 @@ public class OptionsDialog extends JDialog implements Initializable {
 		saveButton.setText(messages.get("Save"));
 		cancelButton.setText(messages.get("Cancel"));
 		setTitle(messages.get("Options"));
-		setIconImage(images.tomato());
+		setIconImages(images.tomatoes());
 		createOptionGroups();
 		pack();
 		setLocationRelativeTo(null);
