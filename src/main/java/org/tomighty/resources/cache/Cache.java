@@ -24,6 +24,7 @@ public class Cache {
 		return file.exists();
 	}
 
+	@SuppressWarnings("unchecked")
 	public <T> T get(String name) {
 		File file = new File(directory, name);
 		if(file.exists()) {
