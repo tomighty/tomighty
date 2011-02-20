@@ -17,6 +17,7 @@
 package org.tomighty.resources;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.SystemTray;
 
@@ -65,9 +66,10 @@ public class TrayIcons {
 	}
 	
 	private String iconNameFor(Time time) {
+		Font font = Canvas.defaultFont();
 		Dimension size = traySize();
 		String colorName = theme.colorTone().getClass().getSimpleName();
-		return size.width + "x" + size.height + "_" + colorName + "_" + time.shortestString();
+		return font.getFontName() + "_" + size.width + "x" + size.height + "_" + colorName + "_" + time.shortestString();
 	}
 
 	private Image tomato(int size) {

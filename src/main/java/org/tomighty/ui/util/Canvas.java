@@ -44,7 +44,11 @@ public class Canvas {
 		image = new BufferedImage(size.width, size.height, BufferedImage.TYPE_INT_ARGB);
 		this.width = size.width;
 		this.height = size.height;
-		this.font = UIManager.getDefaults().getFont("Label.font");
+		this.font = defaultFont();
+	}
+	
+	public static Font defaultFont() {
+		return UIManager.getDefaults().getFont("Label.font");
 	}
 
 	public Image image() {
