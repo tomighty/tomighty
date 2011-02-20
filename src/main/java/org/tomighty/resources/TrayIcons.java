@@ -36,7 +36,7 @@ public class TrayIcons {
 	@Inject private Caches caches;
 	
 	public Image tomato() {
-		return resources.image("/tomato-16x16.png");
+		return resources.image("/tomato-16.png");
 	}
 
 	public Image time(Time time) {

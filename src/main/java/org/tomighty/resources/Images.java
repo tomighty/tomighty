@@ -25,7 +25,7 @@ public class Images {
 	@Inject private Resources resources;
 
 	public Image tomato() {
-		return resources.image("/tomato-48x48.png");
+		return resources.image("/tomato-48.png");
 	}
 
 }
