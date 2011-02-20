@@ -57,7 +57,7 @@ public class Bus {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void publish(Object message) {
 		Class<? extends Object> messageType = message.getClass();
-		List<Subscriber<?>> list = safeListOfSubscribers(messageType);
+		List<Subscriber<?>> list = subscribersOf(messageType);
 		if(list == null) {
 			return;
 		}
@@ -70,14 +70,36 @@ public class Bus {
 		}
 	}
 
-	private <T> List<Subscriber<?>> safeListOfSubscribers(Class<T> messageType) {
-		List<Subscriber<?>> list = subscribersByType.get(messageType);
-		if(list != null) {
-			synchronized (list) {
-				return new ArrayList<Subscriber<?>>(list);
+	private <T> List<Subscriber<?>> subscribersOf(Class<T> messageType) {
+		List<Class<?>> types = typesCompatibleWith(messageType);
+		if(types == null) {
+			return null;
+		}
+		List<Subscriber<?>> result = new ArrayList<Subscriber<?>>();
+		for(Class<?> type : types) {
+			List<Subscriber<?>> list = subscribersByType.get(type);
+			if(list != null) {
+				synchronized (list) {
+					result.addAll(list);
+				}
 			}
 		}
-		return null;
+		return result;
+	}
+	
+	private List<Class<?>> typesCompatibleWith(Class<?> type) {
+		List<Class<?>> list = null;
+		synchronized (subscribersByType) {
+			for(Class<?> candidate : subscribersByType.keySet()) {
+				if(candidate.isAssignableFrom(type)) {
+					if(list == null) {
+						list = new ArrayList<Class<?>>();
+					}
+					list.add(candidate);
+				}
+			}
+		}
+		return list;
 	}
 
 }
