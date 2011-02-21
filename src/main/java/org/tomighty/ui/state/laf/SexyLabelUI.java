@@ -91,15 +91,15 @@ public class SexyLabelUI extends BasicLabelUI {
 		}
 
 		private void drawLines(WrappedLines lines, Graphics2D g) {
-			Colors colorTone = theme.colors();
+			Colors colors = theme.colors();
 			float y = originY(lines);
 			for(TextLayout line : lines.list) {
 				float x = xFor(line);
 				y += line.getAscent() - line.getDescent();
-				Color shadowColor = colorTone.shadow();
+				Color shadowColor = colors.shadow();
 				g.setColor(shadowColor);
 				line.draw(g, x-1, y-1);
-				g.setColor(colorTone.text());
+				g.setColor(colors.text());
 				line.draw(g, x, y);
 				y += line.getDescent();
 			}
