@@ -41,7 +41,7 @@ import org.tomighty.ui.state.laf.look.Look;
 
 public class SexyLabelUI extends BasicLabelUI {
 
-	@Inject private Look theme;
+	@Inject private Look look;
 	
 	@Override
 	public void paint(Graphics g, JComponent c) {
@@ -91,7 +91,7 @@ public class SexyLabelUI extends BasicLabelUI {
 		}
 
 		private void drawLines(WrappedLines lines, Graphics2D g) {
-			Colors colors = theme.colors();
+			Colors colors = look.colors();
 			float y = originY(lines);
 			for(TextLayout line : lines.list) {
 				float x = xFor(line);

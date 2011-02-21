@@ -33,7 +33,7 @@ import org.tomighty.ui.util.Canvas;
 public class TrayIcons {
 
 	@Inject private Resources resources;
-	@Inject private Look theme;
+	@Inject private Look look;
 	@Inject private Caches caches;
 	
 	public Image tomato() {
@@ -53,7 +53,7 @@ public class TrayIcons {
 		}
 		
 		Dimension size = traySize();
-		Colors colors = theme.colors();
+		Colors colors = look.colors();
 		Canvas canvas = new Canvas(size);
 		canvas.fontSize((float)size.height * 0.58f);
 		canvas.paintGradient(colors.background());
@@ -68,7 +68,7 @@ public class TrayIcons {
 	private String iconNameFor(Time time) {
 		Font font = Canvas.defaultFont();
 		Dimension size = traySize();
-		String colorName = theme.colors().getClass().getSimpleName();
+		String colorName = look.colors().getClass().getSimpleName();
 		return font.getFontName() + "_" + size.width + "x" + size.height + "_" + colorName + "_" + time.shortestString();
 	}
 
