@@ -24,7 +24,7 @@ public interface UiState {
 
 	Component render() throws Exception;
 	
-	Colors colorTone();
+	Colors colors();
 	
 	void afterRendering();
 

@@ -34,7 +34,7 @@ public class Pomodoro extends TimerSupport {
 	@Inject private Options options;
 	
 	@Override
-	public Colors colorTone() {
+	public Colors colors() {
 		return Red.instance();
 	}
 	

@@ -31,7 +31,7 @@ public class LongBreak extends Break {
 	@Inject private Options options;
 	
 	@Override
-	public Colors colorTone() {
+	public Colors colors() {
 		return Blue.instance();
 	}
 	

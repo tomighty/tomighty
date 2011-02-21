@@ -47,7 +47,7 @@ public class Look implements Subscriber<UiStateChanged> {
 	@Override
 	public void receive(UiStateChanged message) {
 		UiState uiState = message.uiState();
-		Colors colors = uiState.colorTone();
+		Colors colors = uiState.colors();
 		if(colors == null) {
 			colors = defaultColors();
 		}

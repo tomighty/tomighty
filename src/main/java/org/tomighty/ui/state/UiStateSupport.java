@@ -75,7 +75,7 @@ public abstract class UiStateSupport implements UiState {
 	}
 	
 	@Override
-	public Colors colorTone() {
+	public Colors colors() {
 		return null;
 	}
 	

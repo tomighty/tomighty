@@ -31,7 +31,7 @@ public class ShortBreak extends Break {
 	@Inject private Options options;
 	
 	@Override
-	public Colors colorTone() {
+	public Colors colors() {
 		return Green.instance();
 	}
 	
