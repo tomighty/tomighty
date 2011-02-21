@@ -51,10 +51,10 @@ public class Look implements Subscriber<UiStateChanged> {
 		if(colors == null) {
 			colors = defaultColors();
 		}
-		changeColorTone(colors);
+		changeColors(colors);
 	}
 
-	private void changeColorTone(Colors colors) {
+	private void changeColors(Colors colors) {
 		if(currentColors.equals(colors)) {
 			return;
 		}
