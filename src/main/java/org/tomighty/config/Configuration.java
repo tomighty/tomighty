@@ -19,6 +19,7 @@ package org.tomighty.config;
 import java.io.File;
 import java.util.Properties;
 
+import org.tomighty.ioc.Container;
 import org.tomighty.ioc.Initializable;
 import org.tomighty.ioc.Inject;
 
@@ -26,6 +27,7 @@ public class Configuration implements Initializable {
 	
 	@Inject private Directories directories;
 	@Inject private PropertyStore propertyStore;
+	@Inject private Container container;
 	private Properties properties;
 	private File configFile;
 	
@@ -44,6 +46,14 @@ public class Configuration implements Initializable {
 		String value = properties.getProperty(name);
 		return value == null ? defaultValue : Boolean.parseBoolean(value);
 	}
+	
+	public <T> T asObject(String name, Class<T> defaultClass) {
+		String className = properties.getProperty(name);
+		if(className == null) {
+			return container.get(defaultClass);
+		}
+		return container.get(className);
+	}
 
 	public void set(String name, boolean value) {
 		set(name, String.valueOf(value));
@@ -51,6 +61,10 @@ public class Configuration implements Initializable {
 
 	public void set(String name, int value) {
 		set(name, String.valueOf(value));
+	}
+
+	public void set(String name, Class<?> value) {
+		set(name, value.getName());
 	}
 
 	private void set(String name, String value) {
