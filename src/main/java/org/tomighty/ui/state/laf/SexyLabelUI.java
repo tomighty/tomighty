@@ -36,12 +36,12 @@ import javax.swing.JLabel;
 import javax.swing.plaf.basic.BasicLabelUI;
 
 import org.tomighty.ioc.Inject;
-import org.tomighty.ui.state.laf.theme.ColorTone;
-import org.tomighty.ui.state.laf.theme.Theme;
+import org.tomighty.ui.state.laf.look.Colors;
+import org.tomighty.ui.state.laf.look.Look;
 
 public class SexyLabelUI extends BasicLabelUI {
 
-	@Inject private Theme theme;
+	@Inject private Look theme;
 	
 	@Override
 	public void paint(Graphics g, JComponent c) {
@@ -91,12 +91,12 @@ public class SexyLabelUI extends BasicLabelUI {
 		}
 
 		private void drawLines(WrappedLines lines, Graphics2D g) {
-			ColorTone colorTone = theme.colorTone();
+			Colors colorTone = theme.colors();
 			float y = originY(lines);
 			for(TextLayout line : lines.list) {
 				float x = xFor(line);
 				y += line.getAscent() - line.getDescent();
-				Color shadowColor = colorTone.shadowBorder();
+				Color shadowColor = colorTone.shadow();
 				g.setColor(shadowColor);
 				line.draw(g, x-1, y-1);
 				g.setColor(colorTone.text());

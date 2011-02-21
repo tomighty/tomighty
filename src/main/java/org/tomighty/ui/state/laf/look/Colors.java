@@ -14,20 +14,16 @@
  *    limitations under the License.
  */
 
-package org.tomighty.ui;
+package org.tomighty.ui.state.laf.look;
 
-import java.awt.Component;
+import java.awt.Color;
 
-import org.tomighty.ui.state.laf.look.Colors;
+public interface Colors {
 
-public interface UiState {
+	Color background();
 
-	Component render() throws Exception;
-	
-	Colors colorTone();
-	
-	void afterRendering();
+	Color shadow();
 
-	void beforeDetaching();
+	Color text();
 
 }

@@ -26,15 +26,16 @@ import org.tomighty.ui.state.TimerSupport;
 import org.tomighty.ui.state.ToState;
 import org.tomighty.ui.state.breaks.LongBreak;
 import org.tomighty.ui.state.breaks.ShortBreak;
-import org.tomighty.ui.state.laf.theme.ColorTone;
+import org.tomighty.ui.state.laf.look.Colors;
+import org.tomighty.ui.state.laf.look.colors.Red;
 
 public class Pomodoro extends TimerSupport {
 	
 	@Inject private Options options;
 	
 	@Override
-	public ColorTone colorTone() {
-		return ColorTone.RED;
+	public Colors colorTone() {
+		return Red.instance();
 	}
 	
 	@Override

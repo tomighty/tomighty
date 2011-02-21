@@ -14,42 +14,35 @@
  *    limitations under the License.
  */
 
-package org.tomighty.ui.state.laf.theme.colors;
+package org.tomighty.ui.state.laf.look.colors;
 
 import java.awt.Color;
 
-import org.tomighty.ui.state.laf.theme.ColorTone;
+import org.tomighty.ui.state.laf.look.Colors;
 
-public class Black implements ColorTone {
+public class Green implements Colors {
 
-	private static final Color LIGHT = new Color(100, 100, 100);
-	private static final Color DARK = new Color(20, 20, 20);
-	private static final Color SHADOW_BORDER = DARK;
-	private static final Color LIGHT_BORDER = new Color(120, 120, 120);
+	private static final Colors INSTANCE = new Green();
+	private static final Color BACKGROUND = new Color(34, 58, 34);
+	private static final Color BORDER = BACKGROUND.darker();
+
+	public static Colors instance() {
+		return INSTANCE;
+	}
 	
-	@Override
-	public Color light() {
-		return LIGHT;
-	}
-
-	@Override
-	public Color dark() {
-		return DARK;
-	}
-
-	@Override
-	public Color lightBorder() {
-		return LIGHT_BORDER;
-	}
-
-	@Override
-	public Color shadowBorder() {
-		return SHADOW_BORDER;
-	}
-
 	@Override
 	public Color text() {
 		return Color.WHITE;
+	}
+
+	@Override
+	public Color background() {
+		return BACKGROUND;
+	}
+
+	@Override
+	public Color shadow() {
+		return BORDER;
 	}
 
 }

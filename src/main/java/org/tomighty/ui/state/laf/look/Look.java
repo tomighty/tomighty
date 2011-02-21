@@ -14,45 +14,56 @@
  *    limitations under the License.
  */
 
-package org.tomighty.ui.state.laf.theme;
+package org.tomighty.ui.state.laf.look;
 
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.Subscriber;
-import org.tomighty.bus.messages.ThemeChanged;
+import org.tomighty.bus.messages.LookChanged;
 import org.tomighty.bus.messages.UiStateChanged;
+import org.tomighty.config.Options;
 import org.tomighty.ioc.Inject;
 import org.tomighty.ui.UiState;
+import org.tomighty.ui.state.laf.look.colors.Black;
 
-public class Theme implements Subscriber<UiStateChanged> {
+public class Look implements Subscriber<UiStateChanged> {
 	
 	@Inject private Bus bus;
-	private ColorTone currentColorTone = ColorTone.BLACK;
+	@Inject private Options options;
+	private Colors currentColors = defaultColors();
 
 	@Inject
-	public Theme(Bus bus) {
+	public Look(Bus bus) {
 		bus.subscribe(this, UiStateChanged.class);
 	}
+
+	public Theme theme() {
+		return options.ui().theme();
+	}
 	
+	public Colors colors() {
+		return currentColors;
+	}
+
 	@Override
 	public void receive(UiStateChanged message) {
 		UiState uiState = message.uiState();
-		ColorTone colorTone = uiState.colorTone();
-		if(colorTone == null) {
-			colorTone = ColorTone.BLACK;
+		Colors colors = uiState.colorTone();
+		if(colors == null) {
+			colors = defaultColors();
 		}
-		changeColorTone(colorTone);
+		changeColorTone(colors);
 	}
 
-	public ColorTone colorTone() {
-		return currentColorTone;
-	}
-
-	private void changeColorTone(ColorTone colorTone) {
-		if(currentColorTone.equals(colorTone)) {
+	private void changeColorTone(Colors colors) {
+		if(currentColors.equals(colors)) {
 			return;
 		}
-		currentColorTone = colorTone;
-		bus.publish(new ThemeChanged());
+		currentColors = colors;
+		bus.publish(new LookChanged());
+	}
+
+	private static Colors defaultColors() {
+		return Black.instance();
 	}
 
 }

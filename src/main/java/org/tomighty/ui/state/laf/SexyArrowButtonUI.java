@@ -31,15 +31,11 @@ import javax.swing.JComponent;
 import javax.swing.plaf.basic.BasicButtonUI;
 
 import org.tomighty.ioc.Inject;
-import org.tomighty.ui.state.laf.theme.Theme;
+import org.tomighty.ui.state.laf.look.Look;
 
 public class SexyArrowButtonUI extends BasicButtonUI {
 	
-	@Inject private Theme theme;
-	
-//	private static final Color BG_COLOR_START = new Color(130, 130, 130);
-//	private static final Color BG_COLOR_END = new Color(44, 44, 44);
-//	private static final Color BORDER_COLOR = new Color(30, 30, 30);
+	@Inject private Look look;
 	
 	@Override
 	public void installUI(JComponent c) {
@@ -68,20 +64,20 @@ public class SexyArrowButtonUI extends BasicButtonUI {
 		g.drawLine(5, 4, 9, 0);
 		g.drawLine(5, 5, 10, 0);
 		
-		g.setColor(theme.colorTone().dark());
+		g.setColor(look.colors().shadow());
 		g.drawLine(0, 1, 5, 6);
 		g.drawLine(5, 6, 10, 1);
 	}
 
 	private void paintRoundBorder(Graphics2D g, AbstractButton b) {
-		Color color = theme.colorTone().shadowBorder();
+		Color color = look.colors().shadow();
 		g.setColor(color);
 		g.drawRoundRect(0, 0, b.getWidth()-1, b.getHeight()-1, 4, 4);
 	}
 
 	private void paintBackground(Graphics2D g, AbstractButton b) {
-		Color startingColor = theme.colorTone().light();
-		Color endingColor = theme.colorTone().dark();
+		Color startingColor = look.colors().shadow().brighter();
+		Color endingColor = look.colors().shadow().darker();
 		Graphics2D g2 = (Graphics2D) g.create();
 		g2.setPaint(new GradientPaint(0, 0, startingColor, 0, b.getHeight(), endingColor));
 		g2.fillRect(1, 1, b.getWidth()-2, b.getHeight()-2);
