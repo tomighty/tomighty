@@ -96,14 +96,14 @@ public class Canvas {
 	}
 
 	private void paintGradient(Color start, Color end) {
-		paintGradient(start, end, 0, height - 1);
+		paintGradient(start, end, 0, height);
 	}
 
 	private void paintGradient(Color start, Color end, int y1, int y2) {
 		Graphics2D graphics = image.createGraphics();
 		try {
 			graphics.setPaint(new GradientPaint(0, y1, start, 0, y2, end));
-			graphics.fillRect(0, y1, width - 1, y2);
+			graphics.fillRect(0, y1, width, y2);
 		} finally {
 			graphics.dispose();
 		}
