@@ -27,6 +27,7 @@ import java.awt.Graphics2D;
 
 import javax.swing.AbstractButton;
 import javax.swing.ButtonModel;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.plaf.basic.BasicButtonUI;
 
@@ -38,10 +39,12 @@ public class SexyArrowButtonUI extends BasicButtonUI {
 	@Inject private Look look;
 	
 	@Override
-	public void installUI(JComponent c) {
-		super.installUI(c);
-		c.setSize(new Dimension(17, 16));
-		c.setOpaque(false);
+	public void installUI(JComponent component) {
+		super.installUI(component);
+		JButton button = (JButton)component;
+		button.setSize(new Dimension(17, 16));
+		button.setOpaque(false);
+		button.setBorderPainted(false);
 	}
 	
 	@Override
