@@ -88,7 +88,7 @@ public class AboutDialog extends JDialog implements Initializable {
 	private Component title() {
 		title = new JLabel();
 		title.setHorizontalAlignment(JLabel.CENTER);
-		JLabel url = new JLabel("http://tomighty.googlecode.com", JLabel.CENTER);
+		JLabel url = new JLabel("http://www.tomighty.org", JLabel.CENTER);
 		title.setFont(title.getFont().deriveFont(25f));
 		JPanel panel = new JPanel(new BorderLayout());
 		panel.add(title, BorderLayout.NORTH);
