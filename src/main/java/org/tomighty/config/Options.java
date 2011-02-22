@@ -16,6 +16,8 @@
 
 package org.tomighty.config;
 
+import org.tomighty.bus.Bus;
+import org.tomighty.bus.messages.LookChanged;
 import org.tomighty.ioc.Inject;
 import org.tomighty.ui.state.laf.look.Theme;
 import org.tomighty.ui.state.laf.look.themes.Shiny;
@@ -32,6 +34,7 @@ public class Options {
 	private static final String SOUND_DING = "option.sound.timer.ding.enable";
 	
 	@Inject private Configuration config;
+	@Inject private Bus bus;
 	
 	private UserInterfaceOptions ui = new UserInterfaceOptions();
 	private SoundOptions sound = new SoundOptions();
@@ -90,7 +93,11 @@ public class Options {
 		}
 
 		public void theme(Class<? extends Theme> clazz) {
-			config.set(UI_THEME, clazz);
+			Class<? extends Theme> currentClass = config.asClass(UI_THEME, Shiny.class);
+			if(!clazz.equals(currentClass)) {
+				config.set(UI_THEME, clazz);
+				bus.publish(new LookChanged());
+			}
 		}
 	}
 	

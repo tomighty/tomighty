@@ -47,13 +47,22 @@ public class Configuration implements Initializable {
 		return value == null ? defaultValue : Boolean.parseBoolean(value);
 	}
 	
-	@SuppressWarnings("unchecked")
 	public <T> T asObject(String name, Class<T> defaultClass) {
+		Class<T> clazz = asClass(name, defaultClass);
+		return container.get(clazz);
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T> Class<T> asClass(String name, Class<T> defaultClass) {
 		String className = properties.getProperty(name);
 		if(className == null) {
-			return container.get(defaultClass);
+			return defaultClass;
 		}
-		return (T) container.get(className);
+		try {
+			return (Class<T>) Class.forName(className);
+		} catch (ClassNotFoundException cause) {
+			throw new IllegalArgumentException("Class not found: "+className, cause);
+		}
 	}
 
 	public void set(String name, boolean value) {
