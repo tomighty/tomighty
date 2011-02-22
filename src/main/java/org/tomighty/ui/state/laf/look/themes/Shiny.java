@@ -18,18 +18,15 @@ package org.tomighty.ui.state.laf.look.themes;
 
 import java.awt.Color;
 
-import org.tomighty.ioc.Inject;
+import org.tomighty.ui.state.laf.look.CachedTheme;
 import org.tomighty.ui.state.laf.look.Colors;
 import org.tomighty.ui.state.laf.look.Look;
-import org.tomighty.ui.state.laf.look.Theme;
 import org.tomighty.ui.util.Canvas;
 
-public class Shiny implements Theme {
-
-	@Inject private Look look;
+public class Shiny extends CachedTheme {
 
 	@Override
-	public void paint(Canvas canvas) {
+	public void paint(Canvas canvas, Look look) {
 		Colors colors = look.colors();
 		Color background = colors.background();
 		Color bright = background.brighter().brighter();

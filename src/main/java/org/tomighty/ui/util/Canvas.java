@@ -144,4 +144,13 @@ public class Canvas {
 		image = filter.filter(image, image);
 	}
 
+	public void paint(Image image) {
+		Graphics2D graphics = this.image.createGraphics();
+		try {
+			graphics.drawImage(image, 0, 0, null);
+		} finally {
+			graphics.dispose();
+		}
+	}
+
 }

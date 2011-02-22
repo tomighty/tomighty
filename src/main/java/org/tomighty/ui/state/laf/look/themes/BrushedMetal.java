@@ -16,22 +16,19 @@
 
 package org.tomighty.ui.state.laf.look.themes;
 
-import org.tomighty.ioc.Inject;
+import org.tomighty.ui.state.laf.look.CachedTheme;
 import org.tomighty.ui.state.laf.look.Colors;
 import org.tomighty.ui.state.laf.look.Look;
-import org.tomighty.ui.state.laf.look.Theme;
 import org.tomighty.ui.util.Canvas;
 import org.tomighty.util.FriendlyName;
 
 import com.jhlabs.image.BrushedMetalFilter;
 
 @FriendlyName("Brushed metal")
-public class BrushedMetal implements Theme {
+public class BrushedMetal extends CachedTheme {
 
-	@Inject private Look look;
-	
 	@Override
-	public void paint(Canvas canvas) {
+	public void paint(Canvas canvas, Look look) {
 		Colors colors = look.colors();
 		BrushedMetalFilter filter = new BrushedMetalFilter();
 		filter.setColor(colors.background().getRGB());
