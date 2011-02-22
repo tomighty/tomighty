@@ -23,7 +23,7 @@ import org.tomighty.bus.messages.UiStateChanged;
 import org.tomighty.config.Options;
 import org.tomighty.ioc.Inject;
 import org.tomighty.ui.UiState;
-import org.tomighty.ui.state.laf.look.colors.Black;
+import org.tomighty.ui.state.laf.look.colors.Gray;
 
 public class Look implements Subscriber<UiStateChanged> {
 	
@@ -63,7 +63,7 @@ public class Look implements Subscriber<UiStateChanged> {
 	}
 
 	private static Colors defaultColors() {
-		return Black.instance();
+		return Gray.instance();
 	}
 
 }
