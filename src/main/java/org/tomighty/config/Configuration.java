@@ -47,12 +47,13 @@ public class Configuration implements Initializable {
 		return value == null ? defaultValue : Boolean.parseBoolean(value);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public <T> T asObject(String name, Class<T> defaultClass) {
 		String className = properties.getProperty(name);
 		if(className == null) {
 			return container.get(defaultClass);
 		}
-		return container.get(className);
+		return (T) container.get(className);
 	}
 
 	public void set(String name, boolean value) {
