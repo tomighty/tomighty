@@ -62,7 +62,7 @@ public class AboutDialog extends JDialog implements Initializable {
 		license.setText(text.license());
 		closeButton.setText(messages.get("Close"));
 		setTitle(messages.get("About Tomighty"));
-		setIconImage(images.tomato());
+		setIconImages(images.tomatoes());
 		pack();
 		setLocationRelativeTo(null);
 	}

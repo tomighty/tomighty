@@ -17,12 +17,15 @@
 package org.tomighty.config;
 
 import org.tomighty.ioc.Inject;
+import org.tomighty.ui.state.laf.look.Theme;
+import org.tomighty.ui.state.laf.look.themes.Shiny;
 
 public class Options {
 	
 	private static final String TIME_POMODORO = "option.time.pomodoro";
 	private static final String TIME_SHORT_BREAK = "option.time.shortBreak";
 	private static final String TIME_LONG_BREAK = "option.time.longBreak";
+	private static final String UI_THEME = "option.ui.theme";
 	private static final String UI_AUTOHIDE_WINDOW = "option.ui.window.autohide";
 	private static final String SOUND_WIND = "option.sound.timer.wind.enable";
 	private static final String SOUND_TICTAC = "option.sound.timer.tictac.enable";
@@ -80,6 +83,14 @@ public class Options {
 		
 		public void autoHide(boolean autoHide) {
 			config.set(UI_AUTOHIDE_WINDOW, autoHide);
+		}
+		
+		public Theme theme() {
+			return config.asObject(UI_THEME, Shiny.class);
+		}
+
+		public void theme(Class<? extends Theme> clazz) {
+			config.set(UI_THEME, clazz);
 		}
 	}
 	

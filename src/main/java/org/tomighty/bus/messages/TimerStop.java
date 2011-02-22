@@ -16,5 +16,6 @@
 
 package org.tomighty.bus.messages;
 
-public class ThemeChanged {
+public class TimerStop {
+
 }

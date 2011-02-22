@@ -14,8 +14,22 @@
  *    limitations under the License.
  */
 
-package org.tomighty.bus.messages;
+package org.tomighty.ui.state.laf.look.themes;
 
-public class TimerEnd extends TimerStop {
+import java.awt.Color;
+
+import org.tomighty.ui.state.laf.look.CachedTheme;
+import org.tomighty.ui.state.laf.look.Colors;
+import org.tomighty.ui.state.laf.look.Look;
+import org.tomighty.ui.util.Canvas;
+
+public class Gradient extends CachedTheme {
+	
+	@Override
+	public void paint(Canvas canvas, Look look) {
+		Colors colors = look.colors();
+		Color background = colors.background();
+		canvas.paintGradient(background);
+	}
 
 }

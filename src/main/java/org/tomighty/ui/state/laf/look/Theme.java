@@ -14,8 +14,12 @@
  *    limitations under the License.
  */
 
-package org.tomighty.bus.messages;
+package org.tomighty.ui.state.laf.look;
 
-public class TimerEnd extends TimerStop {
+import org.tomighty.ui.util.Canvas;
+
+public interface Theme {
+
+	void paint(Canvas canvas);
 
 }

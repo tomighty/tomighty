@@ -14,29 +14,16 @@
  *    limitations under the License.
  */
 
-package org.tomighty.resources;
+package org.tomighty.ui.state.laf.look;
 
-import java.awt.Image;
-import java.util.ArrayList;
-import java.util.List;
+import java.awt.Color;
 
-import org.tomighty.ioc.Inject;
+public interface Colors {
 
-public class Images {
-	
-	@Inject private Resources resources;
+	Color background();
 
-	public Image tomato() {
-		return resources.image("/tomato-48.png");
-	}
+	Color shadow();
 
-	public List<Image> tomatoes() {
-		List<Image> list = new ArrayList<Image>();
-		list.add(resources.image("/tomato-16.png"));
-		list.add(resources.image("/tomato-24.png"));
-		list.add(resources.image("/tomato-32.png"));
-		list.add(resources.image("/tomato-48.png"));
-		return list;
-	}
+	Color text();
 
 }

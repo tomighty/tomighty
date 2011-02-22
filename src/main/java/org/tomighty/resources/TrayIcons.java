@@ -17,48 +17,67 @@
 package org.tomighty.resources;
 
 import java.awt.Dimension;
-import java.awt.Graphics2D;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.SystemTray;
-import java.awt.image.BufferedImage;
 
 import org.tomighty.ioc.Inject;
+import org.tomighty.resources.cache.Cache;
+import org.tomighty.resources.cache.Caches;
+import org.tomighty.resources.cache.Icons;
 import org.tomighty.time.Time;
-import org.tomighty.ui.state.laf.theme.ColorTone;
-import org.tomighty.ui.state.laf.theme.Theme;
+import org.tomighty.ui.state.laf.look.Colors;
+import org.tomighty.ui.state.laf.look.Look;
 import org.tomighty.ui.util.Canvas;
 
 public class TrayIcons {
 
-	@Inject
-	private Resources resources;
-	
-	@Inject
-	private Theme theme;
+	@Inject private Resources resources;
+	@Inject private Look look;
+	@Inject private Caches caches;
 	
 	public Image tomato() {
-		return resources.image("/tomato-16x16.png");
+		int size = traySize().height;
+		Image image = tomato(size);
+		if(image == null) {
+			image = tomato(16);
+		}
+		return image;
 	}
 
 	public Image time(Time time) {
-		Dimension canvasSize = SystemTray.getSystemTray().getTrayIconSize();
-		String text = String.valueOf(time.minutes() > 0 ? time.minutes() : time.seconds());
-		float fontSize = (float)canvasSize.height * 0.58f;
-		ColorTone colors = theme.colorTone();
-		
-		BufferedImage image = new BufferedImage(canvasSize.width, canvasSize.height, BufferedImage.TYPE_INT_ARGB);
-		Graphics2D graphics = image.createGraphics();
-		try {
-			Canvas canvas = new Canvas(canvasSize, graphics);
-			canvas.fontSize(fontSize);
-			canvas.drawGradientBackground(colors);
-			canvas.drawBorder(colors.light().darker());
-			canvas.drawCentralizedText(text);
-		} finally {
-			graphics.dispose();
+		String iconName = iconNameFor(time);
+		Cache cache = caches.of(Icons.class);
+		if(cache.contains(iconName)) {
+			return cache.get(iconName);
 		}
+		
+		Dimension size = traySize();
+		Colors colors = look.colors();
+		Canvas canvas = new Canvas(size);
+		canvas.fontSize((float)size.height * 0.58f);
+		canvas.paintGradient(colors.background());
+		canvas.drawBorder(colors.background().darker().darker().darker());
+		canvas.drawCentralizedText(time.shortestString());
+		
+		cache.store(canvas.image(), iconName);
+		
+		return canvas.image();
+	}
+	
+	private String iconNameFor(Time time) {
+		Font font = Canvas.defaultFont();
+		Dimension size = traySize();
+		String colorName = look.colors().getClass().getSimpleName();
+		return font.getFontName() + "_" + size.width + "x" + size.height + "_" + colorName + "_" + time.shortestString();
+	}
 
-		return image;
+	private Image tomato(int size) {
+		return resources.image("/tomato-"+size+".png");
+	}
+
+	private Dimension traySize() {
+		return SystemTray.getSystemTray().getTrayIconSize();
 	}
 
 }

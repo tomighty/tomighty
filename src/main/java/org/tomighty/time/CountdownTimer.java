@@ -21,6 +21,7 @@ import java.util.TimerTask;
 
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.messages.TimerEnd;
+import org.tomighty.bus.messages.TimerInterrupted;
 import org.tomighty.bus.messages.TimerTick;
 import org.tomighty.ioc.Inject;
 
@@ -43,6 +44,7 @@ public class CountdownTimer {
 	public void stop() {
 		if(timer != null) {
 			timer.cancel();
+			bus.publish(new TimerInterrupted());
 		}
 	}
 	

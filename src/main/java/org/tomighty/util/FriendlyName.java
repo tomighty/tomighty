@@ -14,8 +14,17 @@
  *    limitations under the License.
  */
 
-package org.tomighty.bus.messages;
+package org.tomighty.util;
 
-public class TimerEnd extends TimerStop {
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ ElementType.TYPE })
+public @interface FriendlyName {
+
+	String value();
 
 }

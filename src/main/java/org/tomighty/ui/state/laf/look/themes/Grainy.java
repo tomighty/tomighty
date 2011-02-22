@@ -14,8 +14,26 @@
  *    limitations under the License.
  */
 
-package org.tomighty.bus.messages;
+package org.tomighty.ui.state.laf.look.themes;
 
-public class TimerEnd extends TimerStop {
+import org.tomighty.ui.state.laf.look.CachedTheme;
+import org.tomighty.ui.state.laf.look.Colors;
+import org.tomighty.ui.state.laf.look.Look;
+import org.tomighty.ui.util.Canvas;
+
+import com.jhlabs.image.NoiseFilter;
+
+public class Grainy extends CachedTheme {
+
+	@Override
+	public void paint(Canvas canvas, Look look) {
+		Colors colors = look.colors();
+		canvas.paintGradient(colors.background());
+		NoiseFilter filter = new NoiseFilter();
+		filter.setMonochrome(true);
+		filter.setDensity(0.5f);
+		filter.setAmount(13);
+		canvas.applyFilter(filter);
+	}
 
 }

@@ -17,29 +17,65 @@
 package org.tomighty.ui.options;
 
 import java.awt.Component;
+import java.awt.GridLayout;
+import java.awt.LayoutManager;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.MutableComboBoxModel;
 
 import org.tomighty.config.Options;
 import org.tomighty.i18n.Messages;
 import org.tomighty.ioc.Initializable;
 import org.tomighty.ioc.Inject;
+import org.tomighty.ui.state.laf.look.Theme;
+import org.tomighty.ui.state.laf.look.themes.BrushedMetal;
+import org.tomighty.ui.state.laf.look.themes.Gradient;
+import org.tomighty.ui.state.laf.look.themes.Grainy;
+import org.tomighty.ui.state.laf.look.themes.Shiny;
+import org.tomighty.util.FriendlyName;
 
 @SuppressWarnings("serial")
 public class UserInterface extends OptionPanel implements OptionGroup, Initializable {
 
 	@Inject private Options options;
 	@Inject private Messages messages;
-	
+	private JLabel themeLabel;
+	private MutableComboBoxModel themeOptions;
 	private JCheckBox autoHideOption;
 
 	public UserInterface() {
 		autoHideOption = new JCheckBox();
+		add(createThemeOptions());
 		add(autoHideOption);
 	}
 	
 	@Override
+	protected LayoutManager createLayout() {
+		return new GridLayout(2, 1, 6, 6);
+	}
+	
+	private JComponent createThemeOptions() {
+		themeLabel = new JLabel();
+		themeOptions = new DefaultComboBoxModel();
+		themeOptions.addElement(new ThemeOption(BrushedMetal.class));
+		themeOptions.addElement(new ThemeOption(Gradient.class));
+		themeOptions.addElement(new ThemeOption(Grainy.class));
+		themeOptions.addElement(new ThemeOption(Shiny.class));
+		
+		JPanel panel = new JPanel();
+		panel.add(themeLabel);
+		panel.add(new JComboBox(themeOptions));
+		return panel;
+	}
+	
+	@Override
 	public void initialize() {
+		themeLabel.setText(messages.get("Theme"));
 		autoHideOption.setText(messages.get("Auto hide window"));
 	}
 
@@ -56,11 +92,47 @@ public class UserInterface extends OptionPanel implements OptionGroup, Initializ
 	@Override
 	public void readConfiguration() {
 		autoHideOption.setSelected(options.ui().autoHideWindow());
+		themeOptions.setSelectedItem(new ThemeOption(options.ui().theme().getClass()));
 	}
 
 	@Override
 	public void saveConfiguration() {
 		options.ui().autoHide(autoHideOption.isSelected());
+		options.ui().theme(((ThemeOption)themeOptions.getSelectedItem()).clazz());
+	}
+	
+	private class ThemeOption {
+
+		private final Class<? extends Theme> clazz;
+
+		public ThemeOption(Class<? extends Theme> clazz) {
+			this.clazz = clazz;
+		}
+		
+		public Class<? extends Theme> clazz() {
+			return clazz;
+		}
+		
+		@Override
+		public boolean equals(Object obj) {
+			if(!(obj instanceof ThemeOption)) {
+				return false;
+			}
+			return clazz.equals(((ThemeOption)obj).clazz);
+		}
+		
+		@Override
+		public String toString() {
+			String name;
+			FriendlyName friendlyName = clazz.getAnnotation(FriendlyName.class);
+			if(friendlyName == null) {
+				name = clazz.getSimpleName();
+			} else {
+				name = friendlyName.value();
+			}
+			return messages.get(name);
+		}
+		
 	}
 
 }

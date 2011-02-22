@@ -43,7 +43,7 @@ import org.tomighty.ui.layout.Docking;
 import org.tomighty.ui.state.laf.SexyArrowButtonUI;
 import org.tomighty.ui.state.laf.SexyButtonUI;
 import org.tomighty.ui.state.laf.SexyLabel;
-import org.tomighty.ui.state.laf.theme.ColorTone;
+import org.tomighty.ui.state.laf.look.Colors;
 
 public abstract class UiStateSupport implements UiState {
 
@@ -75,7 +75,7 @@ public abstract class UiStateSupport implements UiState {
 	}
 	
 	@Override
-	public ColorTone colorTone() {
+	public Colors colors() {
 		return null;
 	}
 	

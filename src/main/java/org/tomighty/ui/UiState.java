@@ -18,13 +18,13 @@ package org.tomighty.ui;
 
 import java.awt.Component;
 
-import org.tomighty.ui.state.laf.theme.ColorTone;
+import org.tomighty.ui.state.laf.look.Colors;
 
 public interface UiState {
 
 	Component render() throws Exception;
 	
-	ColorTone colorTone();
+	Colors colors();
 	
 	void afterRendering();
 
