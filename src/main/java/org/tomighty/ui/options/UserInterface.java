@@ -47,16 +47,19 @@ public class UserInterface extends OptionPanel implements OptionGroup, Initializ
 	private JLabel themeLabel;
 	private MutableComboBoxModel themeOptions;
 	private JCheckBox autoHideOption;
+	private JCheckBox showTimeOnTrayOption;
 
 	public UserInterface() {
 		autoHideOption = new JCheckBox();
+		showTimeOnTrayOption = new JCheckBox();
 		add(createThemeOptions());
 		add(autoHideOption);
+		add(showTimeOnTrayOption);
 	}
 	
 	@Override
 	protected LayoutManager createLayout() {
-		return new GridLayout(2, 1, 6, 6);
+		return new GridLayout(3, 1, 6, 6);
 	}
 	
 	private JComponent createThemeOptions() {
@@ -77,6 +80,7 @@ public class UserInterface extends OptionPanel implements OptionGroup, Initializ
 	public void initialize() {
 		themeLabel.setText(messages.get("Theme"));
 		autoHideOption.setText(messages.get("Auto hide window"));
+		showTimeOnTrayOption.setText(messages.get("Show remaining time on tray"));
 	}
 
 	@Override
@@ -92,12 +96,14 @@ public class UserInterface extends OptionPanel implements OptionGroup, Initializ
 	@Override
 	public void readConfiguration() {
 		autoHideOption.setSelected(options.ui().autoHideWindow());
+		showTimeOnTrayOption.setSelected(options.ui().showTimeOnTray());
 		themeOptions.setSelectedItem(new ThemeOption(options.ui().theme().getClass()));
 	}
 
 	@Override
 	public void saveConfiguration() {
 		options.ui().autoHide(autoHideOption.isSelected());
+		options.ui().showTimeOnTray(showTimeOnTrayOption.isSelected());
 		options.ui().theme(((ThemeOption)themeOptions.getSelectedItem()).clazz());
 	}
 	

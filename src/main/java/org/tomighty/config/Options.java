@@ -18,6 +18,7 @@ package org.tomighty.config;
 
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.messages.LookChanged;
+import org.tomighty.bus.messages.TimeOnTrayConfigChanged;
 import org.tomighty.ioc.Inject;
 import org.tomighty.ui.state.laf.look.Theme;
 import org.tomighty.ui.state.laf.look.themes.Shiny;
@@ -29,6 +30,7 @@ public class Options {
 	private static final String TIME_LONG_BREAK = "option.time.longBreak";
 	private static final String UI_THEME = "option.ui.theme";
 	private static final String UI_AUTOHIDE_WINDOW = "option.ui.window.autohide";
+	private static final String UI_SHOW_TIME_ON_TRAY = "option.ui.showTimeOnTray";
 	private static final String SOUND_WIND = "option.sound.timer.wind.enable";
 	private static final String SOUND_TICTAC = "option.sound.timer.tictac.enable";
 	private static final String SOUND_DING = "option.sound.timer.ding.enable";
@@ -97,6 +99,17 @@ public class Options {
 			if(!clazz.equals(currentClass)) {
 				config.set(UI_THEME, clazz);
 				bus.publish(new LookChanged());
+			}
+		}
+
+		public boolean showTimeOnTray() {
+			return config.asBoolean(UI_SHOW_TIME_ON_TRAY, true);
+		}
+
+		public void showTimeOnTray(boolean show) {
+			if(show != showTimeOnTray()) {
+				config.set(UI_SHOW_TIME_ON_TRAY, show);
+				bus.publish(new TimeOnTrayConfigChanged(show));
 			}
 		}
 	}
