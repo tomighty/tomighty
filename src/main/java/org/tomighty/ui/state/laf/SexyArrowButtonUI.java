@@ -19,6 +19,7 @@ package org.tomighty.ui.state.laf;
 import static java.awt.RenderingHints.KEY_ANTIALIASING;
 import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GradientPaint;
@@ -78,13 +79,17 @@ public class SexyArrowButtonUI extends BasicButtonUI {
 		g.drawRoundRect(0, 0, b.getWidth()-1, b.getHeight()-1, 4, 4);
 	}
 
-	private void paintBackground(Graphics2D g, AbstractButton b) {
-		Color startingColor = look.colors().shadow().brighter();
-		Color endingColor = look.colors().shadow().darker();
-		Graphics2D g2 = (Graphics2D) g.create();
-		g2.setPaint(new GradientPaint(0, 0, startingColor, 0, b.getHeight(), endingColor));
-		g2.fillRect(1, 1, b.getWidth()-2, b.getHeight()-2);
-		g2.dispose();
+	private void paintBackground(Graphics2D graphics, AbstractButton b) {
+		Graphics2D g = (Graphics2D) graphics.create();
+		try {
+			g.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
+			Color startingColor = look.colors().shadow().brighter().brighter();
+			Color endingColor = look.colors().shadow().darker();
+			g.setPaint(new GradientPaint(0, 0, startingColor, 0, b.getHeight(), endingColor));
+			g.fillRect(1, 1, b.getWidth()-2, b.getHeight()-2);
+		} finally {
+			g.dispose();
+		}
 	}
 	
 }
