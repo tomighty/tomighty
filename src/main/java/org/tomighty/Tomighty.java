@@ -24,9 +24,9 @@ import javax.swing.UIManager;
 
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.Subscriber;
-import org.tomighty.bus.messages.ChangeUiState;
-import org.tomighty.bus.messages.TrayClick;
-import org.tomighty.bus.messages.UiStateChanged;
+import org.tomighty.bus.messages.ui.ChangeUiState;
+import org.tomighty.bus.messages.ui.TrayClick;
+import org.tomighty.bus.messages.ui.UiStateChanged;
 import org.tomighty.config.Options;
 import org.tomighty.ioc.Container;
 import org.tomighty.ioc.Factory;

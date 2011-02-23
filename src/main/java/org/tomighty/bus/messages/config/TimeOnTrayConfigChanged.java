@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package org.tomighty.bus.messages;
+package org.tomighty.bus.messages.config;
 
 public class TimeOnTrayConfigChanged {
 

@@ -28,7 +28,7 @@ import javax.swing.JComponent;
 
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.Subscriber;
-import org.tomighty.bus.messages.UiStateChanged;
+import org.tomighty.bus.messages.ui.UiStateChanged;
 import org.tomighty.ioc.Inject;
 import org.tomighty.ui.UiState;
 import org.tomighty.ui.state.pomodoro.Pomodoro;

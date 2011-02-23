@@ -14,20 +14,7 @@
  *    limitations under the License.
  */
 
-package org.tomighty.bus.messages;
+package org.tomighty.bus.messages.ui;
 
-import java.awt.Point;
-
-public class TrayClick {
-
-	private final Point mouseLocation;
-
-	public TrayClick(Point mouseLocation) {
-		this.mouseLocation = mouseLocation;
-	}
-	
-	public Point mouseLocation() {
-		return mouseLocation;
-	}
-
+public class LookChanged {
 }

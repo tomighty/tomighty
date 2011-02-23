@@ -30,10 +30,10 @@ import java.awt.event.MouseEvent;
 
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.Subscriber;
-import org.tomighty.bus.messages.TimeOnTrayConfigChanged;
-import org.tomighty.bus.messages.TimerStop;
-import org.tomighty.bus.messages.TimerTick;
-import org.tomighty.bus.messages.TrayClick;
+import org.tomighty.bus.messages.config.TimeOnTrayConfigChanged;
+import org.tomighty.bus.messages.time.TimerStop;
+import org.tomighty.bus.messages.time.TimerTick;
+import org.tomighty.bus.messages.ui.TrayClick;
 import org.tomighty.config.Configuration;
 import org.tomighty.config.Options;
 import org.tomighty.i18n.Messages;

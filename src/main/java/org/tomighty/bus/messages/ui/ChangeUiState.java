@@ -14,8 +14,20 @@
  *    limitations under the License.
  */
 
-package org.tomighty.bus.messages;
+package org.tomighty.bus.messages.ui;
 
-public class TimerInterrupted extends TimerStop {
+import org.tomighty.ui.UiState;
+
+public class ChangeUiState {
+
+	private final Class<? extends UiState> stateClass;
+
+	public ChangeUiState(Class<? extends UiState> stateClass) {
+		this.stateClass = stateClass;
+	}
+	
+	public Class<? extends UiState> getStateClass() {
+		return stateClass;
+	}
 
 }

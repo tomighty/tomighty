@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package org.tomighty.bus.messages;
+package org.tomighty.bus.messages.time;
 
 public class TimerStop {
 

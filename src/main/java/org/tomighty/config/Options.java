@@ -17,8 +17,8 @@
 package org.tomighty.config;
 
 import org.tomighty.bus.Bus;
-import org.tomighty.bus.messages.LookChanged;
-import org.tomighty.bus.messages.TimeOnTrayConfigChanged;
+import org.tomighty.bus.messages.config.TimeOnTrayConfigChanged;
+import org.tomighty.bus.messages.ui.LookChanged;
 import org.tomighty.ioc.Inject;
 import org.tomighty.ui.state.laf.look.Theme;
 import org.tomighty.ui.state.laf.look.themes.Shiny;
