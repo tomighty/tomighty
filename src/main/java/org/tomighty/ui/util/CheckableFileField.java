@@ -21,8 +21,11 @@ import static java.awt.BorderLayout.EAST;
 import static java.awt.BorderLayout.NORTH;
 
 import java.awt.BorderLayout;
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 
 import javax.swing.JButton;
@@ -39,7 +42,7 @@ public class CheckableFileField extends JPanel {
 
 	private JCheckBox checkBox;
 	private JTextField fileNameField;
-	private JButton selectFileButton;
+	private JButton defaultSoundButton;
 	private JFileChooser fileChooser;
 	private File file;
 
@@ -48,22 +51,32 @@ public class CheckableFileField extends JPanel {
 		
 		JPanel south = new JPanel(new BorderLayout());
 		south.add(fileNameField = new JTextField(), CENTER);
-		south.add(selectFileButton = new JButton("Select file..."), EAST);
+		south.add(defaultSoundButton = new JButton("Default"), EAST);
 		
 		add(checkBox = new JCheckBox(), NORTH);
 		add(south);
 		
 		fileNameField.setEditable(false);
+		fileNameField.setToolTipText("Click to select a file");
+		fileNameField.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		fileNameField.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(e.getButton() == MouseEvent.BUTTON1) {
+					chooseFile();
+				}
+			}
+		});
 		checkBox.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
 				updateFileSelectionState();
 			}
 		});
-		selectFileButton.addActionListener(new ActionListener() {
+		defaultSoundButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				chooseFile();
+				file(null);
 			}
 		});
 		
@@ -92,17 +105,18 @@ public class CheckableFileField extends JPanel {
 		this.file = file;
 		String text;
 		if(file == null) {
-			text = "<default>";
+			text = "Default";
 		} else {
 			text = file.getName();
 		}
 		fileNameField.setText(text);
+		defaultSoundButton.setVisible(file != null);
 	}
 
 	private void updateFileSelectionState() {
 		boolean enable = checkBox.isSelected();
 		fileNameField.setEnabled(enable);
-		selectFileButton.setEnabled(enable);
+		defaultSoundButton.setEnabled(enable);
 	}
 
 	private void chooseFile() {
