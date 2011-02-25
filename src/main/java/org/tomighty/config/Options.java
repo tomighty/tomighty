@@ -16,6 +16,8 @@
 
 package org.tomighty.config;
 
+import java.io.File;
+
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.messages.config.TimeOnTrayConfigChanged;
 import org.tomighty.bus.messages.ui.LookChanged;
@@ -31,9 +33,9 @@ public class Options {
 	private static final String UI_THEME = "option.ui.theme";
 	private static final String UI_AUTOHIDE_WINDOW = "option.ui.window.autohide";
 	private static final String UI_SHOW_TIME_ON_TRAY = "option.ui.showTimeOnTray";
-	private static final String SOUND_WIND = "option.sound.timer.wind.enable";
-	private static final String SOUND_TICTAC = "option.sound.timer.tictac.enable";
-	private static final String SOUND_DING = "option.sound.timer.ding.enable";
+	private static final String SOUND_WIND = "option.sound.timer.wind";
+	private static final String SOUND_TICTAC = "option.sound.timer.tictac";
+	private static final String SOUND_DING = "option.sound.timer.ding";
 	
 	@Inject private Configuration config;
 	@Inject private Bus bus;
@@ -115,28 +117,46 @@ public class Options {
 	}
 	
 	public class SoundOptions {
-		public boolean wind() {
-			return config.asBoolean(SOUND_WIND, true);
+		private SoundConfig wind = new SoundConfig(SOUND_WIND);
+		private SoundConfig tictac = new SoundConfig(SOUND_TICTAC);
+		private SoundConfig ding = new SoundConfig(SOUND_DING);
+
+		public SoundConfig wind() {
+			return wind;
 		}
 
-		public boolean tictac() {
-			return config.asBoolean(SOUND_TICTAC, true);
+		public SoundConfig tictac() {
+			return tictac;
 		}
 
-		public boolean ding() {
-			return config.asBoolean(SOUND_DING, true);
+		public SoundConfig ding() {
+			return ding;
+		}
+	}
+	
+	public class SoundConfig {
+		private String enabledKey;
+		private String fileKey;
+		
+		public SoundConfig(String key) {
+			this.enabledKey = key+".enabled";
+			this.fileKey = key+".file";
 		}
 
-		public void wind(boolean enable) {
-			config.set(SOUND_WIND, enable);
+		public boolean enabled() {
+			return config.asBoolean(enabledKey, true);
+		}
+		
+		public void enable(boolean enable) {
+			config.set(enabledKey, enable);
+		}
+		
+		public File file() {
+			return config.asFile(fileKey);
 		}
 
-		public void tictac(boolean enable) {
-			config.set(SOUND_TICTAC, enable);
-		}
-
-		public void ding(boolean enable) {
-			config.set(SOUND_DING, enable);
+		public void file(File file) {
+			config.set(fileKey, file);
 		}
 	}
 

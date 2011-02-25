@@ -16,28 +16,19 @@
 
 package org.tomighty.sound.timer;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import org.tomighty.config.Options.SoundConfig;
+import org.tomighty.sound.SoundSupport;
 
-import org.tomighty.config.Options;
-import org.tomighty.ioc.Inject;
-import org.tomighty.sound.ResourceSound;
-import org.tomighty.sound.Sound;
-
-public class Ding implements Sound {
-
-	private Sound defaultSound = new ResourceSound("/deskbell.wav");
+public class Ding extends SoundSupport {
 	
-	@Inject private Options options;
-
 	@Override
-	public InputStream inputStream() throws FileNotFoundException {
-		return defaultSound.inputStream();
+	protected SoundConfig configuration() {
+		return options().sound().ding();
 	}
 
 	@Override
-	public boolean disabled() {
-		return !options.sound().ding();
+	protected String defaultSoundResource() {
+		return "/ding.wav";
 	}
 
 }

@@ -16,15 +16,23 @@
 
 package org.tomighty.ui.util;
 
-import static java.awt.BorderLayout.*;
+import static java.awt.BorderLayout.CENTER;
+import static java.awt.BorderLayout.EAST;
+import static java.awt.BorderLayout.NORTH;
+
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 @SuppressWarnings("serial")
 public class CheckableFileField extends JPanel {
@@ -32,12 +40,14 @@ public class CheckableFileField extends JPanel {
 	private JCheckBox checkBox;
 	private JTextField fileNameField;
 	private JButton selectFileButton;
+	private JFileChooser fileChooser;
+	private File file;
 
 	public CheckableFileField() {
 		setLayout(new BorderLayout());
 		
 		JPanel south = new JPanel(new BorderLayout());
-		south.add(fileNameField = new JTextField("<default>"), CENTER);
+		south.add(fileNameField = new JTextField(), CENTER);
 		south.add(selectFileButton = new JButton("Select file..."), EAST);
 		
 		add(checkBox = new JCheckBox(), NORTH);
@@ -50,7 +60,15 @@ public class CheckableFileField extends JPanel {
 				updateFileSelectionState();
 			}
 		});
+		selectFileButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				chooseFile();
+			}
+		});
+		
 		updateFileSelectionState();
+		file(null);
 	}
 
 	public void text(String text) {
@@ -66,10 +84,38 @@ public class CheckableFileField extends JPanel {
 		updateFileSelectionState();
 	}
 
+	public File file() {
+		return file;
+	}
+
+	public void file(File file) {
+		this.file = file;
+		String text;
+		if(file == null) {
+			text = "<default>";
+		} else {
+			text = file.getName();
+		}
+		fileNameField.setText(text);
+	}
+
 	private void updateFileSelectionState() {
 		boolean enable = checkBox.isSelected();
 		fileNameField.setEnabled(enable);
 		selectFileButton.setEnabled(enable);
+	}
+
+	private void chooseFile() {
+		if(fileChooser == null) {
+			File directory = file != null ? file.getParentFile() : null;
+			fileChooser = new JFileChooser(directory);
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("WAV files", "wav");
+			fileChooser.setFileFilter(filter);
+		}
+	    int returnVal = fileChooser.showOpenDialog(this);
+	    if(returnVal == JFileChooser.APPROVE_OPTION) {
+	    	file(fileChooser.getSelectedFile());
+	    }
 	}
 
 }

@@ -20,6 +20,7 @@ import java.awt.Component;
 import java.awt.LayoutManager;
 
 import org.tomighty.config.Options;
+import org.tomighty.config.Options.SoundConfig;
 import org.tomighty.i18n.Messages;
 import org.tomighty.ioc.Initializable;
 import org.tomighty.ioc.Inject;
@@ -66,16 +67,26 @@ public class Sounds extends OptionPanel implements OptionGroup, Initializable {
 
 	@Override
 	public void readConfiguration() {
-		wind.checked(options.sound().wind());
-		tictac.checked(options.sound().tictac());
-		ding.checked(options.sound().ding());
+		readConfiguration(wind, options.sound().wind());
+		readConfiguration(tictac, options.sound().tictac());
+		readConfiguration(ding, options.sound().ding());
 	}
 
 	@Override
 	public void saveConfiguration() {
-		options.sound().wind(wind.isChecked());
-		options.sound().tictac(tictac.isChecked());
-		options.sound().ding(ding.isChecked());
+		saveConfiguration(wind, options.sound().wind());
+		saveConfiguration(tictac, options.sound().tictac());
+		saveConfiguration(ding, options.sound().ding());
+	}
+
+	private void readConfiguration(CheckableFileField field, SoundConfig option) {
+		field.checked(option.enabled());
+		field.file(option.file());
+	}
+
+	private void saveConfiguration(CheckableFileField field, SoundConfig option) {
+		option.enable(field.isChecked());
+		option.file(field.file());
 	}
 
 }
