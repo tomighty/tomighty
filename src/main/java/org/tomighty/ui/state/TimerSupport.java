@@ -26,9 +26,9 @@ import javax.swing.Action;
 import javax.swing.JLabel;
 
 import org.tomighty.bus.Subscriber;
-import org.tomighty.bus.messages.ChangeUiState;
-import org.tomighty.bus.messages.TimerEnd;
-import org.tomighty.bus.messages.TimerTick;
+import org.tomighty.bus.messages.time.TimerEnd;
+import org.tomighty.bus.messages.time.TimerTick;
+import org.tomighty.bus.messages.ui.ChangeUiState;
 import org.tomighty.ioc.Initializable;
 import org.tomighty.ioc.Inject;
 import org.tomighty.sound.SoundPlayer;

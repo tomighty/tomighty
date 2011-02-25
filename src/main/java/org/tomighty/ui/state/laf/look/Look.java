@@ -18,8 +18,8 @@ package org.tomighty.ui.state.laf.look;
 
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.Subscriber;
-import org.tomighty.bus.messages.LookChanged;
-import org.tomighty.bus.messages.UiStateChanged;
+import org.tomighty.bus.messages.ui.LookChanged;
+import org.tomighty.bus.messages.ui.UiStateChanged;
 import org.tomighty.config.Options;
 import org.tomighty.ioc.Inject;
 import org.tomighty.ui.UiState;

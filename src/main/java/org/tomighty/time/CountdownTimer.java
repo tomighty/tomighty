@@ -20,9 +20,9 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.tomighty.bus.Bus;
-import org.tomighty.bus.messages.TimerEnd;
-import org.tomighty.bus.messages.TimerInterrupted;
-import org.tomighty.bus.messages.TimerTick;
+import org.tomighty.bus.messages.time.TimerEnd;
+import org.tomighty.bus.messages.time.TimerInterrupted;
+import org.tomighty.bus.messages.time.TimerTick;
 import org.tomighty.ioc.Inject;
 
 public class CountdownTimer {

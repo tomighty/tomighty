@@ -30,10 +30,12 @@ import java.awt.event.MouseEvent;
 
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.Subscriber;
-import org.tomighty.bus.messages.TimerStop;
-import org.tomighty.bus.messages.TimerTick;
-import org.tomighty.bus.messages.TrayClick;
+import org.tomighty.bus.messages.config.TimeOnTrayConfigChanged;
+import org.tomighty.bus.messages.time.TimerStop;
+import org.tomighty.bus.messages.time.TimerTick;
+import org.tomighty.bus.messages.ui.TrayClick;
 import org.tomighty.config.Configuration;
+import org.tomighty.config.Options;
 import org.tomighty.i18n.Messages;
 import org.tomighty.ioc.Container;
 import org.tomighty.ioc.Initializable;
@@ -47,6 +49,7 @@ public class Tray implements Runnable, Initializable {
 
 	@Inject private Container container;
 	@Inject private Configuration config;
+	@Inject private Options options;
 	@Inject private Bus bus;
 	@Inject private Messages messages;
 	@Inject private TrayIcons icons;
@@ -54,8 +57,9 @@ public class Tray implements Runnable, Initializable {
 	
 	@Override
 	public void initialize() {
-		bus.subscribe(new ShowRemainingTime(), TimerTick.class);
+		bus.subscribe(new UpdateTimeOnTray(), TimerTick.class);
 		bus.subscribe(new ShowTomato(), TimerStop.class);
+		bus.subscribe(new RemoveTimeFromTray(), TimeOnTrayConfigChanged.class);
 		trayIcon = new TrayIcon(icons.tomato());
 		trayIcon.addMouseListener(new TrayListener());
 		trayIcon.setPopupMenu(createMenu());
@@ -84,7 +88,7 @@ public class Tray implements Runnable, Initializable {
 
 	private PopupMenu createMenu() {
 		PopupMenu menu = new PopupMenu();
-		menu.add(menuItem(messages.get("Options"), new Options()));
+		menu.add(menuItem(messages.get("Options"), new ShowOptions()));
 		menu.add(menuItem(messages.get("About"), new About()));
 		menu.addSeparator();
 		menu.add(menuItem(messages.get("Close"), new Exit()));
@@ -97,6 +101,11 @@ public class Tray implements Runnable, Initializable {
 		return item;
 	}
 	
+	private void showTomatoIcon() {
+		Image image = icons.tomato();
+		trayIcon.setImage(image);
+	}
+
 	private class TrayListener extends MouseAdapter {
 		@Override
 		public void mouseClicked(MouseEvent e) {
@@ -106,7 +115,7 @@ public class Tray implements Runnable, Initializable {
 		}
 	}
 	
-	private class Options implements ActionListener {
+	private class ShowOptions implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			OptionsDialog dialog = container.get(OptionsDialog.class);
@@ -129,20 +138,30 @@ public class Tray implements Runnable, Initializable {
 		}
 	}
 	
-	private class ShowRemainingTime implements Subscriber<TimerTick> {
+	private class UpdateTimeOnTray implements Subscriber<TimerTick> {
 		@Override
 		public void receive(TimerTick tick) {
-			Time time = tick.time();
-			Image image = icons.time(time);
-			trayIcon.setImage(image);
+			if(options.ui().showTimeOnTray()) {
+				Time time = tick.time();
+				Image image = icons.time(time);
+				trayIcon.setImage(image);
+			}
+		}
+	}
+	
+	private class RemoveTimeFromTray implements Subscriber<TimeOnTrayConfigChanged> {
+		@Override
+		public void receive(TimeOnTrayConfigChanged configuration) {
+			if(!configuration.shouldShowTimeOnTray()) {
+				showTomatoIcon();
+			}
 		}
 	}
 	
 	private class ShowTomato implements Subscriber<TimerStop> {
 		@Override
 		public void receive(TimerStop end) {
-			Image image = icons.tomato();
-			trayIcon.setImage(image);
+			showTomatoIcon();
 		}
 	}
 

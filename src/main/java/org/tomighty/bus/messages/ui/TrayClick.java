@@ -14,20 +14,20 @@
  *    limitations under the License.
  */
 
-package org.tomighty.bus.messages;
+package org.tomighty.bus.messages.ui;
 
-import org.tomighty.ui.UiState;
+import java.awt.Point;
 
-public class UiStateChanged {
+public class TrayClick {
 
-	private UiState uiState;
-	
-	public UiStateChanged(UiState uiState) {
-		this.uiState = uiState;
+	private final Point mouseLocation;
+
+	public TrayClick(Point mouseLocation) {
+		this.mouseLocation = mouseLocation;
 	}
-
-	public UiState uiState() {
-		return uiState;
+	
+	public Point mouseLocation() {
+		return mouseLocation;
 	}
 
 }

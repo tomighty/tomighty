@@ -14,7 +14,20 @@
  *    limitations under the License.
  */
 
-package org.tomighty.bus.messages;
+package org.tomighty.bus.messages.ui;
 
-public class LookChanged {
+import org.tomighty.ui.UiState;
+
+public class UiStateChanged {
+
+	private UiState uiState;
+	
+	public UiStateChanged(UiState uiState) {
+		this.uiState = uiState;
+	}
+
+	public UiState uiState() {
+		return uiState;
+	}
+
 }

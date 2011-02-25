@@ -17,35 +17,42 @@
 package org.tomighty.ui.options;
 
 import java.awt.Component;
-
-import javax.swing.JCheckBox;
+import java.awt.LayoutManager;
 
 import org.tomighty.config.Options;
+import org.tomighty.config.Options.SoundConfig;
 import org.tomighty.i18n.Messages;
 import org.tomighty.ioc.Initializable;
 import org.tomighty.ioc.Inject;
+import org.tomighty.ui.layout.StackLayout;
+import org.tomighty.ui.util.CheckableFileField;
 
 @SuppressWarnings("serial")
 public class Sounds extends OptionPanel implements OptionGroup, Initializable {
 	
 	@Inject private Options options;
 	@Inject private Messages messages;
-
-	private JCheckBox wind = new JCheckBox();
-	private JCheckBox tictac = new JCheckBox();
-	private JCheckBox ding = new JCheckBox();
+	
+	private CheckableFileField wind;
+	private CheckableFileField tictac;
+	private CheckableFileField ding;
 
 	public Sounds() {
-		add(wind);
-		add(tictac);
-		add(ding);
+		add(wind = new CheckableFileField());
+		add(tictac = new CheckableFileField());
+		add(ding = new CheckableFileField());
 	}
 	
 	@Override
 	public void initialize() {
-		wind.setText(messages.get("Enable wind sound"));
-		tictac.setText(messages.get("Enable tic-tac"));
-		ding.setText(messages.get("Enable ding sound"));
+		wind.text(messages.get("Enable wind sound"));
+		tictac.text(messages.get("Enable tic-tac"));
+		ding.text(messages.get("Enable ding sound"));
+	}
+	
+	@Override
+	protected LayoutManager createLayout() {
+		return new StackLayout(10);
 	}
 
 	@Override
@@ -60,16 +67,26 @@ public class Sounds extends OptionPanel implements OptionGroup, Initializable {
 
 	@Override
 	public void readConfiguration() {
-		wind.setSelected(options.sound().wind());
-		tictac.setSelected(options.sound().tictac());
-		ding.setSelected(options.sound().ding());
+		readConfiguration(wind, options.sound().wind());
+		readConfiguration(tictac, options.sound().tictac());
+		readConfiguration(ding, options.sound().ding());
 	}
 
 	@Override
 	public void saveConfiguration() {
-		options.sound().wind(wind.isSelected());
-		options.sound().tictac(tictac.isSelected());
-		options.sound().ding(ding.isSelected());
+		saveConfiguration(wind, options.sound().wind());
+		saveConfiguration(tictac, options.sound().tictac());
+		saveConfiguration(ding, options.sound().ding());
+	}
+
+	private void readConfiguration(CheckableFileField field, SoundConfig option) {
+		field.checked(option.enabled());
+		field.file(option.file());
+	}
+
+	private void saveConfiguration(CheckableFileField field, SoundConfig option) {
+		option.enable(field.isChecked());
+		option.file(field.file());
 	}
 
 }

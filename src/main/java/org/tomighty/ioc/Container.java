@@ -40,16 +40,6 @@ public class Container {
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> T get(String className) {
-		try {
-			Class<T> clazz = (Class<T>) Class.forName(className);
-			return get(clazz, null);
-		} catch (ClassNotFoundException cause) {
-			throw new IllegalArgumentException("Class not found: "+className, cause);
-		}
-	}
-
-	@SuppressWarnings("unchecked")
 	public <T> T get(Class<T> clazz, Object needer) {
 		Object instance = map.get(clazz);
 		if(instance == null) {

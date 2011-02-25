@@ -31,6 +31,7 @@ import java.awt.Rectangle;
 
 import javax.swing.AbstractButton;
 import javax.swing.ButtonModel;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.UIManager;
 import javax.swing.plaf.ButtonUI;
@@ -46,6 +47,13 @@ public class SexyButtonUI extends BasicButtonUI {
 	private static final Color TEXT_LIGHT = new Color(210, 210, 210);
 	private static final Color TEXT_DARK = new Color(40, 40, 40);
 	private static final Color BORDER_COLOR = new Color(60, 60, 60);
+	
+	@Override
+	public void installUI(JComponent component) {
+		super.installUI(component);
+		JButton button = (JButton)component;
+		button.setBorderPainted(false);
+	}
 
 	@Override
 	public void paint(Graphics g, JComponent c) {

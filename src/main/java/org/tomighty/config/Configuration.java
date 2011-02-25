@@ -47,13 +47,27 @@ public class Configuration implements Initializable {
 		return value == null ? defaultValue : Boolean.parseBoolean(value);
 	}
 	
-	@SuppressWarnings("unchecked")
 	public <T> T asObject(String name, Class<T> defaultClass) {
+		Class<T> clazz = asClass(name, defaultClass);
+		return container.get(clazz);
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T> Class<T> asClass(String name, Class<T> defaultClass) {
 		String className = properties.getProperty(name);
 		if(className == null) {
-			return container.get(defaultClass);
+			return defaultClass;
 		}
-		return (T) container.get(className);
+		try {
+			return (Class<T>) Class.forName(className);
+		} catch (ClassNotFoundException cause) {
+			throw new IllegalArgumentException("Class not found: "+className, cause);
+		}
+	}
+	
+	public File asFile(String name) {
+		String path = properties.getProperty(name);
+		return path != null ? new File(path) : null;
 	}
 
 	public void set(String name, boolean value) {
@@ -65,11 +79,19 @@ public class Configuration implements Initializable {
 	}
 
 	public void set(String name, Class<?> value) {
-		set(name, value.getName());
+		set(name, value != null ? value.getName() : null);
+	}
+	
+	public void set(String fileKey, File file) {
+		set(fileKey, file != null ? file.getAbsolutePath() : null);
 	}
 
 	private void set(String name, String value) {
-		properties.setProperty(name, value);
+		if(value == null) {
+			properties.remove(name);
+		} else {
+			properties.setProperty(name, value);
+		}
 		saveConfiguration();
 	}
 
