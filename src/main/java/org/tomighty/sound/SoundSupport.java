@@ -39,7 +39,7 @@ public abstract class SoundSupport implements Sound {
 
 	@Override
 	public InputStream inputStream() throws FileNotFoundException {
-		File file = options.sound().wind().file();
+		File file = configuration().file();
 		if(file == null) {
 			return defaultSound();
 		}
