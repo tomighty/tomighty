@@ -17,8 +17,6 @@
 package org.tomighty.ui.options;
 
 import java.awt.Component;
-import java.awt.GridLayout;
-import java.awt.LayoutManager;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
@@ -55,11 +53,6 @@ public class UserInterface extends OptionPanel implements OptionGroup, Initializ
 		add(createThemeOptions());
 		add(autoHideOption);
 		add(showTimeOnTrayOption);
-	}
-	
-	@Override
-	protected LayoutManager createLayout() {
-		return new GridLayout(3, 1, 6, 6);
 	}
 	
 	private JComponent createThemeOptions() {
