@@ -37,9 +37,14 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-@SuppressWarnings("serial")
-public class CheckableFileField extends JPanel {
+import org.tomighty.i18n.Messages;
+import org.tomighty.ioc.Initializable;
+import org.tomighty.ioc.Inject;
 
+@SuppressWarnings("serial")
+public class CheckableFileField extends JPanel implements Initializable {
+
+	@Inject private Messages messages;
 	private JCheckBox checkBox;
 	private JTextField fileNameField;
 	private JButton defaultSoundButton;
@@ -51,13 +56,12 @@ public class CheckableFileField extends JPanel {
 		
 		JPanel south = new JPanel(new BorderLayout());
 		south.add(fileNameField = new JTextField(), CENTER);
-		south.add(defaultSoundButton = new JButton("Default"), EAST);
+		south.add(defaultSoundButton = new JButton(), EAST);
 		
 		add(checkBox = new JCheckBox(), NORTH);
 		add(south);
 		
 		fileNameField.setEditable(false);
-		fileNameField.setToolTipText("Click to select a file");
 		fileNameField.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		fileNameField.addMouseListener(new MouseAdapter() {
 			@Override
@@ -83,6 +87,12 @@ public class CheckableFileField extends JPanel {
 		updateFileSelectionState();
 		file(null);
 	}
+	
+	@Override
+	public void initialize() {
+		defaultSoundButton.setText(messages.get("Default"));
+		fileNameField.setToolTipText(messages.get("Click to select a file"));
+	}
 
 	public void text(String text) {
 		checkBox.setText(text);
@@ -105,7 +115,7 @@ public class CheckableFileField extends JPanel {
 		this.file = file;
 		String text;
 		if(file == null) {
-			text = "Default";
+			text = defaultSoundButton.getText();
 		} else {
 			text = file.getName();
 		}
