@@ -62,7 +62,7 @@ public class CheckableFileField extends JPanel {
 		fileNameField.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(e.getButton() == MouseEvent.BUTTON1) {
+				if(e.getButton() == MouseEvent.BUTTON1 && fileNameField.isEnabled()) {
 					chooseFile();
 				}
 			}
