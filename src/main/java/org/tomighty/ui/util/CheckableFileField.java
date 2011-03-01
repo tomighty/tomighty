@@ -46,8 +46,8 @@ public class CheckableFileField extends JPanel implements Initializable {
 
 	@Inject private Messages messages;
 	private JCheckBox checkBox;
-	private JTextField fileNameField;
-	private JButton defaultSoundButton;
+	private JTextField filenameField;
+	private JButton defaultButton;
 	private JFileChooser fileChooser;
 	private File file;
 
@@ -55,18 +55,18 @@ public class CheckableFileField extends JPanel implements Initializable {
 		setLayout(new BorderLayout());
 		
 		JPanel south = new JPanel(new BorderLayout());
-		south.add(fileNameField = new JTextField(), CENTER);
-		south.add(defaultSoundButton = new JButton(), EAST);
+		south.add(filenameField = new JTextField(), CENTER);
+		south.add(defaultButton = new JButton(), EAST);
 		
 		add(checkBox = new JCheckBox(), NORTH);
 		add(south);
 		
-		fileNameField.setEditable(false);
-		fileNameField.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		fileNameField.addMouseListener(new MouseAdapter() {
+		filenameField.setEditable(false);
+		filenameField.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		filenameField.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(e.getButton() == MouseEvent.BUTTON1 && fileNameField.isEnabled()) {
+				if(e.getButton() == MouseEvent.BUTTON1 && filenameField.isEnabled()) {
 					chooseFile();
 				}
 			}
@@ -77,7 +77,7 @@ public class CheckableFileField extends JPanel implements Initializable {
 				updateFileSelectionState();
 			}
 		});
-		defaultSoundButton.addActionListener(new ActionListener() {
+		defaultButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				file(null);
@@ -90,8 +90,8 @@ public class CheckableFileField extends JPanel implements Initializable {
 	
 	@Override
 	public void initialize() {
-		defaultSoundButton.setText(messages.get("Default"));
-		fileNameField.setToolTipText(messages.get("Click to select a file"));
+		defaultButton.setText(messages.get("Default"));
+		filenameField.setToolTipText(messages.get("Click to select a file"));
 	}
 
 	public void text(String text) {
@@ -115,18 +115,18 @@ public class CheckableFileField extends JPanel implements Initializable {
 		this.file = file;
 		String text;
 		if(file == null) {
-			text = defaultSoundButton.getText();
+			text = defaultButton.getText();
 		} else {
 			text = file.getName();
 		}
-		fileNameField.setText(text);
-		defaultSoundButton.setVisible(file != null);
+		filenameField.setText(text);
+		defaultButton.setVisible(file != null);
 	}
 
 	private void updateFileSelectionState() {
 		boolean enable = checkBox.isSelected();
-		fileNameField.setEnabled(enable);
-		defaultSoundButton.setEnabled(enable);
+		filenameField.setEnabled(enable);
+		defaultButton.setEnabled(enable);
 	}
 
 	private void chooseFile() {
