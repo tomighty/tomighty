@@ -19,8 +19,9 @@ package org.tomighty.ui.options;
 import java.awt.LayoutManager;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JPanel;
+
+import org.tomighty.ui.layout.StackLayout;
 
 @SuppressWarnings("serial")
 public abstract class OptionPanel extends JPanel {
@@ -31,7 +32,7 @@ public abstract class OptionPanel extends JPanel {
 	}
 
 	protected LayoutManager createLayout() {
-		return new BoxLayout(this, BoxLayout.PAGE_AXIS);
+		return new StackLayout(10);
 	}
 
 }

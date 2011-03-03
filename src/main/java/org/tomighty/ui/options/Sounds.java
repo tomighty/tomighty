@@ -17,14 +17,13 @@
 package org.tomighty.ui.options;
 
 import java.awt.Component;
-import java.awt.LayoutManager;
 
 import org.tomighty.config.Options;
 import org.tomighty.config.Options.SoundConfig;
 import org.tomighty.i18n.Messages;
+import org.tomighty.ioc.Factory;
 import org.tomighty.ioc.Initializable;
 import org.tomighty.ioc.Inject;
-import org.tomighty.ui.layout.StackLayout;
 import org.tomighty.ui.util.CheckableFileField;
 
 @SuppressWarnings("serial")
@@ -37,10 +36,11 @@ public class Sounds extends OptionPanel implements OptionGroup, Initializable {
 	private CheckableFileField tictac;
 	private CheckableFileField ding;
 
-	public Sounds() {
-		add(wind = new CheckableFileField());
-		add(tictac = new CheckableFileField());
-		add(ding = new CheckableFileField());
+	@Inject
+	public Sounds(Factory factory) {
+		add(wind = factory.create(CheckableFileField.class));
+		add(tictac = factory.create(CheckableFileField.class));
+		add(ding = factory.create(CheckableFileField.class));
 	}
 	
 	@Override
@@ -50,11 +50,6 @@ public class Sounds extends OptionPanel implements OptionGroup, Initializable {
 		ding.text(messages.get("Enable ding sound"));
 	}
 	
-	@Override
-	protected LayoutManager createLayout() {
-		return new StackLayout(10);
-	}
-
 	@Override
 	public String name() {
 		return messages.get("Sounds");

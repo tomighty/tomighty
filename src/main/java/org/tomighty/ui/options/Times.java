@@ -18,10 +18,10 @@ package org.tomighty.ui.options;
 
 import java.awt.Component;
 import java.awt.GridLayout;
-import java.awt.LayoutManager;
 
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 import org.tomighty.config.Options;
 import org.tomighty.i18n.Messages;
@@ -44,11 +44,6 @@ public class Times extends OptionPanel implements OptionGroup, Initializable {
 		pomodoro = addField("Pomodoro");
 		shortBreak = addField("Short break");
 		longBreak = addField("Long break");
-	}
-	
-	@Override
-	protected LayoutManager createLayout() {
-		return new GridLayout(3, 3, 6, 6);
 	}
 	
 	@Override
@@ -84,9 +79,13 @@ public class Times extends OptionPanel implements OptionGroup, Initializable {
 		JFormattedTextField field = FieldFactory.createIntegerField(1, 2);
 		JLabel label = new JLabel(messages.get(name), JLabel.TRAILING);
 		label.setLabelFor(field);
-		add(label);
-		add(field);
-		add(new JLabel(messages.get("minutes")));
+		
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(1, 3, 5, 5));
+		panel.add(label);
+		panel.add(field);
+		panel.add(new JLabel(messages.get("minutes")));
+		add(panel);
 		return field;
 	}
 
