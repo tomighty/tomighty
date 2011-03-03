@@ -28,7 +28,7 @@ public class Ding extends SoundSupport {
 
 	@Override
 	protected String defaultSoundResource() {
-		return "/ding.wav";
+		return "/deskbell.wav";
 	}
 
 }
