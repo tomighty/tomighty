@@ -4,9 +4,9 @@
 	<groupId>org.tomighty</groupId>
 	<artifactId>tomighty</artifactId>
 	<packaging>jar</packaging>
-	<version>0.6</version>
+	<version>0.7</version>
 	<name>Tomighty</name>
-	<url>http://code.google.com/p/tomighty/</url>
+	<url>http://www.tomighty.org</url>
 	
 	<licenses>
 		<license>
