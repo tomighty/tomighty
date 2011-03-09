@@ -120,8 +120,8 @@
 								</goals>
 								<configuration>
 									<headerType>gui</headerType>
-									<outfile>target/${artifactId}-${project.version}.exe</outfile>
-									<jar>target/${artifactId}-${project.version}.jar</jar>
+									<outfile>target/${project.artifactId}-${project.version}.exe</outfile>
+									<jar>target/${project.artifactId}-${project.version}.jar</jar>
 									<icon>img/tomato.ico</icon>
 									<errTitle>Tomighty</errTitle>
 									<jre>
@@ -135,8 +135,8 @@
 										<productVersion>${project.version}.0.0</productVersion>
 										<txtProductVersion>${project.version}.0.0</txtProductVersion>
 										<productName>${project.name}</productName>
-										<internalName>${artifactId}</internalName>
-										<originalFilename>${artifactId}-${project.version}.exe</originalFilename>
+										<internalName>${project.artifactId}</internalName>
+										<originalFilename>${project.artifactId}-${project.version}.exe</originalFilename>
 									</versionInfo>
 								</configuration>
 							</execution>
