@@ -109,8 +109,8 @@
 				</pluginManagement>
 				<plugins>
 					<plugin>
-						<groupId>com.akathist.maven.plugins.launch4j</groupId>
-						<artifactId>launch4j-maven-plugin</artifactId>
+						<groupId>org.bluestemsoftware.open.maven.plugin</groupId>
+						<artifactId>launch4j-plugin</artifactId>
 						<executions>
 							<execution>
 								<id>l4j-gui</id>
