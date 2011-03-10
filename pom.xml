@@ -62,7 +62,7 @@
 		<pluginRepository>
 			<id>codehaus-mojo</id>
 			<name>Codehaus Mojo</name>
-			<url>http://snapshots.repository.codehaus.org</url>
+			<url>https://nexus.codehaus.org/content/repositories/snapshots</url>
 			<releases><enabled>false</enabled></releases>
 			<snapshots><enabled>true</enabled></snapshots>
 		</pluginRepository>
@@ -87,7 +87,7 @@
 				<repository>
 					<id>codehaus-mojo</id>
 					<name>Codehaus Mojo</name>
-					<url>http://snapshots.repository.codehaus.org</url>
+					<url>https://nexus.codehaus.org/content/repositories/snapshots</url>
 					<releases><enabled>false</enabled></releases>
 					<snapshots><enabled>true</enabled></snapshots>
 				</repository>
@@ -103,7 +103,7 @@
 						<plugin>
 							<groupId>org.codehaus.mojo</groupId>
 							<artifactId>nsis-maven-plugin</artifactId>
-							<version>1.0-20091114.095635-2</version>
+							<version>1.0-SNAPSHOT</version>
 						</plugin>
 					</plugins>
 				</pluginManagement>
@@ -145,7 +145,7 @@
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>nsis-maven-plugin</artifactId>
-						<version>1.0-20091114.095635-2</version>
+						<version>1.0-SNAPSHOT</version>
 						<executions>
 							<execution>
 								<phase>package</phase>
