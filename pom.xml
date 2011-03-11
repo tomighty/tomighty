@@ -75,7 +75,7 @@
 
 	<profiles>
 		<profile>
-			<id>Windows Platform</id>
+			<id>Windows</id>
 			<activation>
 				<activeByDefault>false</activeByDefault>
 				<os>
