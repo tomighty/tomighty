@@ -60,16 +60,16 @@
 
 	<pluginRepositories>
 		<pluginRepository>
+			<id>tomighty-repository</id>
+			<name>Tomighty Repository</name>
+			<url>http://tomighty.googlecode.com/svn/maven/repository</url>
+		</pluginRepository>
+		<pluginRepository>
 			<id>codehaus-mojo</id>
 			<name>Codehaus Mojo</name>
 			<url>https://nexus.codehaus.org/content/repositories/snapshots</url>
 			<releases><enabled>false</enabled></releases>
 			<snapshots><enabled>true</enabled></snapshots>
-		</pluginRepository>
-		<pluginRepository>
-			<id>akathist-repository</id>
-			<name>Akathist Repository</name>
-			<url>http://www.9stmaryrd.com/maven</url>
 		</pluginRepository>
 	</pluginRepositories>
 
@@ -109,8 +109,8 @@
 				</pluginManagement>
 				<plugins>
 					<plugin>
-						<groupId>org.bluestemsoftware.open.maven.plugin</groupId>
-						<artifactId>launch4j-plugin</artifactId>
+						<groupId>com.akathist.maven.plugins.launch4j</groupId>
+						<artifactId>launch4j-maven-plugin</artifactId>
 						<executions>
 							<execution>
 								<id>l4j-gui</id>
