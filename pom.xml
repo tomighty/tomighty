@@ -127,6 +127,9 @@
 									<jre>
 										<minVersion>1.5.0</minVersion>
 									</jre>
+									<singleInstance>
+										<mutexName>${project.artifactId}</mutexName>
+									</singleInstance> 
 									<versionInfo>
 										<fileVersion>${project.version}.0.0</fileVersion>
 										<txtFileVersion>${project.version}.0.0</txtFileVersion>
