@@ -14,6 +14,10 @@
 			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
 		</license>
 	</licenses>
+
+	<properties>
+	<nsis.makensis.bin>${basedir}/nsis/makensis</nsis.makensis.bin>
+	</properties>
 	
 	<build>
 		<resources>
@@ -92,9 +96,9 @@
 					<snapshots><enabled>true</enabled></snapshots>
 				</repository>
 				<repository>
-					<id>akathist-repository</id>
-					<name>Akathist Repository</name>
-					<url>http://www.9stmaryrd.com/maven</url>
+					<id>tomighty-repository</id>
+			<name>Tomighty Repository</name>
+			<url>http://tomighty.googlecode.com/svn/maven/repository</url>
 				</repository>
 			</repositories>
 			<build>
@@ -111,6 +115,7 @@
 					<plugin>
 						<groupId>com.akathist.maven.plugins.launch4j</groupId>
 						<artifactId>launch4j-maven-plugin</artifactId>
+						<version>1.3</version>
 						<executions>
 							<execution>
 								<id>l4j-gui</id>
