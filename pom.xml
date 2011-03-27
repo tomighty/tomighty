@@ -199,14 +199,10 @@
 						<executions>
 							<execution>
 								<id>auto-clean</id>
-								<phase>package</phase>
+								<phase>clean</phase>
 								<goals>
 									<goal>clean</goal>
 								</goals>
-								<configuration>
-									<!-- We must not delete the target directory after the package phase! -->
-									<excludeDefaultDirectories>true</excludeDefaultDirectories>
-								</configuration>
 							</execution>
 						</executions>
 						<configuration>
