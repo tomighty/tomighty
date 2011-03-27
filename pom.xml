@@ -25,17 +25,23 @@
 			<resource>
 				<filtering>false</filtering>
 				<directory>${basedir}/src/main/images</directory>
-				<includes><include>**/*</include></includes>
+				<includes>
+					<include>**/*</include>
+				</includes>
 			</resource>
 			<resource>
 				<filtering>false</filtering>
 				<directory>${basedir}/src/main/sounds</directory>
-				<includes><include>**/*</include></includes>
+				<includes>
+					<include>**/*</include>
+				</includes>
 			</resource>
 			<resource>
 				<filtering>true</filtering>
 				<directory>${basedir}/src/main/text</directory>
-				<includes><include>**/*</include></includes>
+				<includes>
+					<include>**/*</include>
+				</includes>
 			</resource>
 		</resources>
 		<plugins>
@@ -73,8 +79,12 @@
 			<id>codehaus-mojo</id>
 			<name>Codehaus Mojo</name>
 			<url>https://nexus.codehaus.org/content/repositories/snapshots</url>
-			<releases><enabled>false</enabled></releases>
-			<snapshots><enabled>true</enabled></snapshots>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
 		</pluginRepository>
 	</pluginRepositories>
 
@@ -93,8 +103,12 @@
 					<id>codehaus-mojo</id>
 					<name>Codehaus Mojo</name>
 					<url>https://nexus.codehaus.org/content/repositories/snapshots</url>
-					<releases><enabled>false</enabled></releases>
-					<snapshots><enabled>true</enabled></snapshots>
+					<releases>
+						<enabled>false</enabled>
+					</releases>
+					<snapshots>
+						<enabled>true</enabled>
+					</snapshots>
 				</repository>
 				<repository>
 					<id>tomighty-repository</id>
@@ -103,41 +117,7 @@
 				</repository>
 			</repositories>
 			<build>
-				<pluginManagement>
-					<plugins>
-						<plugin>
-							<groupId>org.codehaus.mojo</groupId>
-							<artifactId>nsis-maven-plugin</artifactId>
-							<version>1.0-SNAPSHOT</version>
-						</plugin>
-					</plugins>
-				</pluginManagement>
 				<plugins>
-					<!-- We are downloadng NSIS and unzip it. So we do not have to deliver NSIS with tomighty. -->
-					<plugin>
-						<artifactId>maven-antrun-plugin</artifactId>
-						<version>1.6</version>
-						<executions>
-							<execution>
-								<phase> prepare-package </phase>
-								<configuration>
-									<target>
-
-										<get src="http://dfn.dl.sourceforge.net/project/nsis/NSIS%202/${nsis.version}/nsis-${nsis.version}.zip" dest="nsis.zip"
-											verbose="true" usetimestamp="true" />
-
-										<unzip src="nsis.zip" dest=""/>
-
-										<delete file=""/>
-
-									</target>
-								</configuration>
-								<goals>
-									<goal>run</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
 					<!-- Create an exe file -->
 					<plugin>
 						<groupId>com.akathist.maven.plugins.launch4j</groupId>
@@ -161,7 +141,7 @@
 									</jre>
 									<singleInstance>
 										<mutexName>${project.artifactId}</mutexName>
-									</singleInstance> 
+									</singleInstance>
 									<versionInfo>
 										<fileVersion>${project.version}.0.0</fileVersion>
 										<txtFileVersion>${project.version}.0.0</txtFileVersion>
@@ -177,24 +157,9 @@
 							</execution>
 						</executions>
 					</plugin>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>nsis-maven-plugin</artifactId>
-						<version>1.0-SNAPSHOT</version>
-						<executions>
-							<execution>
-								<phase>package</phase>
-								<goals>
-									<goal>generate-project</goal> <!-- create target/project.nsh -->
-									<goal>compile</goal>          <!-- compile setup.nsi into exe -->
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
 
-					<!-- We extend the clean phase with deletion of the nsis stuff -->
+					<!-- We extend the clean phase with deletion of the nsis stuff if available -->
 					<plugin>
-
 						<artifactId>maven-clean-plugin</artifactId>
 						<version>2.4.1</version>
 						<executions>
@@ -221,6 +186,56 @@
 								</fileset>
 							</filesets>
 						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<!-- The Installer Profile. We use this if we want to release a NSIS Installer. 
+			It downloads the NSIS Plugin and uses it to pack the installer -->
+		<profile>
+			<id>Installer</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<!-- We are downloadng NSIS and unzip it. So we do not have to deliver 
+						NSIS with tomighty. -->
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>1.6</version>
+						<executions>
+							<execution>
+								<phase> prepare-package </phase>
+								<configuration>
+									<target>
+										<!-- Download the Installer -->
+										<get
+											src="http://dfn.dl.sourceforge.net/project/nsis/NSIS%202/${nsis.version}/nsis-${nsis.version}.zip"
+											dest="nsis.zip" verbose="true" usetimestamp="true" />
+										<!-- Unzip it -->
+										<unzip src="nsis.zip" dest="" />
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>nsis-maven-plugin</artifactId>
+						<version>1.0-SNAPSHOT</version>
+						<executions>
+							<execution>
+								<phase>package</phase>
+								<goals>
+									<goal>generate-project</goal> <!-- create target/project.nsh -->
+									<goal>compile</goal>          <!-- compile setup.nsi into exe -->
+								</goals>
+							</execution>
+						</executions>
 					</plugin>
 				</plugins>
 			</build>
