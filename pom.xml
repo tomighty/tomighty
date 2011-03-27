@@ -199,6 +199,28 @@
 			</activation>
 			<build>
 				<plugins>
+					<!-- Ensure we have a Windows machine if we want to build the exe -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-enforcer-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>enforce-os</id>
+								<goals>
+									<goal>enforce</goal>
+								</goals>
+								<configuration>
+									<rules>
+										<requireOS>
+											<family>windows</family>
+											<arch>x86</arch>
+										</requireOS>
+									</rules>
+									<fail>true</fail>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
 					<!-- We are downloadng NSIS and unzip it. So we do not have to deliver 
 						NSIS with tomighty. -->
 					<plugin>
