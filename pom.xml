@@ -16,7 +16,8 @@
 	</licenses>
 
 	<properties>
-		<nsis.makensis.bin>${basedir}/nsis-2.46/makensis</nsis.makensis.bin>
+		<nsis.version>2.46</nsis.version>
+		<nsis.makensis.bin>${basedir}/nsis-${nsis.version}/makensis</nsis.makensis.bin>
 	</properties>
 
 	<build>
@@ -122,7 +123,7 @@
 								<configuration>
 									<target>
 
-										<get src="http://dfn.dl.sourceforge.net/project/nsis/NSIS%202/2.46/nsis-2.46.zip" dest="nsis.zip"
+										<get src="http://dfn.dl.sourceforge.net/project/nsis/NSIS%202/${nsis.version}/nsis-${nsis.version}.zip" dest="nsis.zip"
 											verbose="true" usetimestamp="true" />
 
 										<unzip src="nsis.zip" dest=""/>
@@ -212,11 +213,11 @@
 									<directory>${basedir}</directory>
 									<includes>
 										<include>nsis.zip</include>
-										<include>nsis-2.46</include>
+										<include>nsis-${nsis.version}</include>
 									</includes>
 								</fileset>
 								<fileset>
-									<directory>${basedir}/nsis-2.46</directory>
+									<directory>${basedir}/nsis-${nsis.version}</directory>
 								</fileset>
 							</filesets>
 						</configuration>
