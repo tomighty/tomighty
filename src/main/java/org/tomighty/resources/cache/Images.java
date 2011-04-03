@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-public class Images implements CacheType {
+public class Images implements EntryType {
 
 	@Override
 	public String name() {

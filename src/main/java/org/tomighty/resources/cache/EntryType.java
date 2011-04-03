@@ -3,7 +3,7 @@ package org.tomighty.resources.cache;
 import java.io.File;
 import java.io.IOException;
 
-public interface CacheType {
+public interface EntryType {
 
 	String name();
 

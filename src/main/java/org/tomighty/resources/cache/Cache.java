@@ -9,11 +9,11 @@ import org.tomighty.log.Log;
 
 public class Cache {
 
-	private final CacheType type;
+	private final EntryType type;
 	private final File directory;
 	@Inject @New private Log log;
 
-	public Cache(CacheType type, File directory) {
+	public Cache(EntryType type, File directory) {
 		this.type = type;
 		this.directory = directory;
 		directory.mkdirs();

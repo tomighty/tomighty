@@ -16,11 +16,11 @@ public class Caches {
 		rootDirectory = new File(directories.configuration(), "cache");
 	}
 	
-	public Cache of(Class<? extends CacheType> type) {
-		CacheType cacheType = factory.create(type);
-		String cacheName = cacheType.name();
+	public Cache of(Class<? extends EntryType> type) {
+		EntryType entryType = factory.create(type);
+		String cacheName = entryType.name();
 		File directory = new File(rootDirectory, cacheName);
-		Cache cache = new Cache(cacheType, directory);
+		Cache cache = new Cache(entryType, directory);
 		return cache;
 	}
 
