@@ -19,7 +19,6 @@ package org.tomighty.i18n;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.charset.Charset;
 import java.util.Locale;
 import java.util.Properties;
 
@@ -56,8 +55,7 @@ public class Messages implements Initializable {
 	}
 
 	private void loadMessagesFrom(InputStream input) throws IOException {
-		Charset charset = Charset.forName("utf-8");
-		InputStreamReader reader = new InputStreamReader(input, charset);
+		InputStreamReader reader = new InputStreamReader(input, "utf-8");
 		try {
 			messages.load(reader);
 		} finally {
