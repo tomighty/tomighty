@@ -1,8 +1,10 @@
-Tomighty
-========
+Tomighty is...
+==============
 
-Tomighty is a desktop timer application that helps you perform the Pomodoro Technique.
+A desktop timer application that helps you perform the Pomodoro Technique.
 It's written in Java, and is designed to be simple, easy to use and unintrusive.
+
+Know more about it at [www.tomighty.org](http://www.tomighty.org)
 
 Building
 --------
