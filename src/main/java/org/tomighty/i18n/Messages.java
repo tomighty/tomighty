@@ -34,22 +34,14 @@ public class Messages implements Initializable {
 	
 	@Override
 	public void initialize() {
-		Locale locale = Locale.getDefault();
-		String localeId = locale.getLanguage()+"_"+locale.getCountry();
-		log.info("Loading messages for locale "+localeId);
-		String resourceName = "/messages_"+localeId+".properties";
+		log.info("Loading messages for locale "+locale());
+		String resourceName = "/messages_"+locale()+".properties";
 		InputStream input = getClass().getResourceAsStream(resourceName);
 		if(input == null) {
 			log.info("Messages file not found: "+resourceName);
 		} else {
-			Charset charset = Charset.forName("utf-8");
-			InputStreamReader reader = new InputStreamReader(input, charset);
 			try {
-				try {
-					messages.load(reader);
-				} finally {
-					reader.close();
-				}
+				loadMessagesFrom(input);
 			} catch (IOException e) {
 				log.error("Error while loading resource: "+resourceName, e);
 			}
@@ -62,6 +54,21 @@ public class Messages implements Initializable {
 			return messages.getProperty(key);
 		}
 		return name;
+	}
+
+	private void loadMessagesFrom(InputStream input) throws IOException {
+		Charset charset = Charset.forName("utf-8");
+		InputStreamReader reader = new InputStreamReader(input, charset);
+		try {
+			messages.load(reader);
+		} finally {
+			reader.close();
+		}
+	}
+
+	private String locale() {
+		Locale locale = Locale.getDefault();
+		return locale.getLanguage()+"_"+locale.getCountry();
 	}
 
 }
