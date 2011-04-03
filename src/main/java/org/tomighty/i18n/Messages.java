@@ -37,7 +37,7 @@ public class Messages implements Initializable {
 		log.info("Loading messages for locale "+locale());
 		InputStream input = getClass().getResourceAsStream(resourceName());
 		if(input == null) {
-			log.info("Messages file not found: "+resourceName());
+			log.info("Messages not available for locale "+locale()+".");
 		} else {
 			try {
 				loadMessagesFrom(input);
