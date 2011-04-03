@@ -35,15 +35,14 @@ public class Messages implements Initializable {
 	@Override
 	public void initialize() {
 		log.info("Loading messages for locale "+locale());
-		String resourceName = "/messages_"+locale()+".properties";
-		InputStream input = getClass().getResourceAsStream(resourceName);
+		InputStream input = getClass().getResourceAsStream(resourceName());
 		if(input == null) {
-			log.info("Messages file not found: "+resourceName);
+			log.info("Messages file not found: "+resourceName());
 		} else {
 			try {
 				loadMessagesFrom(input);
 			} catch (IOException e) {
-				log.error("Error while loading resource: "+resourceName, e);
+				log.error("Error while loading resource: "+resourceName(), e);
 			}
 		}
 	}
@@ -69,6 +68,10 @@ public class Messages implements Initializable {
 	private String locale() {
 		Locale locale = Locale.getDefault();
 		return locale.getLanguage()+"_"+locale.getCountry();
+	}
+
+	private String resourceName() {
+		return "/messages_"+locale()+".properties";
 	}
 
 }
