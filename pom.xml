@@ -7,7 +7,7 @@
 	<version>0.7</version>
 	<name>Tomighty</name>
 	<url>http://www.tomighty.org</url>
-	
+
 	<licenses>
 		<license>
 			<name>Apache 2</name>
@@ -18,24 +18,29 @@
 	<properties>
 		<nsis.version>2.46</nsis.version>
 		<nsis.makensis.bin>${basedir}/nsis-${nsis.version}/makensis</nsis.makensis.bin>
-	</properties>
-
+	</properties>	
 	<build>
 		<resources>
 			<resource>
 				<filtering>false</filtering>
 				<directory>${basedir}/src/main/images</directory>
-				<includes><include>**/*</include></includes>
+				<includes>
+					<include>**/*</include>
+				</includes>
 			</resource>
 			<resource>
 				<filtering>false</filtering>
 				<directory>${basedir}/src/main/sounds</directory>
-				<includes><include>**/*</include></includes>
+				<includes>
+					<include>**/*</include>
+				</includes>
 			</resource>
 			<resource>
 				<filtering>true</filtering>
 				<directory>${basedir}/src/main/text</directory>
-				<includes><include>**/*</include></includes>
+				<includes>
+					<include>**/*</include>
+				</includes>
 			</resource>
 		</resources>
 		<plugins>
@@ -60,6 +65,46 @@
 					<target>1.5</target>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.0-beta-3</version>
+				<configuration>
+					<reportPlugins>
+						<plugin>
+							<groupId>org.codehaus.mojo</groupId>
+							<artifactId>findbugs-maven-plugin</artifactId>
+							<version>2.3.2</version>
+						</plugin>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-pmd-plugin</artifactId>
+							<version>2.5</version>
+							<configuration>
+								<sourceEncoding>utf-8</sourceEncoding>
+								<targetJdk>1.5</targetJdk>
+								<linkXref>true</linkXref>
+							</configuration>
+						</plugin>
+						<plugin>
+							<groupId>org.codehaus.mojo</groupId>
+							<artifactId>cobertura-maven-plugin</artifactId>
+							<version>2.4</version>
+							<configuration>
+								<formats>
+									<format>xml</format>
+									<format>html</format>
+								</formats>
+							</configuration>
+						</plugin>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-javadoc-plugin</artifactId>
+							<version>2.7</version>
+						</plugin>
+					</reportPlugins>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -73,8 +118,12 @@
 			<id>codehaus-mojo</id>
 			<name>Codehaus Mojo</name>
 			<url>https://nexus.codehaus.org/content/repositories/snapshots</url>
-			<releases><enabled>false</enabled></releases>
-			<snapshots><enabled>true</enabled></snapshots>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
 		</pluginRepository>
 	</pluginRepositories>
 
@@ -93,8 +142,12 @@
 					<id>codehaus-mojo</id>
 					<name>Codehaus Mojo</name>
 					<url>https://nexus.codehaus.org/content/repositories/snapshots</url>
-					<releases><enabled>false</enabled></releases>
-					<snapshots><enabled>true</enabled></snapshots>
+					<releases>
+						<enabled>false</enabled>
+					</releases>
+					<snapshots>
+						<enabled>true</enabled>
+					</snapshots>
 				</repository>
 				<repository>
 					<id>tomighty-repository</id>
