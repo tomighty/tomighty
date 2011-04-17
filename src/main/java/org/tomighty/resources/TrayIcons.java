@@ -32,14 +32,19 @@ import org.tomighty.ui.util.Canvas;
 
 public class TrayIcons {
 
-	@Inject private Resources resources;
-	@Inject private Look look;
-	@Inject private Caches caches;
-	
+	@Inject
+	private Resources resources;
+	@Inject
+	private Look look;
+	@Inject
+	private Caches caches;
+
+	private static final String DEFAULT_TRAY_ICON = "/tomato-24.png";
+
 	public Image tomato() {
 		int size = traySize().height;
 		Image image = tomato(size);
-		if(image == null) {
+		if (image == null) {
 			image = tomato(16);
 		}
 		return image;
@@ -48,32 +53,37 @@ public class TrayIcons {
 	public Image time(Time time) {
 		String iconName = iconNameFor(time);
 		Cache cache = caches.of(Icons.class);
-		if(cache.contains(iconName)) {
+		if (cache.contains(iconName)) {
 			return cache.get(iconName);
 		}
-		
+
 		Dimension size = traySize();
 		Colors colors = look.colors();
 		Canvas canvas = new Canvas(size);
-		canvas.fontSize((float)size.height * 0.58f);
+		canvas.fontSize((float) size.height * 0.58f);
 		canvas.paintGradient(colors.background());
 		canvas.drawBorder(colors.background().darker().darker().darker());
 		canvas.drawCentralizedText(time.shortestString());
-		
+
 		cache.store(canvas.image(), iconName);
-		
+
 		return canvas.image();
 	}
-	
+
 	private String iconNameFor(Time time) {
 		Font font = Canvas.defaultFont();
 		Dimension size = traySize();
 		String colorName = look.colors().getClass().getSimpleName();
-		return font.getFontName() + "_" + size.width + "x" + size.height + "_" + colorName + "_" + time.shortestString();
+		return font.getFontName() + "_" + size.width + "x" + size.height + "_"
+				+ colorName + "_" + time.shortestString();
 	}
 
 	private Image tomato(int size) {
-		return resources.image("/tomato-"+size+".png");
+		Image image = resources.image("/tomato-" + size + ".png");
+		if (image == null) {
+			image = resources.image(DEFAULT_TRAY_ICON);
+		}
+		return image;
 	}
 
 	private Dimension traySize() {
