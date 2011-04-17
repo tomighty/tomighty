@@ -32,6 +32,8 @@ import org.tomighty.log.Log;
 public class Resources {
 	
 	@Inject private Log log;
+        
+        private static final String DEFAULT_TRAY_ICON = "/tomato-24.png";
 	
 	public String text(String resourceName) {
 		InputStream input = getClass().getResourceAsStream(resourceName);
@@ -54,6 +56,12 @@ public class Resources {
 
 	public Image image(String resourceName) {
 		URL imageUrl = getClass().getResource(resourceName);
+                if(imageUrl == null){
+                    
+                /*On MacOSX the default System tray is 22px, and we do not have an icon with this
+                *size, so we should revert to a default Icon */
+                imageUrl = getClass().getResource(DEFAULT_TRAY_ICON);
+                }
 		try {
 			return ImageIO.read(imageUrl);
 		} catch (IOException e) {
