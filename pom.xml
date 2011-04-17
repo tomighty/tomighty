@@ -15,6 +15,11 @@
 		</license>
 	</licenses>
 	
+	<properties>
+		<nsis.version>2.46</nsis.version>
+		<nsis.makensis.bin>${basedir}/nsis-${nsis.version}/makensis</nsis.makensis.bin>
+	</properties>
+
 	<build>
 		<resources>
 			<resource>
@@ -92,25 +97,18 @@
 					<snapshots><enabled>true</enabled></snapshots>
 				</repository>
 				<repository>
-					<id>akathist-repository</id>
-					<name>Akathist Repository</name>
-					<url>http://www.9stmaryrd.com/maven</url>
+					<id>tomighty-repository</id>
+					<name>Tomighty Repository</name>
+					<url>http://tomighty.googlecode.com/svn/maven/repository</url>
 				</repository>
 			</repositories>
 			<build>
-				<pluginManagement>
-					<plugins>
-						<plugin>
-							<groupId>org.codehaus.mojo</groupId>
-							<artifactId>nsis-maven-plugin</artifactId>
-							<version>1.0-SNAPSHOT</version>
-						</plugin>
-					</plugins>
-				</pluginManagement>
 				<plugins>
+					<!-- Create an exe file -->
 					<plugin>
 						<groupId>com.akathist.maven.plugins.launch4j</groupId>
 						<artifactId>launch4j-maven-plugin</artifactId>
+						<version>1.3</version>
 						<executions>
 							<execution>
 								<id>l4j-gui</id>
@@ -129,7 +127,7 @@
 									</jre>
 									<singleInstance>
 										<mutexName>${project.artifactId}</mutexName>
-									</singleInstance> 
+									</singleInstance>
 									<versionInfo>
 										<fileVersion>${project.version}.0.0</fileVersion>
 										<txtFileVersion>${project.version}.0.0</txtFileVersion>
@@ -142,6 +140,94 @@
 										<originalFilename>${project.artifactId}-${project.version}.exe</originalFilename>
 									</versionInfo>
 								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+
+					<!-- We extend the clean phase with deletion of the nsis stuff if available -->
+					<plugin>
+						<artifactId>maven-clean-plugin</artifactId>
+						<version>2.4.1</version>
+						<executions>
+							<execution>
+								<id>auto-clean</id>
+								<phase>clean</phase>
+								<goals>
+									<goal>clean</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<verbose>true</verbose>
+							<filesets>
+								<fileset>
+									<directory>${basedir}</directory>
+									<includes>
+										<include>nsis.zip</include>
+										<include>nsis-${nsis.version}</include>
+									</includes>
+								</fileset>
+								<fileset>
+									<directory>${basedir}/nsis-${nsis.version}</directory>
+								</fileset>
+							</filesets>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<!-- The Installer Profile. We use this if we want to release a NSIS Installer. 
+			It downloads the NSIS Plugin and uses it to pack the installer -->
+		<profile>
+			<id>Installer</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<!-- Ensure we have a Windows machine if we want to build the exe -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-enforcer-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>enforce-os</id>
+								<goals>
+									<goal>enforce</goal>
+								</goals>
+								<configuration>
+									<rules>
+										<requireOS>
+											<family>windows</family>
+											<arch>x86</arch>
+										</requireOS>
+									</rules>
+									<fail>true</fail>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<!-- We are downloadng NSIS and unzip it. So we do not have to deliver 
+						NSIS with tomighty. -->
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>1.6</version>
+						<executions>
+							<execution>
+								<phase> prepare-package </phase>
+								<configuration>
+									<target>
+										<!-- Download the Installer -->
+										<get
+											src="http://dfn.dl.sourceforge.net/project/nsis/NSIS%202/${nsis.version}/nsis-${nsis.version}.zip"
+											dest="nsis.zip" verbose="true" usetimestamp="true" />
+										<!-- Unzip it -->
+										<unzip src="nsis.zip" dest="" />
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
 							</execution>
 						</executions>
 					</plugin>
@@ -165,3 +251,4 @@
 	</profiles>
 
 </project>
+
