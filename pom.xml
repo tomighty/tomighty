@@ -14,11 +14,21 @@
 			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
 		</license>
 	</licenses>
-	
+
 	<properties>
 		<nsis.version>2.46</nsis.version>
 		<nsis.makensis.bin>${basedir}/nsis-${nsis.version}/makensis</nsis.makensis.bin>
-	</properties>	
+	</properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.8.2</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
 	<build>
 		<resources>
 			<resource>
@@ -302,13 +312,5 @@
 			</build>
 		</profile>
 	</profiles>
-    <dependencies>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.8.2</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
 </project>
 
