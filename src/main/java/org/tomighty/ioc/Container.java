@@ -21,18 +21,22 @@ import java.util.Map;
 
 public class Container {
 	
+	private final Binder binder;
 	private final Factory factory = new Factory();
-	
 	private final Injector injector = new Injector();
-	
 	private final Map<Class<?>, Object> map = new HashMap<Class<?>, Object>();
-	
+
 	public Container() {
 		map.put(Container.class, this);
 		map.put(Factory.class, factory);
 		map.put(Injector.class, injector);
 		factory.container(this);
 		injector.container(this);
+		binder = factory.create(Binder.class);
+	}
+
+	public Binder binder() {
+		return binder;
 	}
 	
 	public <T> T get(Class<T> clazz) {
@@ -43,10 +47,18 @@ public class Container {
 	public <T> T get(Class<T> clazz, Object needer) {
 		Object instance = map.get(clazz);
 		if(instance == null) {
-			instance = factory.create(clazz, needer);
+			instance = create(clazz, needer);
 			map.put(clazz, instance);
 		}
 		return (T) instance;
+	}
+	
+	private <T> T create(Class<T> clazz, Object needer) {
+		Binding<T> binding = binder().bindingFor(clazz);
+		if(binding != null) {
+			return binding.instance(needer);
+		}
+		return factory.create(clazz, needer);
 	}
 
 }
