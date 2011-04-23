@@ -34,7 +34,7 @@ import org.tomighty.ioc.Initializable;
 import org.tomighty.ioc.Inject;
 import org.tomighty.ioc.New;
 import org.tomighty.log.Log;
-import org.tomighty.ui.Tray;
+import org.tomighty.ui.TrayManager;
 import org.tomighty.ui.UiState;
 import org.tomighty.ui.Window;
 import org.tomighty.ui.state.InitialState;
@@ -52,9 +52,9 @@ public class Tomighty implements Initializable, Runnable {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		Container container = new Container();
 		Tomighty tomighty = container.get(Tomighty.class);
-		Tray tray = container.get(Tray.class);
+		TrayManager trayManager = container.get(TrayManager.class);
 		invokeLater(tomighty);
-		invokeLater(tray);
+		invokeLater(trayManager);
 	}
 	
 	@Override

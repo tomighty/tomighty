@@ -45,7 +45,7 @@ import org.tomighty.time.Time;
 import org.tomighty.ui.about.AboutDialog;
 import org.tomighty.ui.options.OptionsDialog;
 
-public class Tray implements Runnable, Initializable {
+public class TrayManager implements Runnable, Initializable {
 
 	@Inject private Container container;
 	@Inject private Configuration config;
