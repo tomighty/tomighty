@@ -18,6 +18,8 @@ package org.tomighty.ui;
 
 import java.awt.Component;
 import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 
@@ -38,6 +40,8 @@ public class Window extends JFrame implements Initializable {
 	@Inject private Options options;
 	@Inject private Images images;
 	private JPanel panel = new JPanel();
+	private WindowDragger dragger = new WindowDragger();
+	private boolean gotRelocatedOnceAtLeast;
 
 	@Inject
 	public Window(SexyPanelUI panelUI) {
@@ -51,6 +55,8 @@ public class Window extends JFrame implements Initializable {
 		setSize(152, 102);
 		setUndecorated(true);
 		addWindowFocusListener(new HideWindowWhenLosingFocus());
+		addMouseListener(dragger);
+		addMouseMotionListener(dragger);
 	}
 	
 	@Override
@@ -64,13 +70,20 @@ public class Window extends JFrame implements Initializable {
 	}
 	
 	public void show(Point mouseLocation) {
-		if(mouseLocation != null)
-		{
+		if(canRelocateWindow(mouseLocation)) {
 			Location location = Closest.location(mouseLocation);
 			Point point = location.determine(getSize());
 			setLocation(point);
+			gotRelocatedOnceAtLeast = true;
 		}
 		setVisible(true);
+	}
+
+	private boolean canRelocateWindow(Point mouseLocation) {
+		if(options.ui().draggableWindow() && gotRelocatedOnceAtLeast) {
+			return false;
+		}
+		return mouseLocation != null;
 	}
 	
 	private class HideWindowWhenLosingFocus implements WindowFocusListener {
@@ -83,6 +96,41 @@ public class Window extends JFrame implements Initializable {
 				setVisible(false);
 			}
 		}
+	}
+	
+	private class WindowDragger extends MouseAdapter {
+		
+		private Point offset;
+		
+		@Override
+		public void mousePressed(MouseEvent e) {
+			if(leftClicked(e)) {
+				offset = e.getPoint();
+			}
+		}
+		
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			if(leftClicked(e)) {
+				offset = null;
+			}
+		}
+		
+		@Override
+		public void mouseDragged(MouseEvent e) {
+			if(offset == null || !options.ui().draggableWindow()) {
+				return;
+			}
+			Point mouseLocation = e.getLocationOnScreen();
+			int x = mouseLocation.x - offset.x;
+			int y = mouseLocation.y - offset.y;
+			setLocation(x, y);
+		}
+
+		private boolean leftClicked(MouseEvent e) {
+			return e.getButton() == MouseEvent.BUTTON1;
+		}
+		
 	}
 	
 }

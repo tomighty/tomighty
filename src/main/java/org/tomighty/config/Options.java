@@ -32,6 +32,7 @@ public class Options {
 	private static final String TIME_LONG_BREAK = "option.time.longBreak";
 	private static final String UI_THEME = "option.ui.theme";
 	private static final String UI_AUTOHIDE_WINDOW = "option.ui.window.autohide";
+	private static final String UI_DRAGGABLE_WINDOW = "option.ui.window.draggable";
 	private static final String UI_SHOW_TIME_ON_TRAY = "option.ui.showTimeOnTray";
 	private static final String SOUND_WIND = "option.sound.timer.wind";
 	private static final String SOUND_TICTAC = "option.sound.timer.tictac";
@@ -113,6 +114,14 @@ public class Options {
 				config.set(UI_SHOW_TIME_ON_TRAY, show);
 				bus.publish(new TimeOnTrayConfigChanged(show));
 			}
+		}
+
+		public boolean draggableWindow() {
+			return config.asBoolean(UI_DRAGGABLE_WINDOW, false);
+		}
+
+		public void draggableWindow(boolean draggable) {
+			config.set(UI_DRAGGABLE_WINDOW, draggable);
 		}
 	}
 	

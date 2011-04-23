@@ -45,13 +45,16 @@ public class UserInterface extends OptionPanel implements OptionGroup, Initializ
 	private JLabel themeLabel;
 	private MutableComboBoxModel themeOptions;
 	private JCheckBox autoHideOption;
+	private JCheckBox draggableWindowOption;
 	private JCheckBox showTimeOnTrayOption;
 
 	public UserInterface() {
 		autoHideOption = new JCheckBox();
+		draggableWindowOption = new JCheckBox();
 		showTimeOnTrayOption = new JCheckBox();
 		add(createThemeOptions());
 		add(autoHideOption);
+		add(draggableWindowOption);
 		add(showTimeOnTrayOption);
 	}
 	
@@ -73,6 +76,7 @@ public class UserInterface extends OptionPanel implements OptionGroup, Initializ
 	public void initialize() {
 		themeLabel.setText(messages.get("Theme"));
 		autoHideOption.setText(messages.get("Auto hide window"));
+		draggableWindowOption.setText(messages.get("Allows dragging the window around"));
 		showTimeOnTrayOption.setText(messages.get("Show remaining time on tray"));
 	}
 
@@ -89,6 +93,7 @@ public class UserInterface extends OptionPanel implements OptionGroup, Initializ
 	@Override
 	public void readConfiguration() {
 		autoHideOption.setSelected(options.ui().autoHideWindow());
+		draggableWindowOption.setSelected(options.ui().draggableWindow());
 		showTimeOnTrayOption.setSelected(options.ui().showTimeOnTray());
 		themeOptions.setSelectedItem(new ThemeOption(options.ui().theme().getClass()));
 	}
@@ -96,6 +101,7 @@ public class UserInterface extends OptionPanel implements OptionGroup, Initializ
 	@Override
 	public void saveConfiguration() {
 		options.ui().autoHide(autoHideOption.isSelected());
+		options.ui().draggableWindow(draggableWindowOption.isSelected());
 		options.ui().showTimeOnTray(showTimeOnTrayOption.isSelected());
 		options.ui().theme(((ThemeOption)themeOptions.getSelectedItem()).clazz());
 	}
