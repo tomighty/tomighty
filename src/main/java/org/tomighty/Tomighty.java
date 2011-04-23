@@ -16,9 +16,9 @@
 
 package org.tomighty;
 
-import java.awt.Component;
+import static javax.swing.SwingUtilities.invokeLater;
 
-import static javax.swing.SwingUtilities.*;
+import java.awt.Component;
 
 import javax.swing.UIManager;
 
@@ -28,16 +28,19 @@ import org.tomighty.bus.messages.ui.ChangeUiState;
 import org.tomighty.bus.messages.ui.TrayClick;
 import org.tomighty.bus.messages.ui.UiStateChanged;
 import org.tomighty.config.Options;
+import org.tomighty.ioc.Binder;
 import org.tomighty.ioc.Container;
 import org.tomighty.ioc.Factory;
 import org.tomighty.ioc.Initializable;
 import org.tomighty.ioc.Inject;
 import org.tomighty.ioc.New;
 import org.tomighty.log.Log;
+import org.tomighty.ui.Tray;
 import org.tomighty.ui.TrayManager;
 import org.tomighty.ui.UiState;
 import org.tomighty.ui.Window;
 import org.tomighty.ui.state.InitialState;
+import org.tomighty.ui.tray.AwtTray;
 
 public class Tomighty implements Initializable, Runnable {
 	
@@ -50,11 +53,18 @@ public class Tomighty implements Initializable, Runnable {
 
 	public static void main(String[] args) throws Exception {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		Container container = new Container();
+		Container container = createContainer();
 		Tomighty tomighty = container.get(Tomighty.class);
 		TrayManager trayManager = container.get(TrayManager.class);
 		invokeLater(tomighty);
 		invokeLater(trayManager);
+	}
+
+	private static Container createContainer() {
+		Container container = new Container();
+		Binder binder = container.binder();
+		binder.bind(Tray.class).to(AwtTray.class);
+		return container;
 	}
 	
 	@Override

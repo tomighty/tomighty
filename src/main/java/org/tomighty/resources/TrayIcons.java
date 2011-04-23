@@ -19,33 +19,36 @@ package org.tomighty.resources;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
-import java.awt.SystemTray;
 
 import org.tomighty.ioc.Inject;
 import org.tomighty.resources.cache.Cache;
 import org.tomighty.resources.cache.Caches;
 import org.tomighty.resources.cache.Icons;
 import org.tomighty.time.Time;
+import org.tomighty.ui.Tray;
 import org.tomighty.ui.state.laf.look.Colors;
 import org.tomighty.ui.state.laf.look.Look;
 import org.tomighty.ui.util.Canvas;
 
 public class TrayIcons {
 
-	@Inject
-	private Resources resources;
-	@Inject
-	private Look look;
-	@Inject
-	private Caches caches;
+	@Inject private Resources resources;
+	@Inject private Tray tray;
+	@Inject private Look look;
+	@Inject private Caches caches;
+	
+	private int defaultIconSize;
 
-	private static final String DEFAULT_TRAY_ICON = "/tomato-24.png";
+	public void defaultIconSize(int size) {
+		defaultIconSize = size;
+		
+	}
 
 	public Image tomato() {
-		int size = traySize().height;
+		int size = tray.iconSize().height;
 		Image image = tomato(size);
 		if (image == null) {
-			image = tomato(16);
+			image = tomato(defaultIconSize);
 		}
 		return image;
 	}
@@ -57,7 +60,7 @@ public class TrayIcons {
 			return cache.get(iconName);
 		}
 
-		Dimension size = traySize();
+		Dimension size = tray.iconSize();
 		Colors colors = look.colors();
 		Canvas canvas = new Canvas(size);
 		canvas.fontSize((float) size.height * 0.58f);
@@ -72,22 +75,14 @@ public class TrayIcons {
 
 	private String iconNameFor(Time time) {
 		Font font = Canvas.defaultFont();
-		Dimension size = traySize();
+		Dimension size = tray.iconSize();
 		String colorName = look.colors().getClass().getSimpleName();
 		return font.getFontName() + "_" + size.width + "x" + size.height + "_"
 				+ colorName + "_" + time.shortestString();
 	}
 
 	private Image tomato(int size) {
-		Image image = resources.image("/tomato-" + size + ".png");
-		if (image == null) {
-			image = resources.image(DEFAULT_TRAY_ICON);
-		}
-		return image;
-	}
-
-	private Dimension traySize() {
-		return SystemTray.getSystemTray().getTrayIconSize();
+		return resources.image("/tomato-" + size + ".png");
 	}
 
 }
