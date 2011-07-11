@@ -33,7 +33,6 @@ import org.tomighty.ui.Tray;
 public class TrayIconsTest extends InjectedTest {
 
 	private static final int TRAY_ICON_SIZE = 10;
-	private static final int DEFAULT_ICON_SIZE = 20;
 	
 	@Inject private TrayIcons trayIcons;
 	@Inject private Tray tray;
@@ -47,8 +46,8 @@ public class TrayIconsTest extends InjectedTest {
 	
 	@Before
 	public void setUp() {
-		trayIcons.defaultIconSize(DEFAULT_ICON_SIZE);
-		when(tray.iconSize()).thenReturn(new Dimension(TRAY_ICON_SIZE, TRAY_ICON_SIZE));
+		Dimension trayIconSize = new Dimension(TRAY_ICON_SIZE, TRAY_ICON_SIZE);
+		when(tray.iconSize()).thenReturn(trayIconSize);
 	}
 	
 	@Test
@@ -62,7 +61,7 @@ public class TrayIconsTest extends InjectedTest {
 	@Test
 	public void testDefaultTomatoIcon() {
 		Image defaultIcon = mock(Image.class);
-		when(resources.image(resourceName(DEFAULT_ICON_SIZE))).thenReturn(defaultIcon);
+		when(resources.image(resourceName(TrayIcons.DEFAULT_ICON_SIZE))).thenReturn(defaultIcon);
 		Image icon = trayIcons.tomato();
 		assertThat(icon, equalTo(defaultIcon));
 	}
