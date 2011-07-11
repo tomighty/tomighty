@@ -32,23 +32,18 @@ import org.tomighty.ui.util.Canvas;
 
 public class TrayIcons {
 
+	public static final int DEFAULT_ICON_SIZE = 32;
+
 	@Inject private Resources resources;
 	@Inject private Tray tray;
 	@Inject private Look look;
 	@Inject private Caches caches;
 	
-	private int defaultIconSize;
-
-	public void defaultIconSize(int size) {
-		defaultIconSize = size;
-		
-	}
-
 	public Image tomato() {
 		int size = tray.iconSize().height;
 		Image image = tomato(size);
 		if (image == null) {
-			image = tomato(defaultIconSize);
+			image = tomato(DEFAULT_ICON_SIZE);
 		}
 		return image;
 	}

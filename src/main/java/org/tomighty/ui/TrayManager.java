@@ -63,6 +63,7 @@ public class TrayManager implements Runnable, Initializable {
 		trayIcon = new TrayIcon(icons.tomato());
 		trayIcon.addMouseListener(new TrayListener());
 		trayIcon.setPopupMenu(createMenu());
+		trayIcon.setImageAutoSize(true);
 	}
 	
 	@Override
