@@ -18,16 +18,21 @@ package org.tomighty.ui.state.laf;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
 import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.font.FontRenderContext;
 import java.awt.font.LineBreakMeasurer;
+import java.awt.font.TextAttribute;
 import java.awt.font.TextLayout;
 import java.text.AttributedCharacterIterator;
+import java.text.AttributedCharacterIterator.Attribute;
 import java.text.AttributedString;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -78,7 +83,7 @@ public class SexyLabelUI extends BasicLabelUI {
 		private WrappedLines breakLines(Graphics2D g) {
 			Dimension size = label.getSize();
 			float maxWidth = size.width;
-			AttributedString attributedText = new AttributedString(label.getText(), label.getFont().getAttributes());
+			AttributedString attributedText = new AttributedString(label.getText(), textAttributes());
 			AttributedCharacterIterator textIterator = attributedText.getIterator();
 			FontRenderContext fontRendering = g.getFontRenderContext();
 			LineBreakMeasurer measurer = new LineBreakMeasurer(textIterator, fontRendering);
@@ -88,6 +93,30 @@ public class SexyLabelUI extends BasicLabelUI {
 				lines.add(layout);
 			}
 			return lines;
+		}
+
+		private Map<Attribute, Object> textAttributes() {
+			Map<Attribute, Object> attributes = new HashMap<Attribute, Object>();
+			attributes.putAll(label.getFont().getAttributes());
+			attributes.put(TextAttribute.FONT, font());
+			return attributes;
+		}
+
+		private Font font() {
+			Font originalFont = label.getFont();
+			if(!canRenderAllCharacters(originalFont)) {
+				Font[] allFonts = GraphicsEnvironment.getLocalGraphicsEnvironment().getAllFonts();
+				for(Font anotherFont : allFonts) {
+					if(canRenderAllCharacters(anotherFont)) {
+						return anotherFont;
+					}
+				}
+			}
+			return originalFont;
+		}
+
+		private boolean canRenderAllCharacters(Font font) {
+			return false;
 		}
 
 		private void drawLines(WrappedLines lines, Graphics2D g) {
