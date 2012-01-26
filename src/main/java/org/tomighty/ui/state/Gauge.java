@@ -55,7 +55,11 @@ public class Gauge extends JComponent implements Subscriber<UiStateChanged> {
 		setPreferredSize(getSize());
 		bus.subscribe(this, UiStateChanged.class);
 	}
-	
+
+	public void reset() {
+		finishedPomodoros = 0;
+	}
+
 	@Override
 	public void receive(UiStateChanged message) {
 		UiState uiState = message.uiState();
