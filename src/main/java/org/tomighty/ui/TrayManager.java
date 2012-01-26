@@ -43,6 +43,7 @@ import org.tomighty.ioc.Inject;
 import org.tomighty.resources.TrayIcons;
 import org.tomighty.time.Time;
 import org.tomighty.ui.about.AboutDialog;
+import org.tomighty.ui.state.Gauge;
 import org.tomighty.ui.options.OptionsDialog;
 
 public class TrayManager implements Runnable, Initializable {
@@ -53,6 +54,7 @@ public class TrayManager implements Runnable, Initializable {
 	@Inject private Bus bus;
 	@Inject private Messages messages;
 	@Inject private TrayIcons icons;
+	@Inject private Gauge gauge;
 	private TrayIcon trayIcon;
 	
 	@Override
@@ -90,6 +92,7 @@ public class TrayManager implements Runnable, Initializable {
 	private PopupMenu createMenu() {
 		PopupMenu menu = new PopupMenu();
 		menu.add(menuItem(messages.get("Options"), new ShowOptions()));
+		menu.add(menuItem(messages.get("Reset"), new ResetCrate()));
 		menu.add(menuItem(messages.get("About"), new About()));
 		menu.addSeparator();
 		menu.add(menuItem(messages.get("Close"), new Exit()));
@@ -123,7 +126,14 @@ public class TrayManager implements Runnable, Initializable {
 			dialog.showDialog();
 		}
 	}
-	
+
+	private class ResetCrate implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			gauge.reset();
+		}
+	}
+
 	private class About implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
