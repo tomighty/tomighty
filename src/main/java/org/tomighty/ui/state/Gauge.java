@@ -44,7 +44,7 @@ public class Gauge extends JComponent implements Subscriber<UiStateChanged> {
 	private static final Range<Color> LIGHT_COLOR_ON = new Range<Color>(new Color(227, 244, 144), new Color(136, 130, 35));
 	private static final Range<Color> LIGHT_COLOR_OFF = new Range<Color>(new Color(60, 60, 60), new Color(32, 32, 32));
 	
-	private int finishedPomodoros = 0;
+	private int numberOfLightsOn = 0;
 	
 	@Inject
 	public Gauge(Bus bus) {
@@ -59,16 +59,17 @@ public class Gauge extends JComponent implements Subscriber<UiStateChanged> {
 	@Override
 	public void receive(UiStateChanged message) {
 		UiState uiState = message.uiState();
-		if(uiState instanceof PomodoroFinished) {
-			finishedPomodoros++;
-		} else if(uiState instanceof Pomodoro) {
-			if(finishedPomodoros >= LIGHT_COUNT) {
-				finishedPomodoros = 0;
-			}
-		}
+
+        if(uiState instanceof PomodoroFinished) {
+            turnNextLightOn();
+
+        } else if(uiState instanceof Pomodoro) {
+			if(areAllLightsOn())
+                turnAllLightsOff();
+        }
 	}
-	
-	@Override
+
+    @Override
 	protected void paintComponent(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -85,14 +86,27 @@ public class Gauge extends JComponent implements Subscriber<UiStateChanged> {
 	}
 
 	private Range<Color> colorForLight(int index) {
-		if(index < finishedPomodoros) {
-			return LIGHT_COLOR_ON;
-		}
-		return LIGHT_COLOR_OFF;
+		return isLightOn(index) ? LIGHT_COLOR_ON : LIGHT_COLOR_OFF;
 	}
 
-	private int startingX() {
+    private int startingX() {
 		return getWidth() / 2 - getPreferredSize().width / 2;
 	}
+
+    private boolean isLightOn(int lightIndex) {
+        return lightIndex < numberOfLightsOn;
+    }
+
+    private void turnAllLightsOff() {
+        numberOfLightsOn = 0;
+    }
+
+    private void turnNextLightOn() {
+        numberOfLightsOn++;
+    }
+
+    private boolean areAllLightsOn() {
+        return numberOfLightsOn >= LIGHT_COUNT;
+    }
 
 }
