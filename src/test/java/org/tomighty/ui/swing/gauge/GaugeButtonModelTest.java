@@ -1,7 +1,9 @@
-package org.tomighty.ui.model;
+package org.tomighty.ui.swing.gauge;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.tomighty.ui.swing.gauge.GaugeButtonModel;
+import org.tomighty.ui.swing.gauge.Light;
 
 import java.util.List;
 

@@ -40,6 +40,7 @@ import org.tomighty.ioc.Injector;
 import org.tomighty.ui.UiState;
 import org.tomighty.ui.layout.DockLayout;
 import org.tomighty.ui.layout.Docking;
+import org.tomighty.ui.swing.gauge.Gauge;
 import org.tomighty.ui.swing.laf.SexyArrowButtonUI;
 import org.tomighty.ui.swing.laf.SexyButtonUI;
 import org.tomighty.ui.swing.laf.SexyLabel;

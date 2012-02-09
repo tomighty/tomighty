@@ -1,4 +1,4 @@
-package org.tomighty.ui.model;
+package org.tomighty.ui.swing.gauge;
 
 import javax.swing.*;
 import java.util.ArrayList;

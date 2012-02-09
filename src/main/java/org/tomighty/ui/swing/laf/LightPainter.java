@@ -1,6 +1,6 @@
 package org.tomighty.ui.swing.laf;
 
-import org.tomighty.ui.model.Light;
+import org.tomighty.ui.swing.gauge.Light;
 import org.tomighty.util.Range;
 
 import java.awt.*;

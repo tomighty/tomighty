@@ -1,7 +1,7 @@
 package org.tomighty.ui.swing.laf;
 
-import org.tomighty.ui.model.GaugeButtonModel;
-import org.tomighty.ui.model.Light;
+import org.tomighty.ui.swing.gauge.GaugeButtonModel;
+import org.tomighty.ui.swing.gauge.Light;
 import org.tomighty.util.Range;
 
 import javax.swing.*;

@@ -1,4 +1,4 @@
-package org.tomighty.ui.model;
+package org.tomighty.ui.swing.gauge;
 
 public class Light {
 
