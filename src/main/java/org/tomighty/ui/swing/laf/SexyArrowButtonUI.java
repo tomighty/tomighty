@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package org.tomighty.ui.state.laf;
+package org.tomighty.ui.swing.laf;
 
 import static java.awt.RenderingHints.KEY_ANTIALIASING;
 import static java.awt.RenderingHints.VALUE_ANTIALIAS_ON;
@@ -33,7 +33,7 @@ import javax.swing.JComponent;
 import javax.swing.plaf.basic.BasicButtonUI;
 
 import org.tomighty.ioc.Inject;
-import org.tomighty.ui.state.laf.look.Look;
+import org.tomighty.ui.theme.Look;
 
 public class SexyArrowButtonUI extends BasicButtonUI {
 	

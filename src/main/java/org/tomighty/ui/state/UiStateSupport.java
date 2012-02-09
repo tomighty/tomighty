@@ -40,10 +40,10 @@ import org.tomighty.ioc.Injector;
 import org.tomighty.ui.UiState;
 import org.tomighty.ui.layout.DockLayout;
 import org.tomighty.ui.layout.Docking;
-import org.tomighty.ui.state.laf.SexyArrowButtonUI;
-import org.tomighty.ui.state.laf.SexyButtonUI;
-import org.tomighty.ui.state.laf.SexyLabel;
-import org.tomighty.ui.state.laf.look.Colors;
+import org.tomighty.ui.swing.laf.SexyArrowButtonUI;
+import org.tomighty.ui.swing.laf.SexyButtonUI;
+import org.tomighty.ui.swing.laf.SexyLabel;
+import org.tomighty.ui.theme.Colors;
 
 public abstract class UiStateSupport implements UiState {
 

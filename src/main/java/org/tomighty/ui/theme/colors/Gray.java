@@ -14,16 +14,35 @@
  *    limitations under the License.
  */
 
-package org.tomighty.ui.state.laf.look;
+package org.tomighty.ui.theme.colors;
 
 import java.awt.Color;
 
-public interface Colors {
+import org.tomighty.ui.theme.Colors;
 
-	Color background();
+public class Gray implements Colors {
 
-	Color shadow();
+	private static final Colors INSTANCE = new Gray();
+	private static final Color BACKGROUND = new Color(80, 80, 80);
+	private static final Color BORDER = BACKGROUND.darker();
+	
+	public static Colors instance() {
+		return INSTANCE;
+	}
+	
+	@Override
+	public Color text() {
+		return Color.WHITE;
+	}
 
-	Color text();
+	@Override
+	public Color background() {
+		return BACKGROUND;
+	}
+
+	@Override
+	public Color shadow() {
+		return BORDER;
+	}
 
 }

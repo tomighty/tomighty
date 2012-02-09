@@ -14,35 +14,29 @@
  *    limitations under the License.
  */
 
-package org.tomighty.ui.state.laf.look;
+package org.tomighty.ui.theme.themes;
 
-import java.awt.Image;
-
-import org.tomighty.ioc.Inject;
-import org.tomighty.resources.cache.Cache;
-import org.tomighty.resources.cache.Caches;
-import org.tomighty.resources.cache.Images;
+import org.tomighty.ui.theme.CachedTheme;
+import org.tomighty.ui.theme.Colors;
+import org.tomighty.ui.theme.Look;
 import org.tomighty.ui.util.Canvas;
+import org.tomighty.util.FriendlyName;
 
-public abstract class CachedTheme implements Theme {
+import com.jhlabs.image.BrushedMetalFilter;
 
-	@Inject private Look look;
-	@Inject private Caches caches;
+@FriendlyName("Brushed metal")
+public class BrushedMetal extends CachedTheme {
 
-	protected abstract void paint(Canvas canvas, Look look);
-	
 	@Override
-	public final void paint(Canvas canvas) {
+	public void paint(Canvas canvas, Look look) {
 		Colors colors = look.colors();
-		Cache cache = caches.of(Images.class);
-		String name = getClass().getSimpleName() + "_" + colors.getClass().getSimpleName();
-		Image image = cache.get(name);
-		if(image == null) {
-			paint(canvas, look);
-			cache.store(canvas.image(), name);
-		} else {
-			canvas.paint(image);
-		}
+		BrushedMetalFilter filter = new BrushedMetalFilter();
+		filter.setColor(colors.background().getRGB());
+		filter.setRadius(10);
+		filter.setAmount(0.15f);
+		filter.setMonochrome(true);
+		filter.setShine(0.2f);
+		canvas.applyFilter(filter);
 	}
 
 }

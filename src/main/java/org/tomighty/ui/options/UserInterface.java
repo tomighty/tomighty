@@ -30,11 +30,11 @@ import org.tomighty.config.Options;
 import org.tomighty.i18n.Messages;
 import org.tomighty.ioc.Initializable;
 import org.tomighty.ioc.Inject;
-import org.tomighty.ui.state.laf.look.Theme;
-import org.tomighty.ui.state.laf.look.themes.BrushedMetal;
-import org.tomighty.ui.state.laf.look.themes.Gradient;
-import org.tomighty.ui.state.laf.look.themes.Grainy;
-import org.tomighty.ui.state.laf.look.themes.Shiny;
+import org.tomighty.ui.theme.Theme;
+import org.tomighty.ui.theme.themes.BrushedMetal;
+import org.tomighty.ui.theme.themes.Gradient;
+import org.tomighty.ui.theme.themes.Grainy;
+import org.tomighty.ui.theme.themes.Shiny;
 import org.tomighty.util.FriendlyName;
 
 @SuppressWarnings("serial")

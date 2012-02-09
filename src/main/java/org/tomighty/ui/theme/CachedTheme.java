@@ -14,22 +14,35 @@
  *    limitations under the License.
  */
 
-package org.tomighty.ui.state.laf.look.themes;
+package org.tomighty.ui.theme;
 
-import java.awt.Color;
+import java.awt.Image;
 
-import org.tomighty.ui.state.laf.look.CachedTheme;
-import org.tomighty.ui.state.laf.look.Colors;
-import org.tomighty.ui.state.laf.look.Look;
+import org.tomighty.ioc.Inject;
+import org.tomighty.resources.cache.Cache;
+import org.tomighty.resources.cache.Caches;
+import org.tomighty.resources.cache.Images;
 import org.tomighty.ui.util.Canvas;
 
-public class Gradient extends CachedTheme {
+public abstract class CachedTheme implements Theme {
+
+	@Inject private Look look;
+	@Inject private Caches caches;
+
+	protected abstract void paint(Canvas canvas, Look look);
 	
 	@Override
-	public void paint(Canvas canvas, Look look) {
+	public final void paint(Canvas canvas) {
 		Colors colors = look.colors();
-		Color background = colors.background();
-		canvas.paintGradient(background);
+		Cache cache = caches.of(Images.class);
+		String name = getClass().getSimpleName() + "_" + colors.getClass().getSimpleName();
+		Image image = cache.get(name);
+		if(image == null) {
+			paint(canvas, look);
+			cache.store(canvas.image(), name);
+		} else {
+			canvas.paint(image);
+		}
 	}
 
 }

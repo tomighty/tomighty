@@ -18,7 +18,7 @@ package org.tomighty.ui;
 
 import java.awt.Component;
 
-import org.tomighty.ui.state.laf.look.Colors;
+import org.tomighty.ui.theme.Colors;
 
 public interface UiState {
 

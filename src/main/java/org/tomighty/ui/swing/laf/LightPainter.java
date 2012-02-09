@@ -1,4 +1,4 @@
-package org.tomighty.ui.state.laf;
+package org.tomighty.ui.swing.laf;
 
 import org.tomighty.ui.model.Light;
 import org.tomighty.util.Range;

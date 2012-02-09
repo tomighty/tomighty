@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package org.tomighty.ui.state.laf.look;
+package org.tomighty.ui.theme;
 
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.Subscriber;
@@ -23,7 +23,7 @@ import org.tomighty.bus.messages.ui.UiStateChanged;
 import org.tomighty.config.Options;
 import org.tomighty.ioc.Inject;
 import org.tomighty.ui.UiState;
-import org.tomighty.ui.state.laf.look.colors.Gray;
+import org.tomighty.ui.theme.colors.Gray;
 
 public class Look implements Subscriber<UiStateChanged> {
 	

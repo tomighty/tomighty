@@ -14,35 +14,43 @@
  *    limitations under the License.
  */
 
-package org.tomighty.ui.state.laf.look.colors;
+package org.tomighty.ui.swing.laf;
 
-import java.awt.Color;
+import java.awt.Font;
 
-import org.tomighty.ui.state.laf.look.Colors;
+import javax.swing.JLabel;
 
-public class Gray implements Colors {
+import org.tomighty.ioc.Inject;
 
-	private static final Colors INSTANCE = new Gray();
-	private static final Color BACKGROUND = new Color(80, 80, 80);
-	private static final Color BORDER = BACKGROUND.darker();
+public class SexyLabel {
 	
-	public static Colors instance() {
-		return INSTANCE;
+	@Inject private SexyLabelUI labelUI;
+	
+	public JLabel small(String text) {
+		return create(11f, text);
+	}
+
+	public JLabel medium(String text) {
+		return create(19f, text);
 	}
 	
-	@Override
-	public Color text() {
-		return Color.WHITE;
+	public JLabel big() {
+		return big(null);
 	}
 
-	@Override
-	public Color background() {
-		return BACKGROUND;
+	public JLabel big(String text) {
+		return create(38f, text);
 	}
 
-	@Override
-	public Color shadow() {
-		return BORDER;
+	public JLabel create(float size, String text) {
+		JLabel label = new JLabel();
+		label.setUI(labelUI);
+		if (size > 0f) {
+			Font font = label.getFont();
+			label.setFont(font.deriveFont(size));
+		}
+		label.setText(text);
+		return label;
 	}
 
 }

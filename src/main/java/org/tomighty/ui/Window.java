@@ -32,7 +32,7 @@ import org.tomighty.ioc.Inject;
 import org.tomighty.resources.Images;
 import org.tomighty.ui.location.Closest;
 import org.tomighty.ui.location.Location;
-import org.tomighty.ui.state.laf.SexyPanelUI;
+import org.tomighty.ui.swing.laf.SexyPanelUI;
 
 @SuppressWarnings("serial")
 public class Window extends JFrame implements Initializable {

@@ -14,11 +14,11 @@
  *    limitations under the License.
  */
 
-package org.tomighty.ui.state.laf.look.colors;
+package org.tomighty.ui.theme.colors;
 
 import java.awt.Color;
 
-import org.tomighty.ui.state.laf.look.Colors;
+import org.tomighty.ui.theme.Colors;
 
 public class Red implements Colors {
 	

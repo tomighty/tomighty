@@ -26,8 +26,8 @@ import org.tomighty.ui.state.TimerSupport;
 import org.tomighty.ui.state.ToState;
 import org.tomighty.ui.state.breaks.LongBreak;
 import org.tomighty.ui.state.breaks.ShortBreak;
-import org.tomighty.ui.state.laf.look.Colors;
-import org.tomighty.ui.state.laf.look.colors.Red;
+import org.tomighty.ui.theme.Colors;
+import org.tomighty.ui.theme.colors.Red;
 
 public class Pomodoro extends TimerSupport {
 	

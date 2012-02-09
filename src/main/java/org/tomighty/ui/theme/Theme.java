@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package org.tomighty.ui.state.laf.look;
+package org.tomighty.ui.theme;
 
 import org.tomighty.ui.util.Canvas;
 

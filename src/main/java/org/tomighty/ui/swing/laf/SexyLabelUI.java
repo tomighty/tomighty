@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package org.tomighty.ui.state.laf;
+package org.tomighty.ui.swing.laf;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -41,8 +41,8 @@ import javax.swing.JLabel;
 import javax.swing.plaf.basic.BasicLabelUI;
 
 import org.tomighty.ioc.Inject;
-import org.tomighty.ui.state.laf.look.Colors;
-import org.tomighty.ui.state.laf.look.Look;
+import org.tomighty.ui.theme.Colors;
+import org.tomighty.ui.theme.Look;
 
 public class SexyLabelUI extends BasicLabelUI {
 

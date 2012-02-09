@@ -14,7 +14,7 @@
  *    limitations under the License.
  */
 
-package org.tomighty.ui.state.laf;
+package org.tomighty.ui.swing.laf;
 
 import java.awt.BorderLayout;
 import java.awt.Graphics;
@@ -29,8 +29,8 @@ import org.tomighty.bus.Bus;
 import org.tomighty.bus.Subscriber;
 import org.tomighty.bus.messages.ui.LookChanged;
 import org.tomighty.ioc.Inject;
-import org.tomighty.ui.state.laf.look.Look;
-import org.tomighty.ui.state.laf.look.Theme;
+import org.tomighty.ui.theme.Look;
+import org.tomighty.ui.theme.Theme;
 import org.tomighty.ui.util.Canvas;
 
 public class SexyPanelUI extends BasicPanelUI implements Subscriber<LookChanged> {

@@ -14,13 +14,13 @@
  *    limitations under the License.
  */
 
-package org.tomighty.ui.state.laf.look.themes;
+package org.tomighty.ui.theme.themes;
 
 import java.awt.Color;
 
-import org.tomighty.ui.state.laf.look.CachedTheme;
-import org.tomighty.ui.state.laf.look.Colors;
-import org.tomighty.ui.state.laf.look.Look;
+import org.tomighty.ui.theme.CachedTheme;
+import org.tomighty.ui.theme.Colors;
+import org.tomighty.ui.theme.Look;
 import org.tomighty.ui.util.Canvas;
 
 public class Shiny extends CachedTheme {

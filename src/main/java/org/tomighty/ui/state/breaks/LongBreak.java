@@ -22,8 +22,8 @@ import org.tomighty.config.Options;
 import org.tomighty.ioc.Inject;
 import org.tomighty.time.Time;
 import org.tomighty.ui.state.ToState;
-import org.tomighty.ui.state.laf.look.Colors;
-import org.tomighty.ui.state.laf.look.colors.Blue;
+import org.tomighty.ui.theme.Colors;
+import org.tomighty.ui.theme.colors.Blue;
 import org.tomighty.ui.state.pomodoro.Pomodoro;
 
 public class LongBreak extends Break {

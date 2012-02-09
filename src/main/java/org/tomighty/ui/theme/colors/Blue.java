@@ -14,22 +14,22 @@
  *    limitations under the License.
  */
 
-package org.tomighty.ui.state.laf.look.colors;
+package org.tomighty.ui.theme.colors;
 
 import java.awt.Color;
 
-import org.tomighty.ui.state.laf.look.Colors;
+import org.tomighty.ui.theme.Colors;
 
-public class Green implements Colors {
+public class Blue implements Colors {
 
-	private static final Colors INSTANCE = new Green();
-	private static final Color BACKGROUND = new Color(34, 58, 34);
-	private static final Color BORDER = BACKGROUND.darker();
+	private static final Colors INSTANCE = new Blue();
+	private static final Color BACKGROUND = new Color(48, 48, 80);
+	private static final Color SHADOW = BACKGROUND.darker();
 
 	public static Colors instance() {
 		return INSTANCE;
 	}
-	
+
 	@Override
 	public Color text() {
 		return Color.WHITE;
@@ -42,7 +42,7 @@ public class Green implements Colors {
 
 	@Override
 	public Color shadow() {
-		return BORDER;
+		return SHADOW;
 	}
 
 }

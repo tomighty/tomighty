@@ -28,7 +28,7 @@ import org.tomighty.bus.messages.ui.UiStateChanged;
 import org.tomighty.ioc.Inject;
 import org.tomighty.ui.UiState;
 import org.tomighty.ui.model.GaugeButtonModel;
-import org.tomighty.ui.state.laf.GaugeButtonUI;
+import org.tomighty.ui.swing.laf.GaugeButtonUI;
 import org.tomighty.ui.state.pomodoro.Pomodoro;
 import org.tomighty.ui.state.pomodoro.PomodoroFinished;
 
