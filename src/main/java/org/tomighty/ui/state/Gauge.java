@@ -16,97 +16,81 @@
 
 package org.tomighty.ui.state;
 
-import java.awt.Color;
-import java.awt.GradientPaint;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Paint;
-import java.awt.Point;
-import java.awt.RenderingHints;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.JComponent;
+import javax.swing.*;
 
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.Subscriber;
 import org.tomighty.bus.messages.ui.UiStateChanged;
 import org.tomighty.ioc.Inject;
 import org.tomighty.ui.UiState;
+import org.tomighty.ui.model.GaugeButtonModel;
+import org.tomighty.ui.state.laf.GaugeButtonUI;
 import org.tomighty.ui.state.pomodoro.Pomodoro;
 import org.tomighty.ui.state.pomodoro.PomodoroFinished;
-import org.tomighty.util.Range;
 
 @SuppressWarnings("serial")
-public class Gauge extends JComponent implements Subscriber<UiStateChanged> {
+public class Gauge extends JPanel implements Subscriber<UiStateChanged> {
 
-	private static final int LIGHT_SIZE = 5;
-	private static final int LIGHT_COUNT = 4;
-	private static final int GAP_BETWEEN_LIGHTS = 3;
-	private static final Range<Color> LIGHT_COLOR_ON = new Range<Color>(new Color(227, 244, 144), new Color(136, 130, 35));
-	private static final Range<Color> LIGHT_COLOR_OFF = new Range<Color>(new Color(60, 60, 60), new Color(32, 32, 32));
-	
-	private int numberOfLightsOn = 0;
-	
-	@Inject
-	public Gauge(Bus bus) {
-		setOpaque(false);
-		int width = LIGHT_SIZE * LIGHT_COUNT + GAP_BETWEEN_LIGHTS * (LIGHT_COUNT - 1) + 1;
-		int height = LIGHT_SIZE + 1;
-		setSize(width, height);
-		setPreferredSize(getSize());
-		bus.subscribe(this, UiStateChanged.class);
-	}
-	
-	@Override
+    private static final int NUMBER_OF_LIGHTS = 4;
+    private static final Dimension BUTTON_SIZE = GaugeButtonUI.sizeFor(NUMBER_OF_LIGHTS);
+    private static final Dimension GAUGE_SIZE = increase(4, BUTTON_SIZE);
+
+    private static Dimension increase(int pixels, Dimension dimension) {
+        return new Dimension(dimension.width + pixels, dimension.height + pixels);
+    }
+
+    private final GaugeButtonModel buttonModel = new GaugeButtonModel(NUMBER_OF_LIGHTS);
+
+    @Inject
+    public Gauge(Bus bus) {
+        configureAppearance();
+
+        add(createButton());
+
+        bus.subscribe(this, UiStateChanged.class);
+    }
+
+    private void configureAppearance() {
+        setLayout(new FlowLayout(FlowLayout.CENTER, 0, 0));
+        setOpaque(false);
+        setPreferredSize(GAUGE_SIZE);
+        setSize(GAUGE_SIZE);
+    }
+
+    private JButton createButton() {
+        JButton button = new JButton();
+        button.setModel(buttonModel);
+        button.setUI(new GaugeButtonUI());
+        button.setOpaque(false);
+        button.setPreferredSize(BUTTON_SIZE);
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                buttonModel.turnNextLightOn();
+                turnAllLightsOffIfAllAreOn();
+            }
+        });
+        return button;
+    }
+
+    @Override
 	public void receive(UiStateChanged message) {
 		UiState uiState = message.uiState();
 
-        if(uiState instanceof PomodoroFinished) {
-            turnNextLightOn();
+        if(uiState instanceof PomodoroFinished)
+            buttonModel.turnNextLightOn();
 
-        } else if(uiState instanceof Pomodoro) {
-			if(areAllLightsOn())
-                turnAllLightsOff();
-        }
+        else if(uiState instanceof Pomodoro)
+            turnAllLightsOffIfAllAreOn();
 	}
 
-    @Override
-	protected void paintComponent(Graphics g) {
-		Graphics2D g2d = (Graphics2D) g;
-		g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		int x = startingX();
-		for(int index = 0; index < LIGHT_COUNT; index++) {
-			Range<Color> colors = colorForLight(index);
-			Point start = new Point(x, 0);
-			Point end = new Point(x + LIGHT_SIZE / 2, LIGHT_SIZE / 2);
-			Paint paint = new GradientPaint(start, colors.start(), end, colors.end());
-			g2d.setPaint(paint);
-			g2d.fillOval(x, 0, LIGHT_SIZE, LIGHT_SIZE);
-			x += LIGHT_SIZE + GAP_BETWEEN_LIGHTS;
-		}
-	}
-
-	private Range<Color> colorForLight(int index) {
-		return isLightOn(index) ? LIGHT_COLOR_ON : LIGHT_COLOR_OFF;
-	}
-
-    private int startingX() {
-		return getWidth() / 2 - getPreferredSize().width / 2;
-	}
-
-    private boolean isLightOn(int lightIndex) {
-        return lightIndex < numberOfLightsOn;
-    }
-
-    private void turnAllLightsOff() {
-        numberOfLightsOn = 0;
-    }
-
-    private void turnNextLightOn() {
-        numberOfLightsOn++;
-    }
-
-    private boolean areAllLightsOn() {
-        return numberOfLightsOn >= LIGHT_COUNT;
+    private void turnAllLightsOffIfAllAreOn() {
+        if(buttonModel.areAllLightsOn())
+            buttonModel.turnAllLightsOff();
     }
 
 }

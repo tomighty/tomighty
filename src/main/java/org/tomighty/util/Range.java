@@ -34,4 +34,8 @@ public class Range<T> {
 		return end;
 	}
 
+    public Range<T> reverse() {
+        return new Range<T>(end, start);
+    }
+
 }
