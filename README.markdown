@@ -1,8 +1,8 @@
 Tomighty is...
 ==============
 
-A desktop timer application that helps you perform the Pomodoro Technique.
-It's written in Java, and is designed to be simple, easy to use and unintrusive.
+A desktop timer app that helps you apply the Pomodoro Technique.
+It's written in Java and designed to be simple, easy to use and unintrusive.
 
 Know more about it at [www.tomighty.org](http://www.tomighty.org)
 
@@ -23,5 +23,5 @@ Open a system shell and check out the sources into some directory. Then `cd` int
 
   `mvn clean package`
 
-The resulting built artifacts will be located under the target directory. That's it.
+The resulting built artifacts will be located under the `target` directory. That's it.
 
