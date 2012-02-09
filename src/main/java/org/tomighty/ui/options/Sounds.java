@@ -24,7 +24,7 @@ import org.tomighty.i18n.Messages;
 import org.tomighty.ioc.Factory;
 import org.tomighty.ioc.Initializable;
 import org.tomighty.ioc.Inject;
-import org.tomighty.ui.util.CheckableFileField;
+import org.tomighty.ui.swing.CheckableFileField;
 
 @SuppressWarnings("serial")
 public class Sounds extends OptionPanel implements OptionGroup, Initializable {
