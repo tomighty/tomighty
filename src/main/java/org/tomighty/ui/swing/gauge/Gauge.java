@@ -30,17 +30,14 @@ import org.tomighty.ui.UiState;
 import org.tomighty.ui.swing.laf.GaugeButtonUI;
 import org.tomighty.ui.state.pomodoro.Pomodoro;
 import org.tomighty.ui.state.pomodoro.PomodoroFinished;
+import org.tomighty.ui.util.Geometry;
 
 @SuppressWarnings("serial")
 public class Gauge extends JPanel implements Subscriber<UiStateChanged> {
 
     private static final int NUMBER_OF_LIGHTS = 4;
     private static final Dimension BUTTON_SIZE = GaugeButtonUI.sizeFor(NUMBER_OF_LIGHTS);
-    private static final Dimension GAUGE_SIZE = increase(4, BUTTON_SIZE);
-
-    private static Dimension increase(int pixels, Dimension dimension) {
-        return new Dimension(dimension.width + pixels, dimension.height + pixels);
-    }
+    private static final Dimension GAUGE_SIZE = Geometry.increase(4, BUTTON_SIZE);
 
     private final GaugeButtonModel buttonModel = new GaugeButtonModel(NUMBER_OF_LIGHTS);
 

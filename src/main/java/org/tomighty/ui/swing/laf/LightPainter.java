@@ -1,6 +1,7 @@
 package org.tomighty.ui.swing.laf;
 
 import org.tomighty.ui.swing.gauge.Light;
+import org.tomighty.ui.util.Geometry;
 import org.tomighty.util.Range;
 
 import java.awt.*;
@@ -19,13 +20,13 @@ public class LightPainter {
     }
 
     public void paint(Light light, Graphics2D g2d) {
-        Point position = offset(positionOf(light), margin);
+        Point position = Geometry.offset(margin, positionOf(light));
         g2d.setPaint(createGradientPaint(colorOf(light), position));
         g2d.fillOval(position.x, position.y, lightSize, lightSize);
     }
 
     private Paint createGradientPaint(Range<Color> color, Point position) {
-        Point end = offset(position, lightSize / 2);
+        Point end = Geometry.offset(lightSize / 2, position);
         return new GradientPaint(position, color.start(), end, color.end());
     }
 
@@ -36,10 +37,6 @@ public class LightPainter {
 
     private static Range<Color> colorOf(Light light) {
         return light.isOn() ? LIGHT_ON_COLOR : LIGHT_OFF_COLOR;
-    }
-
-    private static Point offset(Point point, int offset) {
-        return new Point(point.x + offset, point.y + offset);
     }
 
 }

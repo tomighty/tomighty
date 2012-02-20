@@ -33,6 +33,7 @@ import org.tomighty.resources.Images;
 import org.tomighty.ui.location.Closest;
 import org.tomighty.ui.location.Location;
 import org.tomighty.ui.swing.laf.SexyPanelUI;
+import static org.tomighty.ui.util.Geometry.*;
 
 @SuppressWarnings("serial")
 public class Window extends JFrame implements Initializable {
@@ -100,31 +101,30 @@ public class Window extends JFrame implements Initializable {
 	
 	private class WindowDragger extends MouseAdapter {
 		
-		private Point offset;
+		private Point clickLocation;
 		
 		@Override
 		public void mousePressed(MouseEvent e) {
 			if(leftClicked(e)) {
-				offset = e.getPoint();
+				clickLocation = e.getPoint();
 			}
 		}
 		
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			if(leftClicked(e)) {
-				offset = null;
+				clickLocation = null;
 			}
 		}
 		
 		@Override
-		public void mouseDragged(MouseEvent e) {
-			if(offset == null || !options.ui().draggableWindow()) {
+		public void mouseDragged(MouseEvent event) {
+			if(clickLocation == null || !options.ui().draggableWindow()) {
 				return;
 			}
-			Point mouseLocation = e.getLocationOnScreen();
-			int x = mouseLocation.x - offset.x;
-			int y = mouseLocation.y - offset.y;
-			setLocation(x, y);
+			Point mouseLocation = event.getLocationOnScreen();
+            Point windowLocation = offset(opposite(clickLocation), mouseLocation);
+			setLocation(windowLocation);
 		}
 
 		private boolean leftClicked(MouseEvent e) {
