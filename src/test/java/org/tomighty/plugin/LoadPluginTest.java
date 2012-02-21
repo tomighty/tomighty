@@ -16,7 +16,7 @@ import java.net.URL;
 
 import static org.junit.Assert.*;
 
-public class PluginLoaderTest extends InjectedTest {
+public class LoadPluginTest extends InjectedTest {
 
     @Inject
     private PluginLoader pluginLoader;
