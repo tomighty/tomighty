@@ -12,6 +12,6 @@ import java.net.URL;
  */
 public interface PluginPack {
 
-    URL[] getJars();
+    URL[] jars();
 
 }

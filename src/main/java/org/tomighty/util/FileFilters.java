@@ -8,8 +8,17 @@ public class FileFilters {
     public static FileFilter withExtension(final String extension) {
         return new FileFilter() {
             @Override
-            public boolean accept(File pathname) {
-                return pathname.getName().endsWith("." + extension);
+            public boolean accept(File path) {
+                return path.isFile() && path.getName().endsWith("." + extension);
+            }
+        };
+    }
+
+    public static FileFilter directories() {
+        return new FileFilter() {
+            @Override
+            public boolean accept(File path) {
+                return path.isDirectory();
             }
         };
     }

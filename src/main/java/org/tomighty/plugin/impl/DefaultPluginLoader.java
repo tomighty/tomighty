@@ -18,7 +18,7 @@ public class DefaultPluginLoader implements PluginLoader {
 
     @Override
     public Plugin load(PluginPack pluginPack) {
-        URLClassLoader classLoader = new URLClassLoader(pluginPack.getJars());
+        URLClassLoader classLoader = new URLClassLoader(pluginPack.jars());
         Class<? extends Plugin> pluginClass = loadPluginClass(classLoader);
         return factory.create(pluginClass);
     }

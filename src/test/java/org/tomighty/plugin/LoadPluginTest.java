@@ -7,16 +7,23 @@ import org.tomighty.ioc.Binder;
 import org.tomighty.ioc.Inject;
 import org.tomighty.log.Log;
 import org.tomighty.plugin.impl.DefaultPluginLoader;
-import org.tomighty.plugin.impl.PluginPackDirectory;
 
-import java.io.File;
 import java.lang.reflect.Method;
-import java.net.URISyntaxException;
 import java.net.URL;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 public class LoadPluginTest extends InjectedTest {
+
+    private static final TestJars TEST_JARS = TestJars.HELLO_WORLD;
+
+    private static final URL JAR1 = TEST_JARS.url("helloworld-plugin.jar");
+    private static final URL JAR2 = TEST_JARS.url("slf4j-api-1.6.4.jar");
+    private static final URL JAR3 = TEST_JARS.url("slf4j-simple-1.6.4.jar");
+
+    private static final URL[] ALL_JARS = { JAR1, JAR2, JAR3 };
 
     @Inject
     private PluginLoader pluginLoader;
@@ -30,8 +37,9 @@ public class LoadPluginTest extends InjectedTest {
 
     @Before
     public void setUp() throws Exception {
-        File pluginDirectory = directoryFromResource("/plugins/helloworld");
-        PluginPack pluginPack = new PluginPackDirectory(pluginDirectory);
+        PluginPack pluginPack = mock(PluginPack.class);
+
+        when(pluginPack.jars()).thenReturn(ALL_JARS);
 
         plugin = pluginLoader.load(pluginPack);
     }
@@ -59,11 +67,6 @@ public class LoadPluginTest extends InjectedTest {
         Method getInjectedLogger = plugin.getClass().getMethod("getInjectedLogger");
         Object injectedLogger = getInjectedLogger.invoke(plugin);
         assertEquals(Log.class, injectedLogger.getClass());
-    }
-
-    private File directoryFromResource(String path) throws URISyntaxException {
-        URL url = getClass().getResource(path);
-        return new File(url.toURI());
     }
 
 }

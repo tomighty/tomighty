@@ -16,25 +16,22 @@
 
 package org.tomighty;
 
-import static javax.swing.SwingUtilities.invokeLater;
-
-import java.awt.Component;
-
-import javax.swing.UIManager;
-
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.Subscriber;
 import org.tomighty.bus.messages.ui.ChangeUiState;
 import org.tomighty.bus.messages.ui.TrayClick;
 import org.tomighty.bus.messages.ui.UiStateChanged;
+import org.tomighty.config.Directories;
 import org.tomighty.config.Options;
-import org.tomighty.ioc.Binder;
+import org.tomighty.ioc.*;
 import org.tomighty.ioc.Container;
-import org.tomighty.ioc.Factory;
-import org.tomighty.ioc.Initializable;
-import org.tomighty.ioc.Inject;
-import org.tomighty.ioc.New;
 import org.tomighty.log.Log;
+import org.tomighty.plugin.PluginLoader;
+import org.tomighty.plugin.PluginManager;
+import org.tomighty.plugin.PluginPackFactory;
+import org.tomighty.plugin.impl.DefaultPluginLoader;
+import org.tomighty.plugin.impl.DefaultPluginManager;
+import org.tomighty.plugin.impl.DefaultPluginPackFactory;
 import org.tomighty.ui.Tray;
 import org.tomighty.ui.TrayManager;
 import org.tomighty.ui.UiState;
@@ -42,14 +39,21 @@ import org.tomighty.ui.Window;
 import org.tomighty.ui.state.InitialState;
 import org.tomighty.ui.tray.AwtTray;
 
+import javax.swing.*;
+import java.awt.*;
+
+import static javax.swing.SwingUtilities.invokeLater;
+
 public class Tomighty implements Initializable, Runnable {
 	
 	@Inject private Window window;
 	@Inject private Options options;
 	@Inject private Bus bus;
 	@Inject private Factory factory;
-	@Inject @New private Log log;
-	private UiState currentState;
+    @Inject private PluginManager pluginManager;
+    @Inject private Directories directories;
+    @Inject @New private Log log;
+    private UiState currentState;
 
 	public static void main(String[] args) throws Exception {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -64,6 +68,9 @@ public class Tomighty implements Initializable, Runnable {
 		Container container = new Container();
 		Binder binder = container.binder();
 		binder.bind(Tray.class).to(AwtTray.class);
+        binder.bind(PluginManager.class).to(DefaultPluginManager.class);
+        binder.bind(PluginLoader.class).to(DefaultPluginLoader.class);
+        binder.bind(PluginPackFactory.class).to(DefaultPluginPackFactory.class);
 		return container;
 	}
 	
@@ -76,9 +83,10 @@ public class Tomighty implements Initializable, Runnable {
 	@Override
 	public void run() {
 		render(InitialState.class);
+        pluginManager.loadPluginsFrom(directories.plugins());
 	}
-	
-	private void render(Class<? extends UiState> stateClass) {
+
+    private void render(Class<? extends UiState> stateClass) {
 		if(currentState != null) {
 			currentState.beforeDetaching();
 		}
