@@ -197,7 +197,7 @@
 									<headerType>gui</headerType>
 									<outfile>target/${project.artifactId}-${project.version}.exe</outfile>
 									<jar>target/${project.artifactId}-${project.version}.jar</jar>
-									<icon>img/tomato.ico</icon>
+									<icon>src/main/images/tomato.ico</icon>
 									<errTitle>${project.name}</errTitle>
 									<jre>
 										<minVersion>1.5.0</minVersion>
