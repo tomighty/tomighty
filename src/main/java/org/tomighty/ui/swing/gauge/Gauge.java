@@ -17,8 +17,7 @@
 package org.tomighty.ui.swing.gauge;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 import javax.inject.Inject;
 import javax.swing.*;
@@ -68,6 +67,27 @@ public class Gauge extends JPanel implements Subscriber<UiStateChanged> {
             public void actionPerformed(ActionEvent e) {
                 buttonModel.turnNextLightOn();
                 turnAllLightsOffIfAllAreOn();
+            }
+        });
+        button.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getButton() == MouseEvent.BUTTON3) {
+                    buttonModel.turnAllLightsOff();
+                    Gauge.this.repaint();
+                }
+            }
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+            @Override
+            public void mouseReleased(MouseEvent e) {
             }
         });
         return button;
