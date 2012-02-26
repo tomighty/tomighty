@@ -16,24 +16,19 @@
 
 package org.tomighty.sound;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.sound.sampled.*;
 import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.inject.Inject;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineEvent;
-import javax.sound.sampled.LineListener;
-
-import org.tomighty.log.Log;
-
 public class SoundPlayer {
 
-    private final Log log = new Log(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	private Map<Sound, Clip> activeClips = Collections.synchronizedMap(new HashMap<Sound, Clip>());
 
@@ -77,7 +72,7 @@ public class SoundPlayer {
 			}
 			activeClips.put(sound, clip);
 		} catch (Exception e) {
-			log.error("Error while playing sound: "+sound, e);
+			logger.error("Error while playing sound: " + sound, e);
 		}
 		return chain;
 	}

@@ -16,7 +16,8 @@
 
 package org.tomighty.resources.cache;
 
-import org.tomighty.log.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +26,7 @@ public class Cache {
 
 	private final EntryType type;
 	private final File directory;
-    private final Log log = new Log(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public Cache(EntryType type, File directory) {
 		this.type = type;
@@ -45,7 +46,7 @@ public class Cache {
 			try {
 				return (T) type.read(file);
 			} catch (IOException e) {
-				log.error("Could not load image from cache", e);
+				logger.error("Could not load image from cache", e);
 			}
 		}
 		return null;
@@ -56,7 +57,7 @@ public class Cache {
 		try {
 			type.write(item, file);
 		} catch (IOException e) {
-			log.error("Could not write image file to cache", e);
+            logger.error("Could not write image file to cache", e);
 		}
 	}
 

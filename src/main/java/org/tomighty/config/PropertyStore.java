@@ -16,7 +16,8 @@
 
 package org.tomighty.config;
 
-import org.tomighty.log.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileReader;
@@ -26,7 +27,7 @@ import java.util.Properties;
 
 public class PropertyStore {
 
-    private final Log log = new Log(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public Properties load(File file) {
 		Properties properties = new Properties();
@@ -39,7 +40,7 @@ public class PropertyStore {
 					reader.close();
 				}
 			} catch (IOException e) {
-				log.warn("Error while loading properties file: "+file, e);
+				logger.warn("Error while loading properties file: " + file, e);
 			}
 		}
 		return properties;
@@ -54,7 +55,7 @@ public class PropertyStore {
 				writer.close();
 			}
 		} catch (IOException e) {
-			log.warn("Error while storing properties file: "+file, e);
+            logger.warn("Error while storing properties file: " + file, e);
 		}
 	}
 

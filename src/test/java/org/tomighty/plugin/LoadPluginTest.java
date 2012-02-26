@@ -38,8 +38,9 @@ public class LoadPluginTest extends InjectedTest {
     private static final URL JAR1 = TEST_JARS.url("helloworld-plugin.jar");
     private static final URL JAR2 = TEST_JARS.url("slf4j-api-1.6.4.jar");
     private static final URL JAR3 = TEST_JARS.url("slf4j-simple-1.6.4.jar");
+    private static final URL JAR4 = TEST_JARS.url("commons-math-2.2.jar");
 
-    private static final URL[] ALL_JARS = { JAR1, JAR2, JAR3 };
+    private static final URL[] ALL_JARS = { JAR1, JAR2, JAR3, JAR4 };
 
     @Inject
     private PluginLoader pluginLoader;
@@ -76,6 +77,7 @@ public class LoadPluginTest extends InjectedTest {
         ClassLoader classLoader = plugin.getClass().getClassLoader();
         classLoader.loadClass("org.slf4j.Logger");
         classLoader.loadClass("org.slf4j.impl.SimpleLogger");
+        classLoader.loadClass("org.apache.commons.math.random.RandomGenerator");
     }
 
     @Test

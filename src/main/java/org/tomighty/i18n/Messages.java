@@ -16,7 +16,8 @@
 
 package org.tomighty.i18n;
 
-import org.tomighty.log.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,18 +28,18 @@ import java.util.Properties;
 public class Messages {
 	
 	private final Properties messages = new Properties();
-    private final Log log = new Log(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     public Messages() {
-		log.info("Loading messages for locale "+locale());
+		logger.info("Loading messages for locale " + locale());
 		InputStream input = getClass().getResourceAsStream(resourceName());
 		if(input == null) {
-			log.info("Messages not available for locale "+locale()+".");
+            logger.info("Messages not available for locale " + locale() + ".");
 		} else {
 			try {
 				loadMessagesFrom(input);
 			} catch (IOException e) {
-				log.error("Error while loading resource: "+resourceName(), e);
+                logger.error("Error while loading resource: " + resourceName(), e);
 			}
 		}
 	}

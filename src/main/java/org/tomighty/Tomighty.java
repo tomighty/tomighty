@@ -19,6 +19,8 @@ package org.tomighty;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.mycila.inject.jsr250.Jsr250;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.Subscriber;
 import org.tomighty.bus.messages.ui.ChangeUiState;
@@ -27,7 +29,6 @@ import org.tomighty.bus.messages.ui.UiStateChanged;
 import org.tomighty.config.Directories;
 import org.tomighty.config.Options;
 import org.tomighty.inject.TomightyModule;
-import org.tomighty.log.Log;
 import org.tomighty.plugin.PluginManager;
 import org.tomighty.ui.TrayManager;
 import org.tomighty.ui.UiState;
@@ -50,7 +51,7 @@ public class Tomighty implements Runnable {
     @Inject private PluginManager pluginManager;
     @Inject private Directories directories;
     private UiState currentState;
-    private final Log log = new Log(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public static void main(String[] args) throws Exception {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -83,7 +84,7 @@ public class Tomighty implements Runnable {
 		try {
 			component = currentState.render();
 		} catch (Exception error) {
-			log.error("Failed to render state: "+currentState, error);
+            logger.error("Failed to render state: " + currentState, error);
 			return;
 		}
 		window.setComponent(component);

@@ -16,13 +16,14 @@
 
 package org.tomighty.bus;
 
-import org.tomighty.log.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
 public class Bus {
 
-    private final Log log = new Log(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	private Map<Class<?>, List<Subscriber<?>>> subscribersByType;
 	
@@ -61,7 +62,7 @@ public class Bus {
 			try {
 				subscriber.receive(message);
 			} catch(Throwable error) {
-				log.error("Error delivering message to subscriber: "+subscriber, error);
+				logger.error("Error delivering message to subscriber: " + subscriber, error);
 			}
 		}
 	}

@@ -16,7 +16,8 @@
 
 package org.tomighty.resources;
 
-import org.tomighty.log.Log;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -29,7 +30,7 @@ import java.nio.charset.Charset;
 
 public class Resources {
 
-	private Log log = new Log(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	public String text(String resourceName) {
 		InputStream input = getClass().getResourceAsStream(resourceName);
@@ -68,7 +69,7 @@ public class Resources {
 			try {
 				return ImageIO.read(imageUrl);
 			} catch (IOException e) {
-				log.error("Could not load image: " + resourceName, e);
+				logger.error("Could not load image: " + resourceName, e);
 			}
 		}
 		return null;
