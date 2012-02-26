@@ -18,16 +18,17 @@ package org.tomighty.ui.options;
 
 import java.awt.Component;
 
+import com.google.inject.Injector;
 import org.tomighty.config.Options;
 import org.tomighty.config.Options.SoundConfig;
 import org.tomighty.i18n.Messages;
-import org.tomighty.ioc.Factory;
-import org.tomighty.ioc.Initializable;
-import org.tomighty.ioc.Inject;
 import org.tomighty.ui.swing.CheckableFileField;
 
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
+
 @SuppressWarnings("serial")
-public class Sounds extends OptionPanel implements OptionGroup, Initializable {
+public class Sounds extends OptionPanel implements OptionGroup {
 	
 	@Inject private Options options;
 	@Inject private Messages messages;
@@ -37,13 +38,13 @@ public class Sounds extends OptionPanel implements OptionGroup, Initializable {
 	private CheckableFileField ding;
 
 	@Inject
-	public Sounds(Factory factory) {
-		add(wind = factory.create(CheckableFileField.class));
-		add(tictac = factory.create(CheckableFileField.class));
-		add(ding = factory.create(CheckableFileField.class));
+	public Sounds(Injector injector) {
+		add(wind = injector.getInstance(CheckableFileField.class));
+		add(tictac = injector.getInstance(CheckableFileField.class));
+		add(ding = injector.getInstance(CheckableFileField.class));
 	}
-	
-	@Override
+
+    @PostConstruct
 	public void initialize() {
 		wind.text(messages.get("Enable wind sound"));
 		tictac.text(messages.get("Enable tic-tac"));

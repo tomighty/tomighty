@@ -16,10 +16,11 @@
 
 package org.tomighty.sound;
 
-import org.tomighty.ioc.Inject;
 import org.tomighty.sound.timer.Ding;
 import org.tomighty.sound.timer.TicTac;
 import org.tomighty.sound.timer.Wind;
+
+import javax.inject.Inject;
 
 public class Sounds {
 

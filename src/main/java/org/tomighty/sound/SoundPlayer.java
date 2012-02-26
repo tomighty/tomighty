@@ -22,19 +22,19 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.inject.Inject;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineEvent;
 import javax.sound.sampled.LineListener;
 
-import org.tomighty.ioc.Inject;
-import org.tomighty.ioc.New;
 import org.tomighty.log.Log;
 
 public class SoundPlayer {
-	
-	@Inject @New private Log log;
+
+    private final Log log = new Log(getClass());
+
 	private Map<Sound, Clip> activeClips = Collections.synchronizedMap(new HashMap<Sound, Clip>());
 
 	public SoundChain play(Sound sound) {

@@ -18,13 +18,13 @@ package org.tomighty.ui.swing.laf;
 
 import java.awt.Font;
 
+import javax.inject.Inject;
 import javax.swing.JLabel;
-
-import org.tomighty.ioc.Inject;
 
 public class SexyLabel {
 	
-	@Inject private SexyLabelUI labelUI;
+	@Inject
+    private SexyLabelUI labelUI;
 	
 	public JLabel small(String text) {
 		return create(11f, text);

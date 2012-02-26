@@ -16,7 +16,10 @@
 
 package org.tomighty.resources;
 
-import java.awt.Image;
+import org.tomighty.log.Log;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,15 +27,9 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.charset.Charset;
 
-import javax.imageio.ImageIO;
-
-import org.tomighty.ioc.Inject;
-import org.tomighty.log.Log;
-
 public class Resources {
 
-	@Inject
-	private Log log;
+	private Log log = new Log(getClass());
 
 	public String text(String resourceName) {
 		InputStream input = getClass().getResourceAsStream(resourceName);

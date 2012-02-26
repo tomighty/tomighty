@@ -1,13 +1,13 @@
 package org.tomighty.plugin;
 
+import com.google.inject.Binder;
 import org.junit.Before;
 import org.junit.Test;
 import org.tomighty.InjectedTest;
-import org.tomighty.ioc.Binder;
-import org.tomighty.ioc.Inject;
-import org.tomighty.log.Log;
+import org.tomighty.bus.Bus;
 import org.tomighty.plugin.impl.DefaultPluginLoader;
 
+import javax.inject.Inject;
 import java.lang.reflect.Method;
 import java.net.URL;
 
@@ -64,9 +64,9 @@ public class LoadPluginTest extends InjectedTest {
 
     @Test
     public void dependenciesAnnotatedWithInjectAreInjected() throws Exception {
-        Method getInjectedLogger = plugin.getClass().getMethod("getInjectedLogger");
-        Object injectedLogger = getInjectedLogger.invoke(plugin);
-        assertEquals(Log.class, injectedLogger.getClass());
+        Method getter = plugin.getClass().getMethod("getInjectedBus");
+        Object injectedObject = getter.invoke(plugin);
+        assertEquals(Bus.class, injectedObject.getClass());
     }
 
 }

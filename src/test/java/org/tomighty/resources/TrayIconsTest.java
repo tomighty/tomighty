@@ -23,12 +23,13 @@ import static org.mockito.Mockito.*;
 import java.awt.Dimension;
 import java.awt.Image;
 
+import com.google.inject.Binder;
 import org.junit.Before;
 import org.junit.Test;
 import org.tomighty.InjectedTest;
-import org.tomighty.ioc.Binder;
-import org.tomighty.ioc.Inject;
 import org.tomighty.ui.Tray;
+
+import javax.inject.Inject;
 
 public class TrayIconsTest extends InjectedTest {
 
@@ -40,8 +41,8 @@ public class TrayIconsTest extends InjectedTest {
 	
 	@Override
 	protected void bind(Binder binder) {
-		binder.bind(Tray.class).to(mock(Tray.class));
-		binder.bind(Resources.class).to(mock(Resources.class));
+		binder.bind(Tray.class).toInstance(mock(Tray.class));
+		binder.bind(Resources.class).toInstance(mock(Resources.class));
 	}
 	
 	@Before

@@ -1,11 +1,12 @@
 package org.tomighty.plugin.impl;
 
 import org.tomighty.io.Directory;
-import org.tomighty.ioc.Inject;
 import org.tomighty.plugin.PluginLoader;
 import org.tomighty.plugin.PluginManager;
 import org.tomighty.plugin.PluginPack;
 import org.tomighty.plugin.PluginPackFactory;
+
+import javax.inject.Inject;
 
 public class DefaultPluginManager implements PluginManager {
     

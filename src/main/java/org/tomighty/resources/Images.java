@@ -16,15 +16,15 @@
 
 package org.tomighty.resources;
 
+import javax.inject.Inject;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.tomighty.ioc.Inject;
-
 public class Images {
 	
-	@Inject private Resources resources;
+	@Inject
+    private Resources resources;
 
 	public Image tomato() {
 		return resources.image("/tomato-48.png");

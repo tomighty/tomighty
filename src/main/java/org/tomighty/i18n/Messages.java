@@ -16,23 +16,20 @@
 
 package org.tomighty.i18n;
 
+import org.tomighty.log.Log;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Locale;
 import java.util.Properties;
 
-import org.tomighty.ioc.Initializable;
-import org.tomighty.ioc.Inject;
-import org.tomighty.log.Log;
+public class Messages {
+	
+	private final Properties messages = new Properties();
+    private final Log log = new Log(getClass());
 
-public class Messages implements Initializable {
-	
-	@Inject private Log log;
-	private Properties messages = new Properties();
-	
-	@Override
-	public void initialize() {
+    public Messages() {
 		log.info("Loading messages for locale "+locale());
 		InputStream input = getClass().getResourceAsStream(resourceName());
 		if(input == null) {

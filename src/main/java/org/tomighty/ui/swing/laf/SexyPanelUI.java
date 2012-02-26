@@ -21,6 +21,7 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.plaf.basic.BasicPanelUI;
@@ -28,7 +29,6 @@ import javax.swing.plaf.basic.BasicPanelUI;
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.Subscriber;
 import org.tomighty.bus.messages.ui.LookChanged;
-import org.tomighty.ioc.Inject;
 import org.tomighty.ui.theme.Look;
 import org.tomighty.ui.theme.Theme;
 import org.tomighty.ui.util.Canvas;

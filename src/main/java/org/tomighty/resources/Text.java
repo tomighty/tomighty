@@ -16,7 +16,7 @@
 
 package org.tomighty.resources;
 
-import org.tomighty.ioc.Inject;
+import javax.inject.Inject;
 
 public class Text {
 

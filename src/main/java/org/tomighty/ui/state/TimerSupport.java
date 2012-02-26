@@ -21,6 +21,8 @@ import static javax.swing.SwingUtilities.invokeLater;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JLabel;
@@ -29,15 +31,13 @@ import org.tomighty.bus.Subscriber;
 import org.tomighty.bus.messages.time.TimerEnd;
 import org.tomighty.bus.messages.time.TimerTick;
 import org.tomighty.bus.messages.ui.ChangeUiState;
-import org.tomighty.ioc.Initializable;
-import org.tomighty.ioc.Inject;
 import org.tomighty.sound.SoundPlayer;
 import org.tomighty.sound.Sounds;
 import org.tomighty.time.CountdownTimer;
 import org.tomighty.time.Time;
 import org.tomighty.ui.UiState;
 
-public abstract class TimerSupport extends UiStateSupport implements Initializable {
+public abstract class TimerSupport extends UiStateSupport {
 
 	@Inject private CountdownTimer timer;
 	@Inject private Sounds sounds;
@@ -49,8 +49,8 @@ public abstract class TimerSupport extends UiStateSupport implements Initializab
 	protected abstract Time initialTime();
 	protected abstract Class<? extends UiState> finishedState();
 	protected abstract Class<? extends UiState> interruptedState();
-	
-	@Override
+
+    @PostConstruct
 	public void initialize() {
 		bus.subscribe(updateTime, TimerTick.class);
 		bus.subscribe(endTimer, TimerEnd.class);

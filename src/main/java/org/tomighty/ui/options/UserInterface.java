@@ -18,6 +18,8 @@ package org.tomighty.ui.options;
 
 import java.awt.Component;
 
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -28,8 +30,6 @@ import javax.swing.MutableComboBoxModel;
 
 import org.tomighty.config.Options;
 import org.tomighty.i18n.Messages;
-import org.tomighty.ioc.Initializable;
-import org.tomighty.ioc.Inject;
 import org.tomighty.ui.theme.Theme;
 import org.tomighty.ui.theme.themes.BrushedMetal;
 import org.tomighty.ui.theme.themes.Gradient;
@@ -38,7 +38,7 @@ import org.tomighty.ui.theme.themes.Shiny;
 import org.tomighty.util.FriendlyName;
 
 @SuppressWarnings("serial")
-public class UserInterface extends OptionPanel implements OptionGroup, Initializable {
+public class UserInterface extends OptionPanel implements OptionGroup {
 
 	@Inject private Options options;
 	@Inject private Messages messages;
@@ -71,8 +71,8 @@ public class UserInterface extends OptionPanel implements OptionGroup, Initializ
 		panel.add(new JComboBox(themeOptions));
 		return panel;
 	}
-	
-	@Override
+
+    @PostConstruct
 	public void initialize() {
 		themeLabel.setText(messages.get("Theme"));
 		autoHideOption.setText(messages.get("Auto hide window"));

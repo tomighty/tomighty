@@ -16,6 +16,9 @@
 
 package org.tomighty;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.mycila.inject.jsr250.Jsr250;
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.Subscriber;
 import org.tomighty.bus.messages.ui.ChangeUiState;
@@ -23,58 +26,43 @@ import org.tomighty.bus.messages.ui.TrayClick;
 import org.tomighty.bus.messages.ui.UiStateChanged;
 import org.tomighty.config.Directories;
 import org.tomighty.config.Options;
-import org.tomighty.ioc.*;
-import org.tomighty.ioc.Container;
+import org.tomighty.inject.TomightyModule;
 import org.tomighty.log.Log;
-import org.tomighty.plugin.PluginLoader;
 import org.tomighty.plugin.PluginManager;
-import org.tomighty.plugin.PluginPackFactory;
-import org.tomighty.plugin.impl.DefaultPluginLoader;
-import org.tomighty.plugin.impl.DefaultPluginManager;
-import org.tomighty.plugin.impl.DefaultPluginPackFactory;
-import org.tomighty.ui.Tray;
 import org.tomighty.ui.TrayManager;
 import org.tomighty.ui.UiState;
 import org.tomighty.ui.Window;
 import org.tomighty.ui.state.InitialState;
-import org.tomighty.ui.tray.AwtTray;
 
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import javax.swing.*;
 import java.awt.*;
 
 import static javax.swing.SwingUtilities.invokeLater;
 
-public class Tomighty implements Initializable, Runnable {
+public class Tomighty implements Runnable {
 	
 	@Inject private Window window;
 	@Inject private Options options;
 	@Inject private Bus bus;
-	@Inject private Factory factory;
+	@Inject private Injector injector;
     @Inject private PluginManager pluginManager;
     @Inject private Directories directories;
-    @Inject @New private Log log;
     private UiState currentState;
+    private final Log log = new Log(getClass());
 
 	public static void main(String[] args) throws Exception {
 		UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		Container container = createContainer();
-		Tomighty tomighty = container.get(Tomighty.class);
-		TrayManager trayManager = container.get(TrayManager.class);
+		Injector injector = Guice.createInjector(new TomightyModule(), Jsr250.newJsr250Module());
+
+		Tomighty tomighty = injector.getInstance(Tomighty.class);
+		TrayManager trayManager = injector.getInstance(TrayManager.class);
 		invokeLater(tomighty);
 		invokeLater(trayManager);
 	}
 
-	private static Container createContainer() {
-		Container container = new Container();
-		Binder binder = container.binder();
-		binder.bind(Tray.class).to(AwtTray.class);
-        binder.bind(PluginManager.class).to(DefaultPluginManager.class);
-        binder.bind(PluginLoader.class).to(DefaultPluginLoader.class);
-        binder.bind(PluginPackFactory.class).to(DefaultPluginPackFactory.class);
-		return container;
-	}
-	
-	@Override
+	@PostConstruct
 	public void initialize() {
 		bus.subscribe(new SwitchState(), ChangeUiState.class);
 		bus.subscribe(new ShowWindow(), TrayClick.class);
@@ -90,7 +78,7 @@ public class Tomighty implements Initializable, Runnable {
 		if(currentState != null) {
 			currentState.beforeDetaching();
 		}
-		currentState = factory.create(stateClass);
+		currentState = injector.getInstance(stateClass);
 		Component component;
 		try {
 			component = currentState.render();

@@ -16,18 +16,14 @@
 
 package org.tomighty.bus;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.tomighty.ioc.Inject;
 import org.tomighty.log.Log;
 
+import java.util.*;
+
 public class Bus {
-	
-	@Inject private Log log;
+
+    private final Log log = new Log(getClass());
+
 	private Map<Class<?>, List<Subscriber<?>>> subscribersByType;
 	
 	public Bus() {

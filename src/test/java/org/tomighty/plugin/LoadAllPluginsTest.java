@@ -1,11 +1,12 @@
 package org.tomighty.plugin;
 
+import com.google.inject.Binder;
 import org.junit.Test;
 import org.tomighty.InjectedTest;
 import org.tomighty.io.Directory;
-import org.tomighty.ioc.Binder;
-import org.tomighty.ioc.Inject;
 import org.tomighty.plugin.impl.DefaultPluginManager;
+
+import javax.inject.Inject;
 
 import static java.util.Arrays.*;
 
@@ -25,8 +26,8 @@ public class LoadAllPluginsTest extends InjectedTest {
     @Override
     protected void bind(Binder binder) {
         binder.bind(PluginManager.class).to(DefaultPluginManager.class);
-        binder.bind(PluginPackFactory.class).to(mock(PluginPackFactory.class));
-        binder.bind(PluginLoader.class).to(mock(PluginLoader.class));
+        binder.bind(PluginPackFactory.class).toInstance(mock(PluginPackFactory.class));
+        binder.bind(PluginLoader.class).toInstance(mock(PluginLoader.class));
     }
 
     @Test

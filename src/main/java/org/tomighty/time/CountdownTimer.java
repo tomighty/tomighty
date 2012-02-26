@@ -23,7 +23,8 @@ import org.tomighty.bus.Bus;
 import org.tomighty.bus.messages.time.TimerEnd;
 import org.tomighty.bus.messages.time.TimerInterrupted;
 import org.tomighty.bus.messages.time.TimerTick;
-import org.tomighty.ioc.Inject;
+
+import javax.inject.Inject;
 
 public class CountdownTimer {
 

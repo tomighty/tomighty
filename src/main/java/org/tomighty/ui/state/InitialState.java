@@ -19,17 +19,18 @@ package org.tomighty.ui.state;
 import java.awt.Component;
 import java.awt.Image;
 
+import javax.inject.Inject;
 import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import org.tomighty.ioc.Inject;
 import org.tomighty.resources.Images;
 import org.tomighty.ui.state.pomodoro.Pomodoro;
 
 public class InitialState extends UiStateSupport {
 
-	@Inject private Images images;
+	@Inject
+    private Images images;
 	
 	@Override
 	protected String title() {

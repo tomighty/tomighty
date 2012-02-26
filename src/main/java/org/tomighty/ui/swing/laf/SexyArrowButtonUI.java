@@ -26,18 +26,19 @@ import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+import javax.inject.Inject;
 import javax.swing.AbstractButton;
 import javax.swing.ButtonModel;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.plaf.basic.BasicButtonUI;
 
-import org.tomighty.ioc.Inject;
 import org.tomighty.ui.theme.Look;
 
 public class SexyArrowButtonUI extends BasicButtonUI {
 	
-	@Inject private Look look;
+	@Inject
+    private Look look;
 	
 	@Override
 	public void installUI(JComponent component) {

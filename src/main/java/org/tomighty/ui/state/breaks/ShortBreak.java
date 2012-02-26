@@ -16,10 +16,10 @@
 
 package org.tomighty.ui.state.breaks;
 
+import javax.inject.Inject;
 import javax.swing.Action;
 
 import org.tomighty.config.Options;
-import org.tomighty.ioc.Inject;
 import org.tomighty.time.Time;
 import org.tomighty.ui.state.ToState;
 import org.tomighty.ui.theme.Colors;

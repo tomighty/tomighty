@@ -36,11 +36,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.inject.Inject;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.plaf.basic.BasicLabelUI;
 
-import org.tomighty.ioc.Inject;
 import org.tomighty.ui.theme.Colors;
 import org.tomighty.ui.theme.Look;
 

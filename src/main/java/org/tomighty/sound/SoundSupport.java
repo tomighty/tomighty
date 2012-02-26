@@ -23,7 +23,8 @@ import java.io.InputStream;
 
 import org.tomighty.config.Options;
 import org.tomighty.config.Options.SoundConfig;
-import org.tomighty.ioc.Inject;
+
+import javax.inject.Inject;
 
 public abstract class SoundSupport implements Sound {
 

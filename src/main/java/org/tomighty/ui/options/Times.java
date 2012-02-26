@@ -19,18 +19,18 @@ package org.tomighty.ui.options;
 import java.awt.Component;
 import java.awt.GridLayout;
 
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.tomighty.config.Options;
 import org.tomighty.i18n.Messages;
-import org.tomighty.ioc.Initializable;
-import org.tomighty.ioc.Inject;
 import org.tomighty.ui.util.FieldFactory;
 
 @SuppressWarnings("serial")
-public class Times extends OptionPanel implements OptionGroup, Initializable {
+public class Times extends OptionPanel implements OptionGroup {
 
 	@Inject private Options options;
 	@Inject private Messages messages;
@@ -39,7 +39,7 @@ public class Times extends OptionPanel implements OptionGroup, Initializable {
 	private JFormattedTextField shortBreak;
 	private JFormattedTextField longBreak;
 
-	@Override
+    @PostConstruct
 	public void initialize() {
 		pomodoro = addField("Pomodoro");
 		shortBreak = addField("Short break");

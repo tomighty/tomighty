@@ -18,11 +18,11 @@ package org.tomighty.ui.state;
 
 import java.awt.event.ActionEvent;
 
+import javax.inject.Inject;
 import javax.swing.AbstractAction;
 
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.messages.ui.ChangeUiState;
-import org.tomighty.ioc.Inject;
 import org.tomighty.ui.UiState;
 
 @SuppressWarnings("serial")

@@ -20,12 +20,12 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.inject.Inject;
 import javax.swing.*;
 
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.Subscriber;
 import org.tomighty.bus.messages.ui.UiStateChanged;
-import org.tomighty.ioc.Inject;
 import org.tomighty.ui.UiState;
 import org.tomighty.ui.swing.laf.GaugeButtonUI;
 import org.tomighty.ui.state.pomodoro.Pomodoro;

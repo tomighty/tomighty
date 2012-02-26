@@ -28,6 +28,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
@@ -38,11 +40,9 @@ import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.tomighty.i18n.Messages;
-import org.tomighty.ioc.Initializable;
-import org.tomighty.ioc.Inject;
 
 @SuppressWarnings("serial")
-public class CheckableFileField extends JPanel implements Initializable {
+public class CheckableFileField extends JPanel {
 
 	@Inject private Messages messages;
 	private JCheckBox checkBox;
@@ -87,8 +87,8 @@ public class CheckableFileField extends JPanel implements Initializable {
 		updateFileSelectionState();
 		file(null);
 	}
-	
-	@Override
+
+    @PostConstruct
 	public void initialize() {
 		defaultButton.setText(messages.get("Default"));
 		filenameField.setToolTipText(messages.get("Click to select a file"));

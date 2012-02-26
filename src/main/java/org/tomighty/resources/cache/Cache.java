@@ -1,17 +1,15 @@
 package org.tomighty.resources.cache;
 
+import org.tomighty.log.Log;
+
 import java.io.File;
 import java.io.IOException;
-
-import org.tomighty.ioc.Inject;
-import org.tomighty.ioc.New;
-import org.tomighty.log.Log;
 
 public class Cache {
 
 	private final EntryType type;
 	private final File directory;
-	@Inject @New private Log log;
+    private final Log log = new Log(getClass());
 
 	public Cache(EntryType type, File directory) {
 		this.type = type;

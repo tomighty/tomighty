@@ -16,22 +16,22 @@
 
 package org.tomighty.config;
 
+import com.google.inject.Injector;
+
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import java.io.File;
 import java.util.Properties;
 
-import org.tomighty.ioc.Container;
-import org.tomighty.ioc.Initializable;
-import org.tomighty.ioc.Inject;
-
-public class Configuration implements Initializable {
+public class Configuration {
 	
-	@Inject private Directories directories;
+    @Inject private Directories directories;
 	@Inject private PropertyStore propertyStore;
-	@Inject private Container container;
+	@Inject private Injector injector;
 	private Properties properties;
 	private File configFile;
 	
-	@Override
+	@PostConstruct
 	public void initialize() {
 		configFile = new File(directories.configuration(), "tomighty.conf");
 		properties = propertyStore.load(configFile);
@@ -49,7 +49,7 @@ public class Configuration implements Initializable {
 	
 	public <T> T asObject(String name, Class<T> defaultClass) {
 		Class<T> clazz = asClass(name, defaultClass);
-		return container.get(clazz);
+		return injector.getInstance(clazz);
 	}
 
 	@SuppressWarnings("unchecked")

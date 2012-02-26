@@ -27,16 +27,16 @@ import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.inject.Inject;
 import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
+import com.google.inject.Injector;
 import org.tomighty.bus.Bus;
 import org.tomighty.i18n.Messages;
-import org.tomighty.ioc.Inject;
-import org.tomighty.ioc.Injector;
 import org.tomighty.ui.UiState;
 import org.tomighty.ui.layout.DockLayout;
 import org.tomighty.ui.layout.Docking;
@@ -112,7 +112,7 @@ public abstract class UiStateSupport implements UiState {
 		Action[] actions = primaryActions();
 		JPanel buttons = createPanel(new GridLayout(1, actions.length, 3, 0));
 		for(Action action : actions) {
-			injector.inject(action);
+			injector.injectMembers(action);
 			JButton button = new JButton(action);
 			button.setOpaque(false);
 			button.setUI(SexyButtonUI.INSTANCE);
@@ -140,7 +140,7 @@ public abstract class UiStateSupport implements UiState {
 	private JPopupMenu createSecondaryActionsMenu(Action[] actions) {
 		JPopupMenu menu = new JPopupMenu();
 		for(Action action : actions) {
-			injector.inject(action);
+			injector.injectMembers(action);
 			JMenuItem item = new JMenuItem(action);
 			menu.add(item);
 		}

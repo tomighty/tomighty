@@ -18,11 +18,12 @@ package org.tomighty.ui.theme;
 
 import java.awt.Image;
 
-import org.tomighty.ioc.Inject;
 import org.tomighty.resources.cache.Cache;
 import org.tomighty.resources.cache.Caches;
 import org.tomighty.resources.cache.Images;
 import org.tomighty.ui.util.Canvas;
+
+import javax.inject.Inject;
 
 public abstract class CachedTheme implements Theme {
 

@@ -23,12 +23,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
 
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import org.tomighty.config.Options;
-import org.tomighty.ioc.Initializable;
-import org.tomighty.ioc.Inject;
 import org.tomighty.resources.Images;
 import org.tomighty.ui.location.Closest;
 import org.tomighty.ui.location.Location;
@@ -36,7 +36,7 @@ import org.tomighty.ui.swing.laf.SexyPanelUI;
 import static org.tomighty.ui.util.Geometry.*;
 
 @SuppressWarnings("serial")
-public class Window extends JFrame implements Initializable {
+public class Window extends JFrame {
 
 	@Inject private Options options;
 	@Inject private Images images;
@@ -59,8 +59,8 @@ public class Window extends JFrame implements Initializable {
 		addMouseListener(dragger);
 		addMouseMotionListener(dragger);
 	}
-	
-	@Override
+
+    @PostConstruct
 	public void initialize() {
 		setIconImages(images.tomatoes());
 	}

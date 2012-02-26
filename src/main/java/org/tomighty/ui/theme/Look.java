@@ -21,9 +21,10 @@ import org.tomighty.bus.Subscriber;
 import org.tomighty.bus.messages.ui.LookChanged;
 import org.tomighty.bus.messages.ui.UiStateChanged;
 import org.tomighty.config.Options;
-import org.tomighty.ioc.Inject;
 import org.tomighty.ui.UiState;
 import org.tomighty.ui.theme.colors.Gray;
+
+import javax.inject.Inject;
 
 public class Look implements Subscriber<UiStateChanged> {
 	

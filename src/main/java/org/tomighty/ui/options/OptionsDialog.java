@@ -24,20 +24,20 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import com.google.inject.Injector;
 import org.tomighty.i18n.Messages;
-import org.tomighty.ioc.Factory;
-import org.tomighty.ioc.Initializable;
-import org.tomighty.ioc.Inject;
 import org.tomighty.resources.Images;
 
 @SuppressWarnings("serial")
-public class OptionsDialog extends JDialog implements Initializable {
+public class OptionsDialog extends JDialog {
 
 	private static final int MARGIN_SIZE = 10;
 	
@@ -47,7 +47,7 @@ public class OptionsDialog extends JDialog implements Initializable {
 	private JButton cancelButton;
 	private List<OptionGroup> optionGroups = new ArrayList<OptionGroup>();
 	
-	@Inject private Factory factory;
+	@Inject private Injector injector;
 	@Inject private Messages messages;
 	@Inject private Images images;
 	
@@ -55,8 +55,8 @@ public class OptionsDialog extends JDialog implements Initializable {
 		createContentPane();
 		configureDialog();
 	}
-	
-	@Override
+
+	@PostConstruct
 	public void initialize() {
 		saveButton.setText(messages.get("Save"));
 		cancelButton.setText(messages.get("Cancel"));
@@ -68,9 +68,9 @@ public class OptionsDialog extends JDialog implements Initializable {
 	}
 
 	private void createOptionGroups() {
-		optionGroups.add(factory.create(Times.class));
-		optionGroups.add(factory.create(UserInterface.class));
-		optionGroups.add(factory.create(Sounds.class));
+		optionGroups.add(injector.getInstance(Times.class));
+		optionGroups.add(injector.getInstance(UserInterface.class));
+		optionGroups.add(injector.getInstance(Sounds.class));
 		for(OptionGroup group : optionGroups) {
 			tabs.addTab(group.name(), group.asComponent());
 		}

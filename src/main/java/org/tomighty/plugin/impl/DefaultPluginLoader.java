@@ -1,11 +1,11 @@
 package org.tomighty.plugin.impl;
 
-import org.tomighty.ioc.Factory;
-import org.tomighty.ioc.Inject;
+import com.google.inject.Injector;
 import org.tomighty.plugin.Plugin;
 import org.tomighty.plugin.PluginLoader;
 import org.tomighty.plugin.PluginPack;
 
+import javax.inject.Inject;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URLClassLoader;
@@ -14,13 +14,13 @@ import java.util.Properties;
 public class DefaultPluginLoader implements PluginLoader {
 
     @Inject
-    private Factory factory;
+    private Injector injector;
 
     @Override
     public Plugin load(PluginPack pluginPack) {
         URLClassLoader classLoader = new URLClassLoader(pluginPack.jars());
         Class<? extends Plugin> pluginClass = loadPluginClass(classLoader);
-        return factory.create(pluginClass);
+        return injector.getInstance(pluginClass);
     }
 
     private Class<? extends Plugin> loadPluginClass(ClassLoader classLoader) {

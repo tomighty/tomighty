@@ -20,7 +20,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 
-import org.tomighty.ioc.Inject;
 import org.tomighty.resources.cache.Cache;
 import org.tomighty.resources.cache.Caches;
 import org.tomighty.resources.cache.Icons;
@@ -29,6 +28,8 @@ import org.tomighty.ui.Tray;
 import org.tomighty.ui.theme.Colors;
 import org.tomighty.ui.theme.Look;
 import org.tomighty.ui.util.Canvas;
+
+import javax.inject.Inject;
 
 public class TrayIcons {
 

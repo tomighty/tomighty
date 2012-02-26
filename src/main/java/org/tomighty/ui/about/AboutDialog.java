@@ -23,6 +23,8 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -32,13 +34,11 @@ import javax.swing.JTextArea;
 import javax.swing.border.Border;
 
 import org.tomighty.i18n.Messages;
-import org.tomighty.ioc.Initializable;
-import org.tomighty.ioc.Inject;
 import org.tomighty.resources.Images;
 import org.tomighty.resources.Text;
 
 @SuppressWarnings("serial")
-public class AboutDialog extends JDialog implements Initializable {
+public class AboutDialog extends JDialog {
 	
 	private static final int MARGIN = 10;
 	
@@ -55,8 +55,8 @@ public class AboutDialog extends JDialog implements Initializable {
 		createPanel();
 		configureDialog();
 	}
-	
-	@Override
+
+	@PostConstruct
 	public void initialize() {
 		title.setText("Tomighty "+text.projectVersion());
 		license.setText(text.license());

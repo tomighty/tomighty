@@ -16,10 +16,10 @@
 
 package org.tomighty.ui.state.pomodoro;
 
+import javax.inject.Inject;
 import javax.swing.Action;
 
 import org.tomighty.config.Options;
-import org.tomighty.ioc.Inject;
 import org.tomighty.time.Time;
 import org.tomighty.ui.UiState;
 import org.tomighty.ui.state.TimerSupport;
@@ -31,7 +31,8 @@ import org.tomighty.ui.theme.colors.Red;
 
 public class Pomodoro extends TimerSupport {
 	
-	@Inject private Options options;
+	@Inject
+    private Options options;
 	
 	@Override
 	public Colors colors() {

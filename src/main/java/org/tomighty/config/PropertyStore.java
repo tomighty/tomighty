@@ -16,18 +16,17 @@
 
 package org.tomighty.config;
 
+import org.tomighty.log.Log;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.tomighty.ioc.Inject;
-import org.tomighty.log.Log;
-
 public class PropertyStore {
-	
-	@Inject private Log log;
+
+    private final Log log = new Log(getClass());
 
 	public Properties load(File file) {
 		Properties properties = new Properties();

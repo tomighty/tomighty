@@ -23,7 +23,7 @@ public class Log {
 	
 	private final Logger logger;
 	
-	protected Log(Class<?> clazz) {
+	public Log(Class<?> clazz) {
 		this.logger = Logger.getLogger(clazz.getName());
 	}
 

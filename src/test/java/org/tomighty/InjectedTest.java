@@ -16,22 +16,30 @@
 
 package org.tomighty;
 
+import com.google.inject.AbstractModule;
+import com.google.inject.Binder;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import org.junit.Before;
-import org.tomighty.ioc.Binder;
-import org.tomighty.ioc.Container;
-import org.tomighty.ioc.Injector;
 
 public abstract class InjectedTest {
 
 	@Before
 	public void createContainer() {
-		Container container = new Container();
-		bind(container.binder());
-		Injector injector = container.get(Injector.class);
-		injector.inject(this);
+        Injector injector = Guice.createInjector(new TestModule());
+        injector.injectMembers(this);
 	}
 
 	protected void bind(Binder binder) {
 	}
+
+    private class TestModule extends AbstractModule {
+
+        @Override
+        protected void configure() {
+            InjectedTest.this.bind(binder());
+        }
+
+    }
 
 }

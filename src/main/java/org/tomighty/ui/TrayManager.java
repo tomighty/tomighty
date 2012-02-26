@@ -28,6 +28,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import com.google.inject.Injector;
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.Subscriber;
 import org.tomighty.bus.messages.config.TimeOnTrayConfigChanged;
@@ -37,25 +38,25 @@ import org.tomighty.bus.messages.ui.TrayClick;
 import org.tomighty.config.Configuration;
 import org.tomighty.config.Options;
 import org.tomighty.i18n.Messages;
-import org.tomighty.ioc.Container;
-import org.tomighty.ioc.Initializable;
-import org.tomighty.ioc.Inject;
 import org.tomighty.resources.TrayIcons;
 import org.tomighty.time.Time;
 import org.tomighty.ui.about.AboutDialog;
 import org.tomighty.ui.options.OptionsDialog;
 
-public class TrayManager implements Runnable, Initializable {
+import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 
-	@Inject private Container container;
+public class TrayManager implements Runnable {
+
+	@Inject private Injector injector;
 	@Inject private Configuration config;
 	@Inject private Options options;
 	@Inject private Bus bus;
 	@Inject private Messages messages;
 	@Inject private TrayIcons icons;
 	private TrayIcon trayIcon;
-	
-	@Override
+
+    @PostConstruct
 	public void initialize() {
 		bus.subscribe(new UpdateTimeOnTray(), TimerTick.class);
 		bus.subscribe(new ShowTomato(), TimerStop.class);
@@ -119,7 +120,7 @@ public class TrayManager implements Runnable, Initializable {
 	private class ShowOptions implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			OptionsDialog dialog = container.get(OptionsDialog.class);
+			OptionsDialog dialog = injector.getInstance(OptionsDialog.class);
 			dialog.showDialog();
 		}
 	}
@@ -127,7 +128,7 @@ public class TrayManager implements Runnable, Initializable {
 	private class About implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			AboutDialog about = container.get(AboutDialog.class);
+			AboutDialog about = injector.getInstance(AboutDialog.class);
 			about.showDialog();
 		}
 	}

@@ -21,9 +21,10 @@ import java.io.File;
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.messages.config.TimeOnTrayConfigChanged;
 import org.tomighty.bus.messages.ui.LookChanged;
-import org.tomighty.ioc.Inject;
 import org.tomighty.ui.theme.Theme;
 import org.tomighty.ui.theme.themes.Shiny;
+
+import javax.inject.Inject;
 
 public class Options {
 	
