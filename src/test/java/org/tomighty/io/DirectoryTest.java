@@ -21,7 +21,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.*;
 import static org.tomighty.util.FileUtil.*;
@@ -61,6 +61,11 @@ public class DirectoryTest {
     public void subdirs() {
         List<Directory> subdirs = directory.subdirs();
 
+        Collections.sort(subdirs, new Comparator<Directory>() {
+            public int compare(Directory d1, Directory d2) {
+                return d1.path().compareTo(d2.path());
+            }
+        });
         assertEquals(3, subdirs.size());
 
         Directory subdir1 = subdirs.get(0);
@@ -77,6 +82,7 @@ public class DirectoryTest {
         File[] files = directory.filesByExtension("txt");
         
         assertEquals(2, files.length);
+        Arrays.sort(files);
         assertEquals(textFile1, files[0]);
         assertEquals(textFile2, files[1]);
     }
