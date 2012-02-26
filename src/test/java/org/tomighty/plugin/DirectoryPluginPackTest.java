@@ -16,11 +16,13 @@
 
 package org.tomighty.plugin;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.tomighty.io.Directory;
 import org.tomighty.plugin.impl.DirectoryPluginPack;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 
 import static org.junit.Assert.assertEquals;
@@ -38,10 +40,17 @@ public class DirectoryPluginPackTest {
 
     private static final File[] ALL_JARS = { JAR1, JAR2, JAR3 };
 
+    private PluginPack pluginPack;
+    private Directory directory;
+
+    @Before
+    public void setUp() throws Exception {
+        directory = directoryWith(ALL_JARS);
+        pluginPack = new DirectoryPluginPack(directory);
+    }
+
     @Test
     public void jars() throws Exception {
-        PluginPack pluginPack = new DirectoryPluginPack(directoryWith(ALL_JARS));
-
         URL[] urls = pluginPack.jars();
 
         assertEquals(3, urls.length);
@@ -50,9 +59,18 @@ public class DirectoryPluginPackTest {
         assertEquals(urlOf(JAR3), urls[2]);
     }
 
-    private Directory directoryWith(File[] jars) {
+    @Test
+    public void toStringReturnsDirectoryPath() {
+        assertEquals(directory.path().toString(), pluginPack.toString());
+    }
+
+    private Directory directoryWith(File[] jars) throws IOException {
         Directory directory = mock(Directory.class);
+        File path = File.createTempFile("tomighty-random-dir-", null);
+
         when(directory.filesByExtension("jar")).thenReturn(jars);
+        when(directory.path()).thenReturn(path);
+
         return directory;
     }
 

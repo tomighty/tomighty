@@ -48,4 +48,9 @@ public class DirectoryPluginPack implements PluginPack {
         }
     }
 
+    @Override
+    public String toString() {
+        return directory.path().toString();
+    }
+
 }
