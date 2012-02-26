@@ -17,6 +17,8 @@
 package org.tomighty.plugin.impl;
 
 import com.google.inject.Injector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.tomighty.plugin.Plugin;
 import org.tomighty.plugin.PluginLoader;
 import org.tomighty.plugin.PluginPack;
@@ -24,6 +26,7 @@ import org.tomighty.plugin.PluginPack;
 import javax.inject.Inject;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Properties;
 
@@ -32,15 +35,26 @@ public class DefaultPluginLoader implements PluginLoader {
     @Inject
     private Injector injector;
 
+    private final Logger logger = LoggerFactory.getLogger(getClass());
+
     @Override
     public Plugin load(PluginPack pluginPack) {
-        URLClassLoader classLoader = new URLClassLoader(pluginPack.jars());
+        logger.info("Loading plugin {}", pluginPack);
+        URLClassLoader classLoader = createClassLoader(pluginPack);
         Class<? extends Plugin> pluginClass = loadPluginClass(classLoader);
         return injector.getInstance(pluginClass);
     }
 
+    private URLClassLoader createClassLoader(PluginPack pluginPack) {
+        URL[] jars = pluginPack.jars();
+        for(URL jar : jars)
+            logger.info("Loading jar {}", jar);
+        return new URLClassLoader(jars);
+    }
+
     private Class<? extends Plugin> loadPluginClass(ClassLoader classLoader) {
         String pluginClassName = getPluginClassName(classLoader);
+        logger.info("Loading plugin class {}", pluginClassName);
         try {
             return (Class<? extends Plugin>) classLoader.loadClass(pluginClassName);
         } catch (ClassNotFoundException e) {
