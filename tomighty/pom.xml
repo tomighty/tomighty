@@ -16,12 +16,20 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    
     <modelVersion>4.0.0</modelVersion>
+    
+    <parent>
+        <groupId>org.tomighty</groupId>
+        <artifactId>tomighty-parent</artifactId>
+        <version>0.8.0</version>
+    </parent>
+    
     <groupId>org.tomighty</groupId>
     <artifactId>tomighty</artifactId>
     <packaging>jar</packaging>
     <version>0.8.0</version>
-    <name>Tomighty</name>
+    <name>Tomighty Swing App</name>
     <url>http://www.tomighty.org</url>
 
     <licenses>
