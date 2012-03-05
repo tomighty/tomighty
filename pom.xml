@@ -34,6 +34,11 @@
         </license>
     </licenses>
 
+    <modules>
+        <module>tomighty</module>
+        <module>tomighty-api</module>
+    </modules>
+
     <developers>
         <developer>
             <name>Célio Cidral Junior</name>
@@ -67,10 +72,6 @@
             <url>http://github.com/jakubsynowiec</url>
         </contributor>
     </contributors>
-    
-    <modules>
-        <module>tomighty</module>
-    </modules>
 
 </project>
 
