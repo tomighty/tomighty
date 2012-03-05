@@ -21,8 +21,9 @@
     
     <groupId>org.tomighty</groupId>
     <artifactId>tomighty-parent</artifactId>
-    <packaging>pom</packaging>
     <version>0.8.0</version>
+    <packaging>pom</packaging>
+
     <name>Tomighty Parent Project</name>
     <url>http://www.tomighty.org</url>
 
@@ -32,6 +33,40 @@
             <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
         </license>
     </licenses>
+
+    <developers>
+        <developer>
+            <name>Célio Cidral Junior</name>
+            <url>http://github.com/ccidral</url>
+        </developer>
+        <developer>
+            <name>Dominik Obermaier</name>
+            <url>http://github.com/dobermai</url>
+        </developer>
+    </developers>
+
+    <contributors>
+        <contributor>
+            <name>alfalive</name>
+            <url>http://github.com/alfalive</url>
+        </contributor>
+        <contributor>
+            <name>Moisés Jafet</name>
+            <url>http://github.com/moijafcor</url>
+        </contributor>
+        <contributor>
+            <name>Stefano</name>
+            <url>http://github.com/stelinx</url>
+        </contributor>
+        <contributor>
+            <name>haocheng</name>
+            <url>http://github.com/haocheng</url>
+        </contributor>
+        <contributor>
+            <name>Jakub Synowiec</name>
+            <url>http://github.com/jakubsynowiec</url>
+        </contributor>
+    </contributors>
     
     <modules>
         <module>tomighty</module>
