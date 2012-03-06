@@ -16,6 +16,6 @@
 
 package org.tomighty.bus.messages.time;
 
-public class TimerInterrupted extends TimerStop {
+public class TimerInterrupted extends TimerStopped {
 
 }

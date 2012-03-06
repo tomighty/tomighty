@@ -32,7 +32,7 @@ import com.google.inject.Injector;
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.Subscriber;
 import org.tomighty.bus.messages.config.TimeOnTrayConfigChanged;
-import org.tomighty.bus.messages.time.TimerStop;
+import org.tomighty.bus.messages.time.TimerStopped;
 import org.tomighty.bus.messages.time.TimerTick;
 import org.tomighty.bus.messages.ui.TrayClick;
 import org.tomighty.config.Configuration;
@@ -59,7 +59,7 @@ public class TrayManager implements Runnable {
     @PostConstruct
 	public void initialize() {
 		bus.subscribe(new UpdateTimeOnTray(), TimerTick.class);
-		bus.subscribe(new ShowTomato(), TimerStop.class);
+		bus.subscribe(new ShowTomato(), TimerStopped.class);
 		bus.subscribe(new RemoveTimeFromTray(), TimeOnTrayConfigChanged.class);
 		trayIcon = new TrayIcon(icons.tomato());
 		trayIcon.addMouseListener(new TrayListener());
@@ -160,9 +160,9 @@ public class TrayManager implements Runnable {
 		}
 	}
 	
-	private class ShowTomato implements Subscriber<TimerStop> {
+	private class ShowTomato implements Subscriber<TimerStopped> {
 		@Override
-		public void receive(TimerStop end) {
+		public void receive(TimerStopped end) {
 			showTomatoIcon();
 		}
 	}
