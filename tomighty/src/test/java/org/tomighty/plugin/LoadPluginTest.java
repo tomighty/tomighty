@@ -44,12 +44,16 @@ public class LoadPluginTest extends InjectedTest {
 
     @Inject
     private PluginLoader pluginLoader;
+    
+    @Inject
+    private Bus injectedBus;
 
     private Plugin plugin;
 
     @Override
     protected void bind(Binder binder) {
         binder.bind(PluginLoader.class).to(DefaultPluginLoader.class);
+        binder.bind(Bus.class).toInstance(mock(Bus.class));
     }
 
     @Before
@@ -84,7 +88,7 @@ public class LoadPluginTest extends InjectedTest {
     public void dependenciesAnnotatedWithInjectAreInjected() throws Exception {
         Method getter = plugin.getClass().getMethod("getInjectedBus");
         Object injectedObject = getter.invoke(plugin);
-        assertEquals(Bus.class, injectedObject.getClass());
+        assertEquals(injectedBus, injectedObject);
     }
 
 }

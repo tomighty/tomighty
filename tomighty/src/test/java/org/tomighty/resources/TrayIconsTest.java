@@ -27,6 +27,7 @@ import com.google.inject.Binder;
 import org.junit.Before;
 import org.junit.Test;
 import org.tomighty.InjectedTest;
+import org.tomighty.bus.Bus;
 import org.tomighty.ui.Tray;
 
 import javax.inject.Inject;
@@ -43,6 +44,7 @@ public class TrayIconsTest extends InjectedTest {
 	protected void bind(Binder binder) {
 		binder.bind(Tray.class).toInstance(mock(Tray.class));
 		binder.bind(Resources.class).toInstance(mock(Resources.class));
+        binder.bind(Bus.class).toInstance(mock(Bus.class));
 	}
 	
 	@Before
