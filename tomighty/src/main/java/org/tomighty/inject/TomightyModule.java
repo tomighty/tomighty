@@ -33,7 +33,7 @@ import org.tomighty.plugin.impl.DefaultPluginPackFactory;
 import org.tomighty.resources.cache.Caches;
 import org.tomighty.sound.SoundPlayer;
 import org.tomighty.sound.Sounds;
-import org.tomighty.time.CountdownTimer;
+import org.tomighty.time.Timer;
 import org.tomighty.ui.Tray;
 import org.tomighty.ui.TrayManager;
 import org.tomighty.ui.Window;
@@ -46,7 +46,7 @@ public class TomightyModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(Bus.class).to(DefaultBus.class).in(SINGLETON);
-        bind(CountdownTimer.class).in(SINGLETON);
+        bind(Timer.class).in(SINGLETON);
         
         bind(Tray.class).to(AwtTray.class).in(SINGLETON);
         bind(TrayManager.class).in(SINGLETON);

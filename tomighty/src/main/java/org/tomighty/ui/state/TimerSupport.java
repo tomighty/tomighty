@@ -33,13 +33,13 @@ import org.tomighty.bus.messages.time.TimerTick;
 import org.tomighty.bus.messages.ui.ChangeUiState;
 import org.tomighty.sound.SoundPlayer;
 import org.tomighty.sound.Sounds;
-import org.tomighty.time.CountdownTimer;
+import org.tomighty.time.Timer;
 import org.tomighty.time.Time;
 import org.tomighty.ui.UiState;
 
 public abstract class TimerSupport extends UiStateSupport {
 
-	@Inject private CountdownTimer timer;
+	@Inject private Timer timer;
 	@Inject private Sounds sounds;
 	@Inject private SoundPlayer soundPlayer;
 	private JLabel remainingTime;
