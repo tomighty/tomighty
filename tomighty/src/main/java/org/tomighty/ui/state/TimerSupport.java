@@ -28,7 +28,7 @@ import javax.swing.Action;
 import javax.swing.JLabel;
 
 import org.tomighty.bus.Subscriber;
-import org.tomighty.bus.messages.time.TimerEnd;
+import org.tomighty.bus.messages.time.TimerFinished;
 import org.tomighty.bus.messages.time.TimerTick;
 import org.tomighty.bus.messages.ui.ChangeUiState;
 import org.tomighty.sound.SoundPlayer;
@@ -53,7 +53,7 @@ public abstract class TimerSupport extends UiStateSupport {
     @PostConstruct
 	public void initialize() {
 		bus.subscribe(updateTime, TimerTick.class);
-		bus.subscribe(endTimer, TimerEnd.class);
+		bus.subscribe(endTimer, TimerFinished.class);
 	}
 	
 	@Override
@@ -74,7 +74,7 @@ public abstract class TimerSupport extends UiStateSupport {
 	public void beforeDetaching() {
 		soundPlayer.stop(sounds.tictac());
 		bus.unsubscribe(updateTime, TimerTick.class);
-		bus.unsubscribe(endTimer, TimerEnd.class);
+		bus.unsubscribe(endTimer, TimerFinished.class);
 	}
 
 	@Override
@@ -110,9 +110,9 @@ public abstract class TimerSupport extends UiStateSupport {
 		}
 	}
 	
-	private class EndTimer implements Subscriber<TimerEnd> {
+	private class EndTimer implements Subscriber<TimerFinished> {
 		@Override
-		public void receive(TimerEnd end) {
+		public void receive(TimerFinished end) {
 			soundPlayer.play(sounds.ding());
 			bus.publish(new ChangeUiState(finishedState()));
 		}

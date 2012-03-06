@@ -19,7 +19,7 @@ package org.tomighty.time;
 import java.util.TimerTask;
 
 import org.tomighty.bus.Bus;
-import org.tomighty.bus.messages.time.TimerEnd;
+import org.tomighty.bus.messages.time.TimerFinished;
 import org.tomighty.bus.messages.time.TimerInterrupted;
 import org.tomighty.bus.messages.time.TimerTick;
 
@@ -55,7 +55,7 @@ public class Timer {
 			bus.publish(new TimerTick(time));
 			if(time.isZero()) {
 				stop();
-				bus.publish(new TimerEnd());
+				bus.publish(new TimerFinished());
 			}
 		}
 	}
