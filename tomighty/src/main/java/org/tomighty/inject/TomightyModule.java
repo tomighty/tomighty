@@ -20,6 +20,7 @@ import static com.google.inject.Scopes.SINGLETON;
 
 import com.google.inject.AbstractModule;
 import org.tomighty.bus.Bus;
+import org.tomighty.bus.DefaultBus;
 import org.tomighty.config.Configuration;
 import org.tomighty.config.Options;
 import org.tomighty.i18n.Messages;
@@ -44,7 +45,7 @@ public class TomightyModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(Bus.class).in(SINGLETON);
+        bind(Bus.class).to(DefaultBus.class).in(SINGLETON);
         bind(CountdownTimer.class).in(SINGLETON);
         
         bind(Tray.class).to(AwtTray.class).in(SINGLETON);
