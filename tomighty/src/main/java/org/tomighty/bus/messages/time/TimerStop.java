@@ -16,6 +16,6 @@
 
 package org.tomighty.bus.messages.time;
 
-public class TimerStop {
+public abstract class TimerStop {
 
 }
