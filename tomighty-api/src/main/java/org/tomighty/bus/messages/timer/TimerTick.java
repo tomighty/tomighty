@@ -14,8 +14,15 @@
  *     limitations under the License.
  */
 
-package org.tomighty.bus.messages.time;
+package org.tomighty.bus.messages.timer;
 
-public abstract class TimerStopped {
+import org.tomighty.Phase;
+import org.tomighty.time.Time;
+
+public class TimerTick extends TimerEvent {
+
+    public TimerTick(Time time, Phase phase) {
+        super(time, phase);
+    }
 
 }

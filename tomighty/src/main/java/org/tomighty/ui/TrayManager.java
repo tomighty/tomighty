@@ -32,8 +32,8 @@ import com.google.inject.Injector;
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.Subscriber;
 import org.tomighty.bus.messages.config.TimeOnTrayConfigChanged;
-import org.tomighty.bus.messages.time.TimerStopped;
-import org.tomighty.bus.messages.time.TimerTick;
+import org.tomighty.bus.messages.timer.TimerStopped;
+import org.tomighty.bus.messages.timer.TimerTick;
 import org.tomighty.bus.messages.ui.TrayClick;
 import org.tomighty.config.Configuration;
 import org.tomighty.config.Options;
@@ -144,7 +144,7 @@ public class TrayManager implements Runnable {
 		@Override
 		public void receive(TimerTick tick) {
 			if(options.ui().showTimeOnTray()) {
-				Time time = tick.time();
+				Time time = tick.getTime();
 				Image image = icons.time(time);
 				trayIcon.setImage(image);
 			}

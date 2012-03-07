@@ -19,6 +19,7 @@ package org.tomighty.ui.state.pomodoro;
 import javax.inject.Inject;
 import javax.swing.Action;
 
+import org.tomighty.Phase;
 import org.tomighty.config.Options;
 import org.tomighty.time.Time;
 import org.tomighty.ui.UiState;
@@ -49,8 +50,13 @@ public class Pomodoro extends TimerSupport {
 		int minutes = options.time().pomodoro();
 		return new Time(minutes);
 	}
-	
-	@Override
+
+    @Override
+    protected Phase phase() {
+        return Phase.POMODORO;
+    }
+
+    @Override
 	protected boolean displaysGauge() {
 		return true;
 	}

@@ -27,9 +27,10 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JLabel;
 
+import org.tomighty.Phase;
 import org.tomighty.bus.Subscriber;
-import org.tomighty.bus.messages.time.TimerFinished;
-import org.tomighty.bus.messages.time.TimerTick;
+import org.tomighty.bus.messages.timer.TimerFinished;
+import org.tomighty.bus.messages.timer.TimerTick;
 import org.tomighty.bus.messages.ui.ChangeUiState;
 import org.tomighty.sound.SoundPlayer;
 import org.tomighty.sound.Sounds;
@@ -47,6 +48,7 @@ public abstract class TimerSupport extends UiStateSupport {
 	private EndTimer endTimer = new EndTimer();
 
 	protected abstract Time initialTime();
+    protected abstract Phase phase();
 	protected abstract Class<? extends UiState> finishedState();
 	protected abstract Class<? extends UiState> interruptedState();
 
@@ -66,11 +68,11 @@ public abstract class TimerSupport extends UiStateSupport {
 	public void afterRendering() {
 		Time time = initialTime();
 		remainingTime.setText(time.toString());
-		timer.start(time);
+		timer.start(time, phase());
 		soundPlayer.play(sounds.wind()).playRepeatedly(sounds.tictac());
 	}
-	
-	@Override
+
+    @Override
 	public void beforeDetaching() {
 		soundPlayer.stop(sounds.tictac());
 		bus.unsubscribe(updateTime, TimerTick.class);
@@ -92,7 +94,7 @@ public abstract class TimerSupport extends UiStateSupport {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			timer.stop();
+			timer.interrupt();
 			bus.publish(new ChangeUiState(interruptedState()));
 		}
 	}
@@ -100,7 +102,7 @@ public abstract class TimerSupport extends UiStateSupport {
 	private class UpdateTime implements Subscriber<TimerTick> {
 		@Override
 		public void receive(TimerTick tick) {
-			final Time time = tick.time();
+			final Time time = tick.getTime();
 			invokeLater(new Runnable() {
 				@Override
 				public void run() {

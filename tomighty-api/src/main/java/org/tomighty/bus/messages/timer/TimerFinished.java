@@ -14,20 +14,15 @@
  *     limitations under the License.
  */
 
-package org.tomighty.bus.messages.time;
+package org.tomighty.bus.messages.timer;
 
+import org.tomighty.Phase;
 import org.tomighty.time.Time;
 
-public class TimerTick {
+public class TimerFinished extends TimerStopped {
 
-	private final Time time;
-
-	public TimerTick(Time time) {
-		this.time = time;
-	}
-
-	public Time time() {
-		return time;
-	}
+    public TimerFinished(Phase phase) {
+        super(Time.seconds(0), phase);
+    }
 
 }

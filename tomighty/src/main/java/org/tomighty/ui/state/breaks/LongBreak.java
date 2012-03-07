@@ -19,6 +19,7 @@ package org.tomighty.ui.state.breaks;
 import javax.inject.Inject;
 import javax.swing.Action;
 
+import org.tomighty.Phase;
 import org.tomighty.config.Options;
 import org.tomighty.time.Time;
 import org.tomighty.ui.state.ToState;
@@ -46,7 +47,12 @@ public class LongBreak extends Break {
 		return new Time(minutes);
 	}
 
-	@Override
+    @Override
+    protected Phase phase() {
+        return Phase.BREAK;
+    }
+
+    @Override
 	protected Action[] secondaryActions() {
 		return new Action[] {
 			new ToState(messages.get("Restart break"), LongBreak.class),
