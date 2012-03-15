@@ -58,7 +58,7 @@ public class TimerTest {
     }
 
     @Test(timeout = 5000)
-    public void startTimerAndStopAfterFirstTick() {
+    public void startTimerAndInterruptAfterFirstTick() {
         timer.start(Time.seconds(3), Phase.BREAK);
 
         List<Object> messages = bus.waitUntilNumberOfMessagesReach(2);
