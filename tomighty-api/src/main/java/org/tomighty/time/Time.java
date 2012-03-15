@@ -18,10 +18,8 @@ package org.tomighty.time;
 
 public class Time {
 	
-	private int totalTimeInSeconds;
+	private final int totalTimeInSeconds;
 	
-	private Time() {}
-
 	public Time(int minutes) {
 		this(minutes, 0);
 	}
@@ -43,9 +41,7 @@ public class Time {
 	}
 
 	public Time minusOneSecond() {
-		Time time = new Time();
-		time.totalTimeInSeconds = this.totalTimeInSeconds - 1;
-		return time;
+		return new Time(0, totalTimeInSeconds - 1);
 	}
 
 	public int minutes() {
