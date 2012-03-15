@@ -22,14 +22,6 @@ public class Time {
 	
 	private Time() {}
 
-    public static Time seconds(int seconds) {
-        return new Time(0, seconds);
-    }
-
-    public static Time minutes(int minutes) {
-        return new Time(minutes, 0);
-    }
-
 	public Time(int minutes) {
 		this(minutes, 0);
 	}
@@ -37,6 +29,14 @@ public class Time {
 	public Time(int minutes, int seconds) {
 		this.totalTimeInSeconds = minutes * 60 + seconds;
 	}
+
+    public static Time seconds(int seconds) {
+        return new Time(0, seconds);
+    }
+
+    public static Time minutes(int minutes) {
+        return new Time(minutes, 0);
+    }
 
 	public boolean isZero() {
 		return totalTimeInSeconds == 0;
