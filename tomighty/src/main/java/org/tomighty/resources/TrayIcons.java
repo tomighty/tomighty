@@ -35,12 +35,32 @@ public class TrayIcons {
 
 	public static final int DEFAULT_ICON_SIZE = 32;
 
-	@Inject private Resources resources;
-	@Inject private Tray tray;
-	@Inject private Look look;
-	@Inject private Caches caches;
-	
-	public Image tomato() {
+	private Resources resources;
+	private Tray tray;
+	private Look look;
+	private Caches caches;
+
+    @Inject
+    public void setResources(Resources resources) {
+        this.resources = resources;
+    }
+
+    @Inject
+    public void setTray(Tray tray) {
+        this.tray = tray;
+    }
+
+    @Inject
+    public void setLook(Look look) {
+        this.look = look;
+    }
+
+    @Inject
+    public void setCaches(Caches caches) {
+        this.caches = caches;
+    }
+
+    public Image tomato() {
 		int size = tray.iconSize().height;
 		Image image = tomato(size);
 		if (image == null) {

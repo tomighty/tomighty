@@ -26,11 +26,14 @@ import javax.inject.Inject;
 
 public class DefaultPluginManager implements PluginManager {
     
-    @Inject
     private PluginLoader pluginLoader;
-    
-    @Inject
     private PluginPackFactory pluginPackFactory;
+
+    @Inject
+    public DefaultPluginManager(PluginLoader pluginLoader, PluginPackFactory pluginPackFactory) {
+        this.pluginLoader = pluginLoader;
+        this.pluginPackFactory = pluginPackFactory;
+    }
 
     @Override
     public void loadPluginsFrom(Directory directory) {

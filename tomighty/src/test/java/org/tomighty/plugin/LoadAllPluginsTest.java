@@ -16,34 +16,25 @@
 
 package org.tomighty.plugin;
 
-import com.google.inject.Binder;
+import org.junit.Before;
 import org.junit.Test;
-import org.tomighty.InjectedTest;
 import org.tomighty.io.Directory;
 import org.tomighty.plugin.impl.DefaultPluginManager;
 
-import javax.inject.Inject;
-
-import static java.util.Arrays.*;
-
+import static java.util.Arrays.asList;
 import static org.mockito.Mockito.*;
 
-public class LoadAllPluginsTest extends InjectedTest {
+public class LoadAllPluginsTest {
 
-    @Inject
     private PluginManager pluginManager;
-
-    @Inject
     private PluginLoader pluginLoader;
-
-    @Inject
     private PluginPackFactory pluginPackFactory;
 
-    @Override
-    protected void bind(Binder binder) {
-        binder.bind(PluginManager.class).to(DefaultPluginManager.class);
-        binder.bind(PluginPackFactory.class).toInstance(mock(PluginPackFactory.class));
-        binder.bind(PluginLoader.class).toInstance(mock(PluginLoader.class));
+    @Before
+    public void setUp() {
+        pluginPackFactory = mock(PluginPackFactory.class);
+        pluginLoader = mock(PluginLoader.class);
+        pluginManager = new DefaultPluginManager(pluginLoader, pluginPackFactory);
     }
 
     @Test

@@ -16,39 +16,34 @@
 
 package org.tomighty.resources;
 
-import static org.hamcrest.CoreMatchers.*;
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
-
-import java.awt.Dimension;
-import java.awt.Image;
-
-import com.google.inject.Binder;
 import org.junit.Before;
 import org.junit.Test;
-import org.tomighty.InjectedTest;
-import org.tomighty.bus.Bus;
 import org.tomighty.ui.Tray;
 
-import javax.inject.Inject;
+import java.awt.*;
 
-public class TrayIconsTest extends InjectedTest {
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+public class TrayIconsTest {
 
 	private static final int TRAY_ICON_SIZE = 10;
 	
-	@Inject private TrayIcons trayIcons;
-	@Inject private Tray tray;
-	@Inject private Resources resources;
-	
-	@Override
-	protected void bind(Binder binder) {
-		binder.bind(Tray.class).toInstance(mock(Tray.class));
-		binder.bind(Resources.class).toInstance(mock(Resources.class));
-        binder.bind(Bus.class).toInstance(mock(Bus.class));
-	}
+	private TrayIcons trayIcons;
+	private Tray tray;
+	private Resources resources;
 	
 	@Before
 	public void setUp() {
+        tray = mock(Tray.class);
+        resources = mock(Resources.class);
+        trayIcons = new TrayIcons();
+        
+        trayIcons.setTray(tray);
+        trayIcons.setResources(resources);
+
 		Dimension trayIconSize = new Dimension(TRAY_ICON_SIZE, TRAY_ICON_SIZE);
 		when(tray.iconSize()).thenReturn(trayIconSize);
 	}
