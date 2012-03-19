@@ -16,14 +16,14 @@
 
 package org.tomighty.plugin;
 
-import com.google.inject.Binder;
+import com.google.inject.AbstractModule;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import org.junit.Before;
 import org.junit.Test;
-import org.tomighty.InjectedTest;
 import org.tomighty.bus.Bus;
 import org.tomighty.plugin.impl.DefaultPluginLoader;
 
-import javax.inject.Inject;
 import java.lang.reflect.Method;
 import java.net.URL;
 
@@ -31,7 +31,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class LoadPluginTest extends InjectedTest {
+public class LoadPluginTest {
 
     private static final TestJars TEST_JARS = TestJars.HELLO_WORLD;
 
@@ -39,30 +39,38 @@ public class LoadPluginTest extends InjectedTest {
     private static final URL JAR2 = TEST_JARS.url("slf4j-api-1.6.4.jar");
     private static final URL JAR3 = TEST_JARS.url("slf4j-simple-1.6.4.jar");
     private static final URL JAR4 = TEST_JARS.url("commons-math-2.2.jar");
-
     private static final URL[] ALL_JARS = { JAR1, JAR2, JAR3, JAR4 };
 
-    @Inject
     private PluginLoader pluginLoader;
-    
-    @Inject
     private Bus injectedBus;
-
     private Plugin plugin;
 
-    @Override
-    protected void bind(Binder binder) {
-        binder.bind(PluginLoader.class).to(DefaultPluginLoader.class);
-        binder.bind(Bus.class).toInstance(mock(Bus.class));
+    private class TestModule extends AbstractModule {
+        
+        @Override
+        protected void configure() {
+            bind(PluginLoader.class).to(DefaultPluginLoader.class);
+            bind(Bus.class).toInstance(injectedBus);
+        }
+        
     }
 
     @Before
     public void setUp() throws Exception {
+        injectedBus = mock(Bus.class);
+        pluginLoader = createPluginLoader();
+        plugin = pluginLoader.load(createPluginPack());
+    }
+
+    private PluginLoader createPluginLoader() {
+        Injector injector = Guice.createInjector(new TestModule());
+        return injector.getInstance(PluginLoader.class);
+    }
+
+    private PluginPack createPluginPack() {
         PluginPack pluginPack = mock(PluginPack.class);
-
         when(pluginPack.jars()).thenReturn(ALL_JARS);
-
-        plugin = pluginLoader.load(pluginPack);
+        return pluginPack;
     }
 
     @Test
