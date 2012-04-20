@@ -35,8 +35,8 @@
     </licenses>
 
     <modules>
-        <module>tomighty</module>
         <module>tomighty-api</module>
+        <module>tomighty-swing</module>
     </modules>
 
     <dependencies>

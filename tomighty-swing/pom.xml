@@ -25,7 +25,7 @@
         <version>0.8.0</version>
     </parent>
     
-    <artifactId>tomighty</artifactId>
+    <artifactId>tomighty-swing</artifactId>
     <packaging>jar</packaging>
     <name>Tomighty Swing App</name>
 
