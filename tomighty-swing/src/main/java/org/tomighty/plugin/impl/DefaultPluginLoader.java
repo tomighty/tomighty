@@ -17,6 +17,7 @@
 package org.tomighty.plugin.impl;
 
 import com.google.inject.Injector;
+import com.google.inject.Module;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tomighty.plugin.Plugin;
@@ -42,12 +43,28 @@ public class DefaultPluginLoader implements PluginLoader {
         logger.info("Loading plugin {}", pluginPack);
         URLClassLoader classLoader = createClassLoader(pluginPack);
         Class<? extends Plugin> pluginClass = loadPluginClass(classLoader);
-        return injector.getInstance(pluginClass);
+
+        Injector pluginInjector = createPluginInjector(classLoader);
+        return pluginInjector.getInstance(pluginClass);
+    }
+
+    private Injector createPluginInjector(final URLClassLoader classLoader) {
+        //FIXME: Here we have a lot to check!
+        Class<? extends Module> guiceModule = getGuiceModule(classLoader);
+        try {
+            return injector.createChildInjector(guiceModule.newInstance());
+        } catch (InstantiationException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+
+        return null;
     }
 
     private URLClassLoader createClassLoader(PluginPack pluginPack) {
         URL[] jars = pluginPack.jars();
-        for(URL jar : jars)
+        for (URL jar : jars)
             logger.info("Loading jar {}", jar);
         return new URLClassLoader(jars);
     }
@@ -68,8 +85,25 @@ public class DefaultPluginLoader implements PluginLoader {
         return properties.getProperty("class");
     }
 
+    private Class<? extends Module> getGuiceModule(ClassLoader classLoader) {
+        InputStream inputStream = classLoader.getResourceAsStream("tomighty-plugin.properties");
+        Properties properties = loadProperties(inputStream);
+        //TODO: If there is no Guice Module defined, just ignore that
+        String guiceModuleClassName = properties.getProperty("guice.module");
+
+        try {
+            //TODO: Check if this a Guice Module Class => ClassCastExceptions??
+            return (Class<? extends Module>) classLoader.loadClass(guiceModuleClassName);
+        } catch (ClassNotFoundException e) {
+            //TODO: If there is no Guice Module defined, just ignore that
+            throw new RuntimeException("Could not find Guice Binding Module");
+        }
+
+
+    }
+
     private Properties loadProperties(InputStream inputStream) {
-        if(inputStream == null)
+        if (inputStream == null)
             throw new IllegalArgumentException("Input stream must not be null");
 
         Properties properties = new Properties();
