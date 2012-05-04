@@ -49,17 +49,17 @@ public class DefaultPluginLoader implements PluginLoader {
     }
 
     private Injector createPluginInjector(final URLClassLoader classLoader) {
-        //FIXME: Here we have a lot to check!
         Class<? extends Module> guiceModule = getGuiceModule(classLoader);
         try {
             return injector.createChildInjector(guiceModule.newInstance());
         } catch (InstantiationException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            logger.error("Could not instantiate {}", guiceModule.getName());
         } catch (IllegalAccessException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            logger.error("Could not instantiate {}", guiceModule.getName());
         }
 
-        return null;
+        //If we cannot return a child injector, just use the standard parent inejctor for the plugin
+        return injector;
     }
 
     private URLClassLoader createClassLoader(PluginPack pluginPack) {
@@ -88,18 +88,25 @@ public class DefaultPluginLoader implements PluginLoader {
     private Class<? extends Module> getGuiceModule(ClassLoader classLoader) {
         InputStream inputStream = classLoader.getResourceAsStream("tomighty-plugin.properties");
         Properties properties = loadProperties(inputStream);
-        //TODO: If there is no Guice Module defined, just ignore that
+
         String guiceModuleClassName = properties.getProperty("guice.module");
 
-        try {
-            //TODO: Check if this a Guice Module Class => ClassCastExceptions??
-            return (Class<? extends Module>) classLoader.loadClass(guiceModuleClassName);
-        } catch (ClassNotFoundException e) {
-            //TODO: If there is no Guice Module defined, just ignore that
-            throw new RuntimeException("Could not find Guice Binding Module");
+        if (guiceModuleClassName != null) {
+
+            try {
+                return (Class<? extends Module>) classLoader.loadClass(guiceModuleClassName);
+            } catch (ClassNotFoundException e) {
+                logger.warn("Binding Module Class {} class is not found.!", guiceModuleClassName);
+            } catch (ClassCastException cce) {
+                logger.warn("Binding Module {} class is not a Guice Module!", guiceModuleClassName);
+                logger.debug("Actual Exception:", cce);
+            }
+
+        } else {
+            logger.warn("No Guice Binding Module defined in the tomighty-plugin.propeties file.");
         }
-
-
+        logger.info("Using default Guice Binding Module for the plugin");
+        return DefaultModule.class;
     }
 
     private Properties loadProperties(InputStream inputStream) {
