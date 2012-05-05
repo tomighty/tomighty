@@ -13,7 +13,7 @@ import org.junit.rules.TemporaryFolder;
 import org.tomighty.plugin.PluginLoader;
 import org.tomighty.plugin.PluginPack;
 import org.tomighty.plugin.impl.DefaultPluginLoader;
-import plugins.childinjector.ChildinjectorPluginMain;
+import plugins.loader.PluginLoaderBindingPluginMain;
 
 import java.io.File;
 import java.net.MalformedURLException;
@@ -26,7 +26,7 @@ import static org.mockito.Mockito.when;
 /**
  * @author dobermai
  */
-public class PluginChildInjectorTest {
+public class PluginLoaderBindingTest {
 
     @Rule
     public TemporaryFolder temporaryFolder = new TemporaryFolder();
@@ -41,7 +41,7 @@ public class PluginChildInjectorTest {
         protected void configure() {
 
             bind(PluginLoader.class).to(DefaultPluginLoader.class);
-            bind(ChildinjectorPluginMain.class);
+            bind(PluginLoaderBindingPluginMain.class);
         }
     }
 
@@ -53,7 +53,7 @@ public class PluginChildInjectorTest {
     @Test
     public void testWhenBindingModuleDefinedWithBinding() throws Exception {
 
-        File tomightyProperties = new File(this.getClass().getResource("/plugins/childinjector/tomighty-plugin-validmodule.properties").toURI());
+        File tomightyProperties = new File(this.getClass().getResource("/plugins/loader/tomighty-plugin-validmodule.properties").toURI());
 
         addPropertiesFileToArchive(tomightyProperties);
 
@@ -72,7 +72,7 @@ public class PluginChildInjectorTest {
 
     @Test
     public void testWhenNoBindingModuleDefinedUseStandardModuleWithNoBindings() throws Exception {
-        File tomightyProperties = new File(this.getClass().getResource("/plugins/childinjector/tomighty-plugin-nomoduledefined.properties").toURI());
+        File tomightyProperties = new File(this.getClass().getResource("/plugins/loader/tomighty-plugin-nomoduledefined.properties").toURI());
 
         addPropertiesFileToArchive(tomightyProperties);
 
@@ -99,7 +99,7 @@ public class PluginChildInjectorTest {
     private JavaArchive createArchive() throws Exception {
 
         JavaArchive jar = ShrinkWrap.create(JavaArchive.class, PLUGIN_JAR_FILENAME)
-                .addClass(ChildinjectorPluginMain.class);
+                .addClass(PluginLoaderBindingPluginMain.class);
         return jar;
     }
 
