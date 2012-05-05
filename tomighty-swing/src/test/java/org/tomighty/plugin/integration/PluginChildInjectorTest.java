@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.tomighty.plugin.PluginLoader;
 import org.tomighty.plugin.PluginPack;
 import org.tomighty.plugin.impl.DefaultPluginLoader;
+import org.tomighty.util.FileUtil;
 import plugins.childinjector.ChildinjectorPluginMain;
 
 import java.io.File;
@@ -78,16 +79,9 @@ public class PluginChildInjectorTest {
     }
 
     private void saveJarFileToDisk(String fileName) {
-        actualPluginFile = new File(computeTestDataRoot(getClass()), fileName);
+        File directoryForJARs = FileUtil.computeTestDataRoot(getClass());
+        directoryForJARs.mkdir();
+        actualPluginFile = new File(directoryForJARs, fileName);
         deployment.as(ZipExporter.class).exportTo(actualPluginFile, true);
-    }
-
-    public static File computeTestDataRoot(Class anyTestClass) {
-        final String clsUri = anyTestClass.getName().replace('.', '/') + ".class";
-        final URL url = anyTestClass.getClassLoader().getResource(clsUri);
-        final String clsPath = url.getPath();
-        final File root = new File(clsPath.substring(0, clsPath.length() - clsUri.length()));
-        final File clsFile = new File(root, clsUri);
-        return new File(root.getParentFile(), "test-classes");
     }
 }
