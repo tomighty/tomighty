@@ -103,7 +103,7 @@ public class DefaultPluginLoader implements PluginLoader {
             }
 
         } else {
-            logger.warn("No Guice Binding Module defined in the tomighty-plugin.propeties file.");
+            logger.warn("No Guice Binding Module defined in the tomighty-plugin.properties file.");
         }
         logger.info("Using default Guice Binding Module for the plugin");
         return DefaultModule.class;
