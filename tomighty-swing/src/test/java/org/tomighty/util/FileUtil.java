@@ -48,14 +48,4 @@ public class FileUtil {
             throw new RuntimeException(e);
         }
     }
-
-    public static File computeTestDataRoot(Class anyTestClass) {
-        final String clsUri = anyTestClass.getName().replace('.', '/') + ".class";
-        final URL url = anyTestClass.getClassLoader().getResource(clsUri);
-        final String clsPath = url.getPath();
-        final File root = new File(clsPath.substring(0, clsPath.length() - clsUri.length()));
-        final File clsFile = new File(root, clsUri);
-        return new File(root.getParentFile(), "test-data");
-    }
-
 }
