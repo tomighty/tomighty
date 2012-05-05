@@ -12,7 +12,7 @@ import org.junit.rules.TemporaryFolder;
 import org.tomighty.plugin.PluginLoader;
 import org.tomighty.plugin.PluginPack;
 import org.tomighty.plugin.impl.DefaultPluginLoader;
-import plugins.loader.PluginLoaderBindingPluginMain;
+import org.tomighty.plugin.integration.pluginloader.PluginLoaderBindingPluginMain;
 
 import java.io.File;
 import java.net.MalformedURLException;

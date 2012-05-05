@@ -1,4 +1,4 @@
-package plugins.loader;
+package org.tomighty.plugin.integration.pluginloader;
 
 import com.google.inject.AbstractModule;
 
