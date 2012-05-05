@@ -5,7 +5,6 @@ import org.jboss.shrinkwrap.api.ShrinkWrap;
 import org.jboss.shrinkwrap.api.asset.FileAsset;
 import org.jboss.shrinkwrap.api.exporter.ZipExporter;
 import org.jboss.shrinkwrap.api.spec.JavaArchive;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -20,6 +19,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -67,7 +67,7 @@ public class PluginLoaderBindingTest {
 
         Map<Key<?>, Binding<?>> allBindingsAfterPluginLoad = injector.getAllBindings();
 
-        Assert.assertEquals(allBindingsBeforePluginLoad.size() + 1, allBindingsAfterPluginLoad.size());
+        assertEquals(allBindingsBeforePluginLoad.size() + 1, allBindingsAfterPluginLoad.size());
     }
 
     @Test
@@ -86,7 +86,26 @@ public class PluginLoaderBindingTest {
 
         Map<Key<?>, Binding<?>> allBindingsAfterPluginLoad = injector.getAllBindings();
 
-        Assert.assertEquals(allBindingsBeforePluginLoad.size(), allBindingsAfterPluginLoad.size());
+        assertEquals(allBindingsBeforePluginLoad.size(), allBindingsAfterPluginLoad.size());
+    }
+
+    @Test
+    public void testWhenBindingModuleNotFoundUseStandardModuleWithNoBindings() throws Exception {
+        File tomightyProperties = new File(this.getClass().getResource("/plugins/loader/tomighty-plugin-modulenotfound.properties").toURI());
+
+        addPropertiesFileToArchive(tomightyProperties);
+
+        Injector injector = Guice.createInjector(new TestModule());
+
+        DefaultPluginLoader defaultPluginLoader = injector.getInstance(DefaultPluginLoader.class);
+
+        Map<Key<?>, Binding<?>> allBindingsBeforePluginLoad = injector.getAllBindings();
+
+        defaultPluginLoader.load(createPluginPack());
+
+        Map<Key<?>, Binding<?>> allBindingsAfterPluginLoad = injector.getAllBindings();
+
+        assertEquals(allBindingsBeforePluginLoad.size(), allBindingsAfterPluginLoad.size());
     }
 
 
