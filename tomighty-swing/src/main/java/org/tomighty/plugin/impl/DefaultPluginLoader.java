@@ -62,7 +62,7 @@ public class DefaultPluginLoader implements PluginLoader {
             logger.error("Could not instantiate {}", guiceModule.getName());
         }
 
-        //If we cannot return a child injector, just use the standard parent inejctor for the plugin
+        //If we cannot return a child injector, just use the standard parent inje∆ctor for the plugin
         return injector;
     }
 
