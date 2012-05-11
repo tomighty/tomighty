@@ -17,6 +17,7 @@
 package org.tomighty.plugin;
 
 import org.tomighty.util.PluginPropertiesReader;
+import org.tomighty.util.StringConversionUtil;
 
 /**
  * Default Implementation for Plugins which reads the relevant data out of the tomighty-plugin.properties file.
@@ -43,6 +44,7 @@ public class DefaultPlugin implements Plugin {
 
     @Override
     public PluginVersion getPluginVersion() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        String pluginVersion = pluginPropertiesReader.getPluginVersion(getClass().getClassLoader());
+        return StringConversionUtil.convertStringToPluginVersion(pluginVersion);
     }
 }
