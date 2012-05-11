@@ -1,17 +1,17 @@
 /*
- * Copyright (c) 2010-2012 Célio Cidral Junior.
+ * Copyright (c) 2010-2012 Célio Cidral Junior, Dominik Obermaier.
  *
- *     Licensed under the Apache License, Version 2.0 (the "License");
- *     you may not use this file except in compliance with the License.
- *     You may obtain a copy of the License at
+ *       Licensed under the Apache License, Version 2.0 (the "License");
+ *       you may not use this file except in compliance with the License.
+ *       You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0
+ *           http://www.apache.org/licenses/LICENSE-2.0
  *
- *     Unless required by applicable law or agreed to in writing, software
- *     distributed under the License is distributed on an "AS IS" BASIS,
- *     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *     See the License for the specific language governing permissions and
- *     limitations under the License.
+ *       Unless required by applicable law or agreed to in writing, software
+ *       distributed under the License is distributed on an "AS IS" BASIS,
+ *       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *       See the License for the specific language governing permissions and
+ *       limitations under the License.
  */
 
 package org.tomighty.plugin.impl;
@@ -23,20 +23,24 @@ import org.slf4j.LoggerFactory;
 import org.tomighty.plugin.Plugin;
 import org.tomighty.plugin.PluginLoader;
 import org.tomighty.plugin.PluginPack;
+import org.tomighty.util.PluginPropertiesReader;
 
 import javax.inject.Inject;
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.util.Properties;
 
 public class DefaultPluginLoader implements PluginLoader {
 
-    @Inject
-    private Injector injector;
+    private final Injector injector;
+    private final PluginPropertiesReader pluginPropertiesReader;
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Inject
+    public DefaultPluginLoader(Injector injector, PluginPropertiesReader pluginPropertiesReader) {
+        this.injector = injector;
+        this.pluginPropertiesReader = pluginPropertiesReader;
+    }
 
     @Override
     public Plugin load(PluginPack pluginPack) {
@@ -70,7 +74,7 @@ public class DefaultPluginLoader implements PluginLoader {
     }
 
     private Class<? extends Plugin> loadPluginClass(ClassLoader classLoader) {
-        String pluginClassName = getPluginClassName(classLoader);
+        String pluginClassName = pluginPropertiesReader.getPluginClassName(classLoader);
         logger.info("Loading plugin class {}", pluginClassName);
         try {
             return (Class<? extends Plugin>) classLoader.loadClass(pluginClassName);
@@ -79,17 +83,10 @@ public class DefaultPluginLoader implements PluginLoader {
         }
     }
 
-    private String getPluginClassName(ClassLoader classLoader) {
-        InputStream inputStream = classLoader.getResourceAsStream("tomighty-plugin.properties");
-        Properties properties = loadProperties(inputStream);
-        return properties.getProperty("class");
-    }
 
     private Class<? extends Module> getGuiceModule(ClassLoader classLoader) {
-        InputStream inputStream = classLoader.getResourceAsStream("tomighty-plugin.properties");
-        Properties properties = loadProperties(inputStream);
 
-        String guiceModuleClassName = properties.getProperty("guice.module");
+        String guiceModuleClassName = pluginPropertiesReader.getGuiceModuleClassName(classLoader);
 
         if (guiceModuleClassName != null) {
 
@@ -107,19 +104,6 @@ public class DefaultPluginLoader implements PluginLoader {
         }
         logger.info("Using default Guice Binding Module for the plugin");
         return DefaultModule.class;
-    }
-
-    private Properties loadProperties(InputStream inputStream) {
-        if (inputStream == null)
-            throw new IllegalArgumentException("Input stream must not be null");
-
-        Properties properties = new Properties();
-        try {
-            properties.load(inputStream);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return properties;
     }
 
 }
