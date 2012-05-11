@@ -20,4 +20,8 @@ import org.tomighty.plugin.Plugin;
 
 
 public class PluginLoaderBindingPluginMain implements Plugin {
+    @Override
+    public String getPluginName() {
+        return "FakePlugin";
+    }
 }

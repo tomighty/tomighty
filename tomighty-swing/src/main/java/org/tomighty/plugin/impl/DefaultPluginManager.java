@@ -17,30 +17,43 @@
 package org.tomighty.plugin.impl;
 
 import org.tomighty.io.Directory;
-import org.tomighty.plugin.PluginLoader;
-import org.tomighty.plugin.PluginManager;
-import org.tomighty.plugin.PluginPack;
-import org.tomighty.plugin.PluginPackFactory;
+import org.tomighty.plugin.*;
 
 import javax.inject.Inject;
+import java.util.HashSet;
+import java.util.Set;
+
+import static java.util.Collections.unmodifiableSet;
 
 public class DefaultPluginManager implements PluginManager {
-    
+
     private PluginLoader pluginLoader;
     private PluginPackFactory pluginPackFactory;
+
+    private Set<Plugin> loadedPlugins;
 
     @Inject
     public DefaultPluginManager(PluginLoader pluginLoader, PluginPackFactory pluginPackFactory) {
         this.pluginLoader = pluginLoader;
         this.pluginPackFactory = pluginPackFactory;
+
+        loadedPlugins = new HashSet<Plugin>();
     }
 
     @Override
     public void loadPluginsFrom(Directory directory) {
-        for(Directory subdirectory : directory.subdirs()) {
+        for (Directory subdirectory : directory.subdirs()) {
             PluginPack pluginPack = pluginPackFactory.createFrom(subdirectory);
-            pluginLoader.load(pluginPack);
+
+            Plugin loadedPlugin = pluginLoader.load(pluginPack);
+
+            loadedPlugins.add(loadedPlugin);
         }
+    }
+
+    @Override
+    public Set<Plugin> getLoadedPlugins() {
+        return unmodifiableSet(loadedPlugins);
     }
 
 }
