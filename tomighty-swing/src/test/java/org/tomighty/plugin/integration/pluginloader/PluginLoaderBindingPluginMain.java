@@ -17,11 +17,17 @@
 package org.tomighty.plugin.integration.pluginloader;
 
 import org.tomighty.plugin.Plugin;
+import org.tomighty.plugin.PluginVersion;
 
 
 public class PluginLoaderBindingPluginMain implements Plugin {
     @Override
     public String getPluginName() {
         return "FakePlugin";
+    }
+
+    @Override
+    public PluginVersion getPluginVersion() {
+        return new PluginVersion(1, 0, 0);
     }
 }

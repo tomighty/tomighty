@@ -19,10 +19,7 @@ package org.tomighty.plugin.impl;
 import org.junit.Test;
 import org.tomighty.io.Directory;
 import org.tomighty.io.FileSystemDirectory;
-import org.tomighty.plugin.Plugin;
-import org.tomighty.plugin.PluginLoader;
-import org.tomighty.plugin.PluginPack;
-import org.tomighty.plugin.PluginPackFactory;
+import org.tomighty.plugin.*;
 
 import java.util.ArrayList;
 import java.util.Set;
@@ -40,6 +37,11 @@ public class DefaultPluginManagerTest {
         @Override
         public String getPluginName() {
             return "stub";
+        }
+
+        @Override
+        public PluginVersion getPluginVersion() {
+            return new PluginVersion(1, 0, 0);
         }
     }
 

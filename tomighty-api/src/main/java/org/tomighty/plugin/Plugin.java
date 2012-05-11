@@ -42,4 +42,7 @@ package org.tomighty.plugin;
 public interface Plugin {
 
     String getPluginName();
+
+    PluginVersion getPluginVersion();
+
 }
