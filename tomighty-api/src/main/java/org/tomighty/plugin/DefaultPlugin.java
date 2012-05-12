@@ -19,6 +19,8 @@ package org.tomighty.plugin;
 import org.tomighty.util.PluginPropertiesReader;
 import org.tomighty.util.StringConversionUtil;
 
+import javax.inject.Inject;
+
 /**
  * Default Implementation for Plugins which reads the relevant data out of the tomighty-plugin.properties file.
  *
@@ -27,11 +29,8 @@ import org.tomighty.util.StringConversionUtil;
 public class DefaultPlugin implements Plugin {
 
 
-    private final PluginPropertiesReader pluginPropertiesReader;
-
-    public DefaultPlugin(PluginPropertiesReader pluginPropertiesReader) {
-        this.pluginPropertiesReader = pluginPropertiesReader;
-    }
+    @Inject
+    private PluginPropertiesReader pluginPropertiesReader;
 
     @Override
     public String getPluginName() {

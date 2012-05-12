@@ -66,4 +66,9 @@ public class PluginVersion {
         result = 31 * result + bugfix;
         return result;
     }
+
+    @Override
+    public String toString() {
+        return major + "." + minor + "." + bugfix;
+    }
 }
