@@ -14,27 +14,10 @@
  *       limitations under the License.
  */
 
-package org.tomighty.plugin.integration.pluginloader;
+package org.tomighty.bus.messages;
 
-import org.tomighty.plugin.Plugin;
-import org.tomighty.plugin.PluginVersion;
-
-import java.awt.*;
-
-
-public class PluginLoaderBindingPluginMain implements Plugin {
-    @Override
-    public String getPluginName() {
-        return "FakePlugin";
-    }
-
-    @Override
-    public PluginVersion getPluginVersion() {
-        return new PluginVersion(1, 0, 0);
-    }
-
-    @Override
-    public MenuItem getMenuItem() {
-        return null;
-    }
+/**
+ * @author dobermai
+ */
+public class PluginsLoaded {
 }

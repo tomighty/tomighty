@@ -23,6 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.Subscriber;
+import org.tomighty.bus.messages.PluginsLoaded;
 import org.tomighty.bus.messages.ui.ChangeUiState;
 import org.tomighty.bus.messages.ui.TrayClick;
 import org.tomighty.bus.messages.ui.UiStateChanged;
@@ -43,7 +44,7 @@ import java.awt.*;
 import static javax.swing.SwingUtilities.invokeLater;
 
 public class Tomighty implements Runnable {
-	
+
 	@Inject private Window window;
 	@Inject private Options options;
 	@Inject private Bus bus;
@@ -58,8 +59,8 @@ public class Tomighty implements Runnable {
 		Injector injector = Guice.createInjector(new TomightyModule(), Jsr250.newJsr250Module());
 
 		Tomighty tomighty = injector.getInstance(Tomighty.class);
-		TrayManager trayManager = injector.getInstance(TrayManager.class);
 		invokeLater(tomighty);
+		TrayManager trayManager = injector.getInstance(TrayManager.class);
 		invokeLater(trayManager);
 	}
 
@@ -68,11 +69,12 @@ public class Tomighty implements Runnable {
 		bus.subscribe(new SwitchState(), ChangeUiState.class);
 		bus.subscribe(new ShowWindow(), TrayClick.class);
 	}
-	
+
 	@Override
 	public void run() {
 		render(InitialState.class);
         pluginManager.loadPluginsFrom(directories.plugins());
+        bus.publish(new PluginsLoaded());
 	}
 
     private void render(Class<? extends UiState> stateClass) {
@@ -90,7 +92,7 @@ public class Tomighty implements Runnable {
 		window.setComponent(component);
 		currentState.afterRendering();
 	}
-	
+
 	private class SwitchState implements Subscriber<ChangeUiState> {
 		@Override
 		public void receive(final ChangeUiState message) {
@@ -105,7 +107,7 @@ public class Tomighty implements Runnable {
 			});
 		}
 	}
-	
+
 	private class ShowWindow implements Subscriber<TrayClick> {
 		@Override
 		public void receive(final TrayClick message) {
@@ -121,5 +123,5 @@ public class Tomighty implements Runnable {
 			});
 		}
 	}
-	
+
 }

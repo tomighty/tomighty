@@ -16,21 +16,10 @@
 
 package org.tomighty.ui;
 
-import java.awt.AWTException;
-import java.awt.Image;
-import java.awt.MenuItem;
-import java.awt.PopupMenu;
-import java.awt.SystemTray;
-import java.awt.TrayIcon;
-import java.awt.TrayIcon.MessageType;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-
 import com.google.inject.Injector;
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.Subscriber;
+import org.tomighty.bus.messages.PluginsLoaded;
 import org.tomighty.bus.messages.config.TimeOnTrayConfigChanged;
 import org.tomighty.bus.messages.timer.TimerStopped;
 import org.tomighty.bus.messages.timer.TimerTick;
@@ -38,6 +27,8 @@ import org.tomighty.bus.messages.ui.TrayClick;
 import org.tomighty.config.Configuration;
 import org.tomighty.config.Options;
 import org.tomighty.i18n.Messages;
+import org.tomighty.plugin.Plugin;
+import org.tomighty.plugin.PluginManager;
 import org.tomighty.resources.TrayIcons;
 import org.tomighty.time.Time;
 import org.tomighty.ui.about.AboutDialog;
@@ -45,6 +36,12 @@ import org.tomighty.ui.options.OptionsDialog;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import java.awt.*;
+import java.awt.TrayIcon.MessageType;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class TrayManager implements Runnable {
 
@@ -54,6 +51,7 @@ public class TrayManager implements Runnable {
 	@Inject private Bus bus;
 	@Inject private Messages messages;
 	@Inject private TrayIcons icons;
+    @Inject private PluginManager pluginManager;
 	private TrayIcon trayIcon;
 
     @PostConstruct
@@ -61,12 +59,13 @@ public class TrayManager implements Runnable {
 		bus.subscribe(new UpdateTimeOnTray(), TimerTick.class);
 		bus.subscribe(new ShowTomato(), TimerStopped.class);
 		bus.subscribe(new RemoveTimeFromTray(), TimeOnTrayConfigChanged.class);
+        bus.subscribe(new AddPluginMenu(),PluginsLoaded.class);
 		trayIcon = new TrayIcon(icons.tomato());
 		trayIcon.addMouseListener(new TrayListener());
 		trayIcon.setPopupMenu(createMenu());
 		trayIcon.setImageAutoSize(true);
 	}
-	
+
 	@Override
 	public void run() {
 		SystemTray tray = SystemTray.getSystemTray();
@@ -102,7 +101,7 @@ public class TrayManager implements Runnable {
 		item.addActionListener(listener);
 		return item;
 	}
-	
+
 	private void showTomatoIcon() {
 		Image image = icons.tomato();
 		trayIcon.setImage(image);
@@ -116,7 +115,7 @@ public class TrayManager implements Runnable {
 			}
 		}
 	}
-	
+
 	private class ShowOptions implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -124,7 +123,7 @@ public class TrayManager implements Runnable {
 			dialog.showDialog();
 		}
 	}
-	
+
 	private class About implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -132,14 +131,14 @@ public class TrayManager implements Runnable {
 			about.showDialog();
 		}
 	}
-	
+
 	private class Exit implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			System.exit(0);
 		}
 	}
-	
+
 	private class UpdateTimeOnTray implements Subscriber<TimerTick> {
 		@Override
 		public void receive(TimerTick tick) {
@@ -150,7 +149,7 @@ public class TrayManager implements Runnable {
 			}
 		}
 	}
-	
+
 	private class RemoveTimeFromTray implements Subscriber<TimeOnTrayConfigChanged> {
 		@Override
 		public void receive(TimeOnTrayConfigChanged configuration) {
@@ -159,12 +158,40 @@ public class TrayManager implements Runnable {
 			}
 		}
 	}
-	
+
 	private class ShowTomato implements Subscriber<TimerStopped> {
 		@Override
 		public void receive(TimerStopped end) {
 			showTomatoIcon();
 		}
 	}
+
+    private class AddPluginMenu implements Subscriber<PluginsLoaded>{
+
+        @Override
+        public void receive(final PluginsLoaded message) {
+
+            if(pluginManager.getLoadedPlugins().size() != 0)
+            {
+                boolean atLeastOnePlugin = false;
+
+                Menu pluginMenu = new Menu(messages.get("Plugins"));
+                for (Plugin plugin : pluginManager.getLoadedPlugins()) {
+
+                    if(plugin.getMenuItem() != null){
+                        pluginMenu.add(plugin.getMenuItem());
+                        atLeastOnePlugin = true;
+                    }
+                }
+
+                if(atLeastOnePlugin)
+                {
+                    trayIcon.getPopupMenu().insert(pluginMenu,0);
+                    trayIcon.getPopupMenu().insertSeparator(1);
+                }
+
+            }
+        }
+    }
 
 }

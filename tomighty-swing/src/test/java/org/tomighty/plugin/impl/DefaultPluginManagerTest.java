@@ -21,6 +21,7 @@ import org.tomighty.io.Directory;
 import org.tomighty.io.FileSystemDirectory;
 import org.tomighty.plugin.*;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Set;
 
@@ -42,6 +43,11 @@ public class DefaultPluginManagerTest {
         @Override
         public PluginVersion getPluginVersion() {
             return new PluginVersion(1, 0, 0);
+        }
+
+        @Override
+        public MenuItem getMenuItem() {
+            return null;
         }
     }
 

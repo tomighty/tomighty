@@ -20,6 +20,7 @@ import org.tomighty.util.PluginPropertiesReader;
 import org.tomighty.util.StringConversionUtil;
 
 import javax.inject.Inject;
+import java.awt.*;
 
 /**
  * Default Implementation for Plugins which reads the relevant data out of the tomighty-plugin.properties file.
@@ -45,5 +46,11 @@ public class DefaultPlugin implements Plugin {
     public PluginVersion getPluginVersion() {
         String pluginVersion = pluginPropertiesReader.getPluginVersion(getClass().getClassLoader());
         return StringConversionUtil.convertStringToPluginVersion(pluginVersion);
+    }
+
+    @Override
+    public MenuItem getMenuItem() {
+        //Don't use a Menu Item by default
+        return null;
     }
 }
