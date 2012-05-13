@@ -16,7 +16,6 @@
 
 package org.tomighty.ui;
 
-import com.google.inject.Injector;
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.Subscriber;
 import org.tomighty.bus.messages.PluginsLoaded;
@@ -31,27 +30,24 @@ import org.tomighty.plugin.Plugin;
 import org.tomighty.plugin.PluginManager;
 import org.tomighty.resources.TrayIcons;
 import org.tomighty.time.Time;
-import org.tomighty.ui.about.AboutDialog;
-import org.tomighty.ui.options.OptionsDialog;
+import org.tomighty.ui.tray.TrayMenu;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import java.awt.*;
 import java.awt.TrayIcon.MessageType;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class TrayManager implements Runnable {
 
-	@Inject private Injector injector;
 	@Inject private Configuration config;
 	@Inject private Options options;
 	@Inject private Bus bus;
 	@Inject private Messages messages;
 	@Inject private TrayIcons icons;
     @Inject private PluginManager pluginManager;
+    @Inject private TrayMenu trayMenu;
 	private TrayIcon trayIcon;
 
     @PostConstruct
@@ -62,7 +58,7 @@ public class TrayManager implements Runnable {
         bus.subscribe(new AddPluginMenu(),PluginsLoaded.class);
 		trayIcon = new TrayIcon(icons.tomato());
 		trayIcon.addMouseListener(new TrayListener());
-		trayIcon.setPopupMenu(createMenu());
+		trayIcon.setPopupMenu(trayMenu.getPopupMenu());
 		trayIcon.setImageAutoSize(true);
 	}
 
@@ -87,21 +83,6 @@ public class TrayManager implements Runnable {
 		icon.displayMessage(caption, message, MessageType.INFO);
 	}
 
-	private PopupMenu createMenu() {
-		PopupMenu menu = new PopupMenu();
-		menu.add(menuItem(messages.get("Options"), new ShowOptions()));
-		menu.add(menuItem(messages.get("About"), new About()));
-		menu.addSeparator();
-		menu.add(menuItem(messages.get("Close"), new Exit()));
-		return menu;
-	}
-
-	private MenuItem menuItem(String text, ActionListener listener) {
-		MenuItem item = new MenuItem(text);
-		item.addActionListener(listener);
-		return item;
-	}
-
 	private void showTomatoIcon() {
 		Image image = icons.tomato();
 		trayIcon.setImage(image);
@@ -113,29 +94,6 @@ public class TrayManager implements Runnable {
 			if(e.getButton() == MouseEvent.BUTTON1) {
 				bus.publish(new TrayClick(e.getLocationOnScreen()));
 			}
-		}
-	}
-
-	private class ShowOptions implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			OptionsDialog dialog = injector.getInstance(OptionsDialog.class);
-			dialog.showDialog();
-		}
-	}
-
-	private class About implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			AboutDialog about = injector.getInstance(AboutDialog.class);
-			about.showDialog();
-		}
-	}
-
-	private class Exit implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			System.exit(0);
 		}
 	}
 
