@@ -18,47 +18,62 @@ package org.tomighty.plugin;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.tomighty.bus.messages.plugin.PluginLoaded;
 import org.tomighty.io.Directory;
+import org.tomighty.mock.bus.MockBus;
 import org.tomighty.plugin.impl.DefaultPluginManager;
 
+import java.util.List;
+
 import static java.util.Arrays.asList;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
 public class LoadAllPluginsFromDirectoryTest {
 
     private PluginManager pluginManager;
-    private PluginLoader pluginLoader;
-    private PluginPackFactory pluginPackFactory;
+    private Directory directory;
+    private Plugin plugin1;
+    private Plugin plugin2;
+    private MockBus bus;
 
     @Before
     public void setUp() {
-        pluginPackFactory = mock(PluginPackFactory.class);
-        pluginLoader = mock(PluginLoader.class);
-        pluginManager = new DefaultPluginManager(pluginLoader, pluginPackFactory);
+        directory = mock(Directory.class);
+        plugin1 = mock(Plugin.class);
+        plugin2 = mock(Plugin.class);
+
+        Directory pluginDirectory1 = mock(Directory.class);
+        Directory pluginDirectory2 = mock(Directory.class);
+        when(directory.subdirs()).thenReturn(asList(pluginDirectory1, pluginDirectory2));
+
+        PluginPackFactory pluginPackFactory = mock(PluginPackFactory.class);
+        PluginPack pluginPack1 = mock(PluginPack.class);
+        PluginPack pluginPack2 = mock(PluginPack.class);
+        when(pluginPackFactory.createFrom(pluginDirectory1)).thenReturn(pluginPack1);
+        when(pluginPackFactory.createFrom(pluginDirectory2)).thenReturn(pluginPack2);
+
+        PluginLoader pluginLoader = mock(PluginLoader.class);
+        when(pluginLoader.load(pluginPack1)).thenReturn(plugin1);
+        when(pluginLoader.load(pluginPack2)).thenReturn(plugin2);
+
+        bus = new MockBus();
+        pluginManager = new DefaultPluginManager(pluginLoader, pluginPackFactory, bus);
     }
 
     @Test
     public void loadTwoPlugins() throws Exception {
-
-        Plugin plugin = mock(Plugin.class);
-
-        PluginPack foo = mock(PluginPack.class);
-        PluginPack bar = mock(PluginPack.class);
-
-        Directory directory = mock(Directory.class);
-        Directory fooDirectory = mock(Directory.class);
-        Directory barDirectory = mock(Directory.class);
-
-        when(directory.subdirs()).thenReturn(asList(fooDirectory, barDirectory));
-        when(pluginPackFactory.createFrom(fooDirectory)).thenReturn(foo);
-        when(pluginPackFactory.createFrom(barDirectory)).thenReturn(bar);
-
-        when(pluginLoader.load(any(PluginPack.class))).thenReturn(plugin);
         pluginManager.loadPluginsFrom(directory);
 
+        List<Object> publishedMessages = bus.getPublishedMessages();
 
-        verify(pluginLoader).load(foo);
-        verify(pluginLoader).load(bar);
+        assertEquals("Two messages were published, one for each loaded plugin", 2, publishedMessages.size());
+
+        PluginLoaded pluginLoaded1 = (PluginLoaded) publishedMessages.get(0);
+        PluginLoaded pluginLoaded2 = (PluginLoaded) publishedMessages.get(1);
+        assertSame("First message contains plugin #1", plugin1, pluginLoaded1.getPlugin());
+        assertSame("Second message contains plugin #2", plugin2, pluginLoaded2.getPlugin());
     }
 
 }

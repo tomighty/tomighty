@@ -18,6 +18,7 @@ package org.tomighty.plugin.impl;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.tomighty.bus.Bus;
 import org.tomighty.io.Directory;
 import org.tomighty.io.FileSystemDirectory;
 import org.tomighty.plugin.*;
@@ -68,7 +69,7 @@ public class DefaultPluginManagerTest {
         PluginLoader loaderMock = mock(PluginLoader.class);
         when(loaderMock.load(any(PluginPack.class))).thenReturn(new PluginStub());
 
-        defaultPluginManager = new DefaultPluginManager(loaderMock, pluginPackFactoryMock);
+        defaultPluginManager = new DefaultPluginManager(loaderMock, pluginPackFactoryMock, mock(Bus.class));
         defaultPluginManager.loadPluginsFrom(directoryMock);
 
     }

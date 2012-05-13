@@ -18,6 +18,8 @@ package org.tomighty.plugin.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.tomighty.bus.Bus;
+import org.tomighty.bus.messages.plugin.PluginLoaded;
 import org.tomighty.io.Directory;
 import org.tomighty.plugin.*;
 
@@ -33,13 +35,15 @@ public class DefaultPluginManager implements PluginManager {
 
     private PluginLoader pluginLoader;
     private PluginPackFactory pluginPackFactory;
+    private final Bus bus;
 
     private Set<Plugin> loadedPlugins;
 
     @Inject
-    public DefaultPluginManager(PluginLoader pluginLoader, PluginPackFactory pluginPackFactory) {
+    public DefaultPluginManager(PluginLoader pluginLoader, PluginPackFactory pluginPackFactory, Bus bus) {
         this.pluginLoader = pluginLoader;
         this.pluginPackFactory = pluginPackFactory;
+        this.bus = bus;
 
         loadedPlugins = new HashSet<Plugin>();
     }
@@ -48,11 +52,12 @@ public class DefaultPluginManager implements PluginManager {
     public void loadPluginsFrom(Directory directory) {
         for (Directory subdirectory : directory.subdirs()) {
             PluginPack pluginPack = pluginPackFactory.createFrom(subdirectory);
+            Plugin plugin = pluginLoader.load(pluginPack);
 
-            Plugin loadedPlugin = pluginLoader.load(pluginPack);
+            loadedPlugins.add(plugin);
+            log.info("Loaded {} with Version {}", plugin.getPluginName(), plugin.getPluginVersion());
 
-            loadedPlugins.add(loadedPlugin);
-            log.info("Loaded {} with Version {}", loadedPlugin.getPluginName(), loadedPlugin.getPluginVersion());
+            bus.publish(new PluginLoaded(plugin));
         }
     }
 

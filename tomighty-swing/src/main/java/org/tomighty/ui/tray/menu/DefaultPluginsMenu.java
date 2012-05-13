@@ -3,10 +3,9 @@ package org.tomighty.ui.tray.menu;
 import com.google.inject.Injector;
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.Subscriber;
-import org.tomighty.bus.messages.PluginsLoaded;
+import org.tomighty.bus.messages.plugin.PluginLoaded;
 import org.tomighty.i18n.Messages;
 import org.tomighty.plugin.Plugin;
-import org.tomighty.plugin.PluginManager;
 import org.tomighty.ui.tray.PluginsMenu;
 
 import javax.annotation.PostConstruct;
@@ -20,7 +19,6 @@ public class DefaultPluginsMenu implements PluginsMenu {
 
     @Inject private Messages messages;
     @Inject private Injector injector;
-    @Inject private PluginManager pluginManager;
     @Inject private Bus bus;
 
     @PostConstruct
@@ -31,7 +29,7 @@ public class DefaultPluginsMenu implements PluginsMenu {
 
     @PostConstruct
     public void addMenuItemsForLoadedPlugins() {
-        bus.subscribe(new AddMenuItemsForLoadedPlugins(), PluginsLoaded.class);
+        bus.subscribe(new AddMenuItemForLoadedPlugin(), PluginLoaded.class);
     }
 
     @Override
@@ -45,12 +43,13 @@ public class DefaultPluginsMenu implements PluginsMenu {
         return item;
     }
 
-    private class AddMenuItemsForLoadedPlugins implements Subscriber<PluginsLoaded> {
+    private class AddMenuItemForLoadedPlugin implements Subscriber<PluginLoaded> {
         @Override
-        public void receive(final PluginsLoaded message) {
-            for (Plugin plugin : pluginManager.getLoadedPlugins())
-                if(plugin.getMenuItem() != null)
-                    menu.add(plugin.getMenuItem());
+        public void receive(PluginLoaded message) {
+            Plugin plugin = message.getPlugin();
+
+            if(plugin.getMenuItem() != null)
+                menu.add(plugin.getMenuItem());
         }
     }
 

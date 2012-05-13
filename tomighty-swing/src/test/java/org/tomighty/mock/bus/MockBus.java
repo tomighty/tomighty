@@ -27,6 +27,10 @@ public class MockBus implements Bus {
         notifyAll();
     }
 
+    public List<Object> getPublishedMessages() {
+        return publishedMessages;
+    }
+
     public synchronized List<Object> waitUntilNumberOfMessagesReach(int numberOfMessages) {
         while(publishedMessages.size() < numberOfMessages)
             waitQuietly();

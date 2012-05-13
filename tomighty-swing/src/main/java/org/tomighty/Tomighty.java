@@ -23,7 +23,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.Subscriber;
-import org.tomighty.bus.messages.PluginsLoaded;
 import org.tomighty.bus.messages.ui.ChangeUiState;
 import org.tomighty.bus.messages.ui.TrayClick;
 import org.tomighty.bus.messages.ui.UiStateChanged;
@@ -74,7 +73,6 @@ public class Tomighty implements Runnable {
 	public void run() {
 		render(InitialState.class);
         pluginManager.loadPluginsFrom(directories.plugins());
-        bus.publish(new PluginsLoaded());
 	}
 
     private void render(Class<? extends UiState> stateClass) {
