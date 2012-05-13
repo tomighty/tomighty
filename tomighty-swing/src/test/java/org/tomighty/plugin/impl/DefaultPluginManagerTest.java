@@ -103,4 +103,15 @@ public class DefaultPluginManagerTest {
 
         assertEquals(0, loadedPlugins.size());
     }
+
+    @Test
+    public void testDisableNonExistantPlugin() {
+
+        boolean disabled = defaultPluginManager.disablePlugin("nonexistant");
+        assertFalse(disabled);
+
+        Set<Plugin> loadedPlugins = defaultPluginManager.getLoadedPlugins();
+
+        assertEquals(1, loadedPlugins.size());
+    }
 }

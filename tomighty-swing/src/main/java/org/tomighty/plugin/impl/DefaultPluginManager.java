@@ -66,7 +66,7 @@ public class DefaultPluginManager implements PluginManager {
         if (pluginName != null) {
 
             for (Plugin loadedPlugin : loadedPlugins) {
-                if (loadedPlugin.getPluginName().equals(pluginName)) {
+                if (pluginName.equals(loadedPlugin.getPluginName())) {
                     loadedPlugins.remove(loadedPlugin);
                     return true;
                 }
