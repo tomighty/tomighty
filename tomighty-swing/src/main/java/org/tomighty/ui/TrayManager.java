@@ -55,7 +55,6 @@ public class TrayManager implements Runnable {
 		bus.subscribe(new UpdateTimeOnTray(), TimerTick.class);
 		bus.subscribe(new ShowTomatoIconWhenTimerStops(), TimerStopped.class);
 		bus.subscribe(new RemoveTimeFromTray(), TimeOnTrayConfigChanged.class);
-        bus.subscribe(new AddPluginMenu(),PluginsLoaded.class);
 		trayIcon = new TrayIcon(icons.tomato());
 		trayIcon.addMouseListener(new TrayListener());
 		trayIcon.setPopupMenu(trayMenu.getPopupMenu());
@@ -123,33 +122,5 @@ public class TrayManager implements Runnable {
 			showTomatoIcon();
 		}
 	}
-
-    private class AddPluginMenu implements Subscriber<PluginsLoaded>{
-
-        @Override
-        public void receive(final PluginsLoaded message) {
-
-            if(pluginManager.getLoadedPlugins().size() != 0)
-            {
-                boolean atLeastOnePlugin = false;
-
-                Menu pluginMenu = new Menu(messages.get("Plugins"));
-                for (Plugin plugin : pluginManager.getLoadedPlugins()) {
-
-                    if(plugin.getMenuItem() != null){
-                        pluginMenu.add(plugin.getMenuItem());
-                        atLeastOnePlugin = true;
-                    }
-                }
-
-                if(atLeastOnePlugin)
-                {
-                    trayIcon.getPopupMenu().insert(pluginMenu,0);
-                    trayIcon.getPopupMenu().insertSeparator(1);
-                }
-
-            }
-        }
-    }
 
 }
