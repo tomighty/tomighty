@@ -24,7 +24,7 @@ import org.tomighty.plugin.impl.DefaultPluginManager;
 import static java.util.Arrays.asList;
 import static org.mockito.Mockito.*;
 
-public class LoadAllPluginsTest {
+public class LoadAllPluginsFromDirectoryTest {
 
     private PluginManager pluginManager;
     private PluginLoader pluginLoader;
