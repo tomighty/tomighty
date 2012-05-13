@@ -4,6 +4,6 @@ import java.awt.*;
 
 public interface TrayMenu {
 
-    PopupMenu getPopupMenu();
+    void addTo(TrayIcon trayIcon);
 
 }

@@ -32,8 +32,8 @@ public class DefaultTrayMenu implements TrayMenu {
     }
 
     @Override
-    public PopupMenu getPopupMenu() {
-        return popupMenu;
+    public void addTo(TrayIcon trayIcon) {
+        trayIcon.setPopupMenu(popupMenu);
     }
 
     private MenuItem menuItem(String text, ActionListener listener) {
