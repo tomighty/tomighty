@@ -16,8 +16,6 @@
 
 package org.tomighty.inject;
 
-import static com.google.inject.Scopes.SINGLETON;
-
 import com.google.inject.AbstractModule;
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.DefaultBus;
@@ -27,9 +25,11 @@ import org.tomighty.i18n.Messages;
 import org.tomighty.plugin.PluginLoader;
 import org.tomighty.plugin.PluginManager;
 import org.tomighty.plugin.PluginPackFactory;
+import org.tomighty.plugin.TomightyLoader;
 import org.tomighty.plugin.impl.DefaultPluginLoader;
 import org.tomighty.plugin.impl.DefaultPluginManager;
 import org.tomighty.plugin.impl.DefaultPluginPackFactory;
+import org.tomighty.plugin.impl.DefaultTomightyLoader;
 import org.tomighty.resources.cache.Caches;
 import org.tomighty.sound.SoundPlayer;
 import org.tomighty.sound.Sounds;
@@ -42,13 +42,15 @@ import org.tomighty.ui.swing.gauge.Gauge;
 import org.tomighty.ui.theme.Look;
 import org.tomighty.ui.tray.AwtTray;
 
+import static com.google.inject.Scopes.SINGLETON;
+
 public class TomightyModule extends AbstractModule {
 
     @Override
     protected void configure() {
         bind(Bus.class).to(DefaultBus.class).in(SINGLETON);
         bind(Timer.class).to(DefaultTimer.class).in(SINGLETON);
-        
+
         bind(Tray.class).to(AwtTray.class).in(SINGLETON);
         bind(TrayManager.class).in(SINGLETON);
         bind(Window.class).in(SINGLETON);
@@ -64,6 +66,7 @@ public class TomightyModule extends AbstractModule {
         bind(PluginManager.class).to(DefaultPluginManager.class).in(SINGLETON);
         bind(PluginLoader.class).to(DefaultPluginLoader.class).in(SINGLETON);
         bind(PluginPackFactory.class).to(DefaultPluginPackFactory.class).in(SINGLETON);
+        bind(TomightyLoader.class).to(DefaultTomightyLoader.class).in(SINGLETON);
     }
 
 }

@@ -25,14 +25,20 @@ import org.tomighty.plugin.PluginLoader;
 import org.tomighty.plugin.PluginPack;
 import org.tomighty.util.PluginPropertiesReader;
 
+import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 public class DefaultPluginLoader implements PluginLoader {
 
     private final Injector injector;
     private final PluginPropertiesReader pluginPropertiesReader;
+
+    private Set<Injector> injectors;
 
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -40,6 +46,13 @@ public class DefaultPluginLoader implements PluginLoader {
     public DefaultPluginLoader(Injector injector, PluginPropertiesReader pluginPropertiesReader) {
         this.injector = injector;
         this.pluginPropertiesReader = pluginPropertiesReader;
+
+        injectors = new HashSet<Injector>();
+    }
+
+    @PostConstruct
+    public void postConstruct() {
+        injectors.add(injector);
     }
 
     @Override
@@ -49,7 +62,13 @@ public class DefaultPluginLoader implements PluginLoader {
         Class<? extends Plugin> pluginClass = loadPluginClass(classLoader);
 
         Injector pluginInjector = createPluginInjector(classLoader);
+        injectors.add(pluginInjector);
         return pluginInjector.getInstance(pluginClass);
+    }
+
+    @Override
+    public Iterable<Injector> getPluginInjectors() {
+        return Collections.unmodifiableSet(injectors);
     }
 
     private Injector createPluginInjector(final URLClassLoader classLoader) {
@@ -62,7 +81,7 @@ public class DefaultPluginLoader implements PluginLoader {
             logger.error("Could not instantiate {}", guiceModule.getName());
         }
 
-        //If we cannot return a child injector, just use the standard parent inje∆ctor for the plugin
+        //If we cannot return a child injector, just use the standard parent injector for the plugin
         return injector;
     }
 
