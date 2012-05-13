@@ -25,7 +25,6 @@ import org.tomighty.bus.messages.ui.TrayClick;
 import org.tomighty.config.Configuration;
 import org.tomighty.config.Options;
 import org.tomighty.i18n.Messages;
-import org.tomighty.plugin.PluginManager;
 import org.tomighty.resources.TrayIcons;
 import org.tomighty.time.Time;
 
@@ -43,7 +42,6 @@ public class TrayManager implements Runnable {
 	@Inject private Bus bus;
 	@Inject private Messages messages;
 	@Inject private TrayIcons icons;
-    @Inject private PluginManager pluginManager;
     @Inject private TrayMenu trayMenu;
 	private TrayIcon trayIcon;
 
