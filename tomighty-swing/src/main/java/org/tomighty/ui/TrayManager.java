@@ -53,7 +53,7 @@ public class TrayManager implements Runnable {
     @PostConstruct
 	public void initialize() {
 		bus.subscribe(new UpdateTimeOnTray(), TimerTick.class);
-		bus.subscribe(new ShowTomato(), TimerStopped.class);
+		bus.subscribe(new ShowTomatoIconWhenTimerStops(), TimerStopped.class);
 		bus.subscribe(new RemoveTimeFromTray(), TimeOnTrayConfigChanged.class);
         bus.subscribe(new AddPluginMenu(),PluginsLoaded.class);
 		trayIcon = new TrayIcon(icons.tomato());
@@ -117,7 +117,7 @@ public class TrayManager implements Runnable {
 		}
 	}
 
-	private class ShowTomato implements Subscriber<TimerStopped> {
+	private class ShowTomatoIconWhenTimerStops implements Subscriber<TimerStopped> {
 		@Override
 		public void receive(TimerStopped end) {
 			showTomatoIcon();
