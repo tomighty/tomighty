@@ -18,7 +18,6 @@ package org.tomighty.ui.tray;
 
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.Subscriber;
-import org.tomighty.bus.messages.PluginsLoaded;
 import org.tomighty.bus.messages.config.TimeOnTrayConfigChanged;
 import org.tomighty.bus.messages.timer.TimerStopped;
 import org.tomighty.bus.messages.timer.TimerTick;
@@ -26,11 +25,9 @@ import org.tomighty.bus.messages.ui.TrayClick;
 import org.tomighty.config.Configuration;
 import org.tomighty.config.Options;
 import org.tomighty.i18n.Messages;
-import org.tomighty.plugin.Plugin;
 import org.tomighty.plugin.PluginManager;
 import org.tomighty.resources.TrayIcons;
 import org.tomighty.time.Time;
-import org.tomighty.ui.tray.TrayMenu;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
