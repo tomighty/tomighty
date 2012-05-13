@@ -23,14 +23,14 @@ public class DefaultTrayMenu implements TrayMenu {
 
     @PostConstruct
     public void initialize() {
-        popupMenu.add(menuItem(messages.get("Options"), showOptions));
-        popupMenu.add(menuItem(messages.get("About"), showAboutWindow));
+        popupMenu.add(menuItem("Options", showOptions));
+        popupMenu.add(menuItem("About", showAboutWindow));
         popupMenu.addSeparator();
-        popupMenu.add(menuItem(messages.get("Close"), new Exit()));
+        popupMenu.add(menuItem("Close", new Exit()));
     }
 
     private MenuItem menuItem(String text, ActionListener listener) {
-        MenuItem item = new MenuItem(text);
+        MenuItem item = new MenuItem(messages.get(text));
         item.addActionListener(listener);
         return item;
     }
