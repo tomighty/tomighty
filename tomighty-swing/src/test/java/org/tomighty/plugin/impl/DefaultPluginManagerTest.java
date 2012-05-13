@@ -16,6 +16,7 @@
 
 package org.tomighty.plugin.impl;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.tomighty.io.Directory;
 import org.tomighty.io.FileSystemDirectory;
@@ -25,13 +26,15 @@ import java.awt.*;
 import java.util.ArrayList;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 /**
  * @author dobermai
  */
 public class DefaultPluginManagerTest {
+
+    private DefaultPluginManager defaultPluginManager;
 
     private class PluginStub implements Plugin {
 
@@ -51,8 +54,8 @@ public class DefaultPluginManagerTest {
         }
     }
 
-    @Test
-    public void TestGetLoadedPluginsWhenPluginsAreLoaded() {
+    @Before
+    public void setUp() throws Exception {
 
         //Initialize Stubs so we can test the relevant methods without getting NPEs ;)
         PluginPackFactory pluginPackFactoryMock = mock(PluginPackFactory.class);
@@ -65,12 +68,39 @@ public class DefaultPluginManagerTest {
         PluginLoader loaderMock = mock(PluginLoader.class);
         when(loaderMock.load(any(PluginPack.class))).thenReturn(new PluginStub());
 
-        DefaultPluginManager defaultPluginManager = new DefaultPluginManager(loaderMock, pluginPackFactoryMock);
+        defaultPluginManager = new DefaultPluginManager(loaderMock, pluginPackFactoryMock);
         defaultPluginManager.loadPluginsFrom(directoryMock);
 
+    }
+
+    @Test
+    public void TestGetLoadedPluginsWhenPluginsAreLoaded() {
 
         Set<Plugin> loadedPlugins = defaultPluginManager.getLoadedPlugins();
 
         assertEquals(1, loadedPlugins.size());
+    }
+
+
+    @Test
+    public void testDisablePluginWithNullParameter() {
+
+        boolean disabled = defaultPluginManager.disablePlugin(null);
+        assertFalse(disabled);
+
+        Set<Plugin> loadedPlugins = defaultPluginManager.getLoadedPlugins();
+
+        assertEquals(1, loadedPlugins.size());
+    }
+
+    @Test
+    public void testDisablePlugin() {
+
+        boolean disabled = defaultPluginManager.disablePlugin("stub");
+        assertTrue(disabled);
+
+        Set<Plugin> loadedPlugins = defaultPluginManager.getLoadedPlugins();
+
+        assertEquals(0, loadedPlugins.size());
     }
 }

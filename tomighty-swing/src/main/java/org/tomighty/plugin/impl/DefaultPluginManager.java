@@ -61,4 +61,18 @@ public class DefaultPluginManager implements PluginManager {
         return unmodifiableSet(loadedPlugins);
     }
 
+    @Override
+    public boolean disablePlugin(String pluginName) {
+        if (pluginName != null) {
+
+            for (Plugin loadedPlugin : loadedPlugins) {
+                if (loadedPlugin.getPluginName().equals(pluginName)) {
+                    loadedPlugins.remove(loadedPlugin);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
 }
