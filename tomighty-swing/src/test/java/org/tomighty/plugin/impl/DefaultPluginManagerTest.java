@@ -20,13 +20,12 @@ import org.junit.Before;
 import org.junit.Test;
 import org.tomighty.bus.Bus;
 import org.tomighty.io.Directory;
-import org.tomighty.io.FileSystemDirectory;
 import org.tomighty.plugin.*;
 
 import java.awt.*;
-import java.util.ArrayList;
 import java.util.Set;
 
+import static java.util.Arrays.asList;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
@@ -57,20 +56,18 @@ public class DefaultPluginManagerTest {
 
     @Before
     public void setUp() throws Exception {
-
         //Initialize Stubs so we can test the relevant methods without getting NPEs ;)
         PluginPackFactory pluginPackFactoryMock = mock(PluginPackFactory.class);
 
-        Directory directoryMock = mock(Directory.class);
-        when(directoryMock.subdirs()).thenReturn(new ArrayList<Directory>() {{
-            add(new FileSystemDirectory(null));
-        }});
+        Directory pluginsDirectory = mock(Directory.class);
+        Directory somePluginSubdirectory = mock(Directory.class);
+        when(pluginsDirectory.subdirs()).thenReturn(asList(somePluginSubdirectory));
 
         PluginLoader loaderMock = mock(PluginLoader.class);
         when(loaderMock.load(any(PluginPack.class))).thenReturn(new PluginStub());
 
         defaultPluginManager = new DefaultPluginManager(loaderMock, pluginPackFactoryMock, mock(Bus.class));
-        defaultPluginManager.loadPluginsFrom(directoryMock);
+        defaultPluginManager.loadPluginsFrom(pluginsDirectory);
 
     }
 
