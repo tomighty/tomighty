@@ -18,7 +18,7 @@ package org.tomighty.resources;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.tomighty.ui.Tray;
+import org.tomighty.ui.tray.Tray;
 
 import java.awt.*;
 

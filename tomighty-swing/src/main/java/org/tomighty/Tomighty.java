@@ -31,7 +31,7 @@ import org.tomighty.config.Directories;
 import org.tomighty.config.Options;
 import org.tomighty.inject.TomightyModule;
 import org.tomighty.plugin.PluginManager;
-import org.tomighty.ui.TrayManager;
+import org.tomighty.ui.tray.TrayManager;
 import org.tomighty.ui.UiState;
 import org.tomighty.ui.Window;
 import org.tomighty.ui.state.InitialState;

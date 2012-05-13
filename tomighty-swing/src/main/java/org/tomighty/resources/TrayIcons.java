@@ -24,7 +24,7 @@ import org.tomighty.resources.cache.Cache;
 import org.tomighty.resources.cache.Caches;
 import org.tomighty.resources.cache.Icons;
 import org.tomighty.time.Time;
-import org.tomighty.ui.Tray;
+import org.tomighty.ui.tray.Tray;
 import org.tomighty.ui.theme.Colors;
 import org.tomighty.ui.theme.Look;
 import org.tomighty.ui.util.Canvas;

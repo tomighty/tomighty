@@ -14,7 +14,7 @@
  *     limitations under the License.
  */
 
-package org.tomighty.ui;
+package org.tomighty.ui.tray;
 
 import java.awt.Dimension;
 

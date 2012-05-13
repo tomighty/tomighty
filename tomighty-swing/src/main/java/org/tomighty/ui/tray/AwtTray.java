@@ -19,8 +19,6 @@ package org.tomighty.ui.tray;
 import java.awt.Dimension;
 import java.awt.SystemTray;
 
-import org.tomighty.ui.Tray;
-
 public class AwtTray implements Tray {
 
 	@Override
