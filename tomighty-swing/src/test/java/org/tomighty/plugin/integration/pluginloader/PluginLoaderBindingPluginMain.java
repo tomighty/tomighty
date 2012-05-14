@@ -16,6 +16,7 @@
 
 package org.tomighty.plugin.integration.pluginloader;
 
+import com.google.inject.Injector;
 import org.tomighty.plugin.Plugin;
 import org.tomighty.plugin.PluginVersion;
 
@@ -35,6 +36,11 @@ public class PluginLoaderBindingPluginMain implements Plugin {
 
     @Override
     public MenuItem getMenuItem() {
+        return null;
+    }
+
+    @Override
+    public Injector getInjector() {
         return null;
     }
 }

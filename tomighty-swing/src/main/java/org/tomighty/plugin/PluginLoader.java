@@ -16,15 +16,11 @@
 
 package org.tomighty.plugin;
 
-import com.google.inject.Injector;
-
 /**
  * Creates an instance of a plugin.
  */
 public interface PluginLoader {
 
     Plugin load(PluginPack pluginPack);
-
-    Iterable<Injector> getPluginInjectors();
 
 }

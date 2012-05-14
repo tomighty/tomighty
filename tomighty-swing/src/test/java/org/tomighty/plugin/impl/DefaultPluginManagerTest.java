@@ -16,6 +16,7 @@
 
 package org.tomighty.plugin.impl;
 
+import com.google.inject.Injector;
 import org.junit.Before;
 import org.junit.Test;
 import org.tomighty.bus.Bus;
@@ -52,6 +53,11 @@ public class DefaultPluginManagerTest {
         public MenuItem getMenuItem() {
             return null;
         }
+
+        @Override
+        public Injector getInjector() {
+            return null;
+        }
     }
 
     @Before
@@ -68,7 +74,6 @@ public class DefaultPluginManagerTest {
 
         defaultPluginManager = new DefaultPluginManager(loaderMock, pluginPackFactoryMock, mock(Bus.class));
         defaultPluginManager.loadPluginsFrom(pluginsDirectory);
-
     }
 
     @Test

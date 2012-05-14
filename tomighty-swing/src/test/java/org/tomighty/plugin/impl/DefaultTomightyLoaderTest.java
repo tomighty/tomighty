@@ -18,12 +18,13 @@ package org.tomighty.plugin.impl;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
-import com.google.inject.Injector;
+import org.junit.Before;
 import org.junit.Test;
-import org.tomighty.plugin.PluginLoader;
+import org.tomighty.plugin.Plugin;
+import org.tomighty.plugin.PluginManager;
+import org.tomighty.plugin.TomightyLoader;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import static org.hamcrest.core.IsInstanceOf.instanceOf;
 import static org.junit.Assert.*;
@@ -35,34 +36,58 @@ import static org.mockito.Mockito.when;
  */
 public class DefaultTomightyLoaderTest {
 
+    private TomightyLoader tomightyLoader;
+    private Plugin pluginWithList;
+    private Plugin pluginWithMap;
+
+    @Before
+    public void setUp() {
+        pluginWithList = mock(Plugin.class);
+        pluginWithMap = mock(Plugin.class);
+
+        when(pluginWithList.getInjector()).thenReturn(Guice.createInjector(new AbstractModule() {
+            @Override
+            protected void configure() {
+                bind(List.class).to(ArrayList.class);
+            }
+        }));
+
+        when(pluginWithMap.getInjector()).thenReturn(Guice.createInjector(new AbstractModule() {
+            @Override
+            protected void configure() {
+                bind(Map.class).to(HashMap.class);
+            }
+        }));
+
+        PluginManager pluginManager = mock(PluginManager.class);
+        when(pluginManager.getLoadedPlugins()).thenReturn(setOfPlugins(pluginWithList, pluginWithMap));
+
+        tomightyLoader = new DefaultTomightyLoader(pluginManager);
+    }
 
     @Test
     public void testReturnNullIfInstanceNotInInjectors() {
-        PluginLoader pluginLoader = mock(PluginLoader.class);
-        when(pluginLoader.getPluginInjectors()).thenReturn(new HashSet<Injector>() {{
-            add(Guice.createInjector());
-        }});
-        DefaultTomightyLoader defaultTomightyLoader = new DefaultTomightyLoader(pluginLoader);
-        Set instance = defaultTomightyLoader.getInstance(Set.class);
-
-        assertNull(instance);
+        Queue queue = tomightyLoader.getInstance(Queue.class);
+        assertNull(queue);
     }
 
     @Test
-    public void testReturnInstance() {
-        PluginLoader pluginLoader = mock(PluginLoader.class);
-        when(pluginLoader.getPluginInjectors()).thenReturn(new HashSet<Injector>() {{
-            add(Guice.createInjector(new AbstractModule() {
-                @Override
-                protected void configure() {
-                    bind(Set.class).to(HashSet.class);
-                }
-            }));
-        }});
-        DefaultTomightyLoader defaultTomightyLoader = new DefaultTomightyLoader(pluginLoader);
-        Set instance = defaultTomightyLoader.getInstance(Set.class);
-
-        assertNotNull(instance);
-        assertThat(instance, instanceOf(HashSet.class));
+    public void testGetInstanceOfListFromPluginWithList() {
+        List list = tomightyLoader.getInstance(List.class);
+        assertThat(list, instanceOf(ArrayList.class));
     }
+
+    @Test
+    public void testGetInstanceOfMapFromPluginWithMap() {
+        Map map = tomightyLoader.getInstance(Map.class);
+        assertThat(map, instanceOf(HashMap.class));
+    }
+
+    private Set<Plugin> setOfPlugins(Plugin... plugins) {
+        Set<Plugin> set = new HashSet<Plugin>();
+        for(Plugin plugin : plugins)
+            set.add(plugin);
+        return set;
+    }
+
 }

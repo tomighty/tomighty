@@ -16,6 +16,8 @@
 
 package org.tomighty.plugin;
 
+import com.google.inject.Injector;
+
 import java.awt.*;
 
 /**
@@ -64,5 +66,12 @@ public interface Plugin {
      * @return a MenuItem for the Plugin to hook into the Menu or <code>null</code>
      */
     MenuItem getMenuItem();
+
+    /**
+     * Returns the injector used to create this plugin instance.
+     *
+     * @return The injector.
+     */
+    Injector getInjector();
 
 }

@@ -16,6 +16,7 @@
 
 package org.tomighty.plugin;
 
+import com.google.inject.Injector;
 import org.tomighty.util.PluginPropertiesReader;
 import org.tomighty.util.StringConversionUtil;
 
@@ -29,9 +30,11 @@ import java.awt.*;
  */
 public class DefaultPlugin implements Plugin {
 
-
     @Inject
     private PluginPropertiesReader pluginPropertiesReader;
+
+    @Inject
+    private Injector injector;
 
     @Override
     public String getPluginName() {
@@ -52,5 +55,10 @@ public class DefaultPlugin implements Plugin {
     public MenuItem getMenuItem() {
         //Don't use a Menu Item by default
         return null;
+    }
+
+    @Override
+    public Injector getInjector() {
+        return injector;
     }
 }

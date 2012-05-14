@@ -19,7 +19,8 @@ package org.tomighty.plugin.impl;
 import com.google.inject.Injector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.tomighty.plugin.PluginLoader;
+import org.tomighty.plugin.Plugin;
+import org.tomighty.plugin.PluginManager;
 import org.tomighty.plugin.TomightyLoader;
 
 import javax.inject.Inject;
@@ -29,22 +30,20 @@ import javax.inject.Inject;
  */
 public class DefaultTomightyLoader implements TomightyLoader {
 
+    private final PluginManager pluginManager;
+
     private static final Logger log = LoggerFactory.getLogger(DefaultTomightyLoader.class);
 
-    private final PluginLoader pluginLoader;
-
     @Inject
-    public DefaultTomightyLoader(PluginLoader pluginLoader) {
-
-        this.pluginLoader = pluginLoader;
+    public DefaultTomightyLoader(PluginManager pluginManager) {
+        this.pluginManager = pluginManager;
     }
 
     @Override
     public <T> T getInstance(final Class<T> clazz) {
-
-        Iterable<Injector> pluginInjectors = pluginLoader.getPluginInjectors();
-
-        for (Injector pluginInjector : pluginInjectors) {
+        Iterable<Plugin> plugins = pluginManager.getLoadedPlugins();
+        for (Plugin plugin : plugins) {
+            Injector pluginInjector = plugin.getInjector();
             try {
                 //TODO: Add caching for often used instances. And what to do if something is bound in two injectors?
                 T instance = pluginInjector.getInstance(clazz);
@@ -55,6 +54,6 @@ public class DefaultTomightyLoader implements TomightyLoader {
         }
         log.debug("No Instance found for {}, returning null", clazz);
         return null;
-
     }
+
 }
