@@ -37,7 +37,6 @@ import org.tomighty.ui.Window;
 import org.tomighty.ui.swing.gauge.Gauge;
 import org.tomighty.ui.theme.Look;
 import org.tomighty.ui.tray.*;
-import org.tomighty.ui.tray.menu.DefaultTrayMenu;
 
 import static com.google.inject.Scopes.SINGLETON;
 
@@ -50,7 +49,6 @@ public class TomightyModule extends AbstractModule {
 
         bind(Tray.class).to(AwtTray.class).in(SINGLETON);
         bind(TrayManager.class).in(SINGLETON);
-        bind(TrayMenu.class).to(DefaultTrayMenu.class).in(SINGLETON);
         bind(Window.class).in(SINGLETON);
         bind(Gauge.class).in(SINGLETON);
         bind(Options.class).in(SINGLETON);

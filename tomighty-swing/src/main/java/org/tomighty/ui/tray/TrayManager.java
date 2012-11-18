@@ -42,7 +42,6 @@ public class TrayManager implements Runnable {
 	@Inject private Bus bus;
 	@Inject private Messages messages;
 	@Inject private TrayIcons icons;
-    @Inject private TrayMenu trayMenu;
 	private TrayIcon trayIcon;
 
     @PostConstruct
@@ -53,7 +52,6 @@ public class TrayManager implements Runnable {
 		trayIcon = new TrayIcon(icons.tomato());
 		trayIcon.addMouseListener(new TrayListener());
 		trayIcon.setImageAutoSize(true);
-        trayMenu.addTo(trayIcon);
 	}
 
 	@Override
@@ -83,12 +81,10 @@ public class TrayManager implements Runnable {
 	}
 
 	private class TrayListener extends MouseAdapter {
-		@Override
-		public void mouseClicked(MouseEvent e) {
-			if(e.getButton() == MouseEvent.BUTTON1) {
-				bus.publish(new TrayClick(e.getLocationOnScreen()));
-			}
-		}
+        @Override
+        public void mousePressed(MouseEvent mouseEvent) {
+            bus.publish(new TrayClick(mouseEvent.getLocationOnScreen()));
+        }
 	}
 
 	private class UpdateTimeOnTray implements Subscriber<TimerTick> {
