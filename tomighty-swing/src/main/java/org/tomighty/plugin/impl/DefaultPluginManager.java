@@ -55,29 +55,10 @@ public class DefaultPluginManager implements PluginManager {
             Plugin plugin = pluginLoader.load(pluginPack);
 
             loadedPlugins.add(plugin);
-            log.info("Loaded {} with Version {}", plugin.getPluginName(), plugin.getPluginVersion());
+            log.info("Loaded plugin {}", plugin);
 
             bus.publish(new PluginLoaded(plugin));
         }
-    }
-
-    @Override
-    public Set<Plugin> getLoadedPlugins() {
-        return unmodifiableSet(loadedPlugins);
-    }
-
-    @Override
-    public boolean disablePlugin(String pluginName) {
-        if (pluginName != null) {
-
-            for (Plugin loadedPlugin : loadedPlugins) {
-                if (pluginName.equals(loadedPlugin.getPluginName())) {
-                    loadedPlugins.remove(loadedPlugin);
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
 }

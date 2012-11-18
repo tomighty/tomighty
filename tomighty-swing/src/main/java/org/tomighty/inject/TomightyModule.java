@@ -25,25 +25,18 @@ import org.tomighty.i18n.Messages;
 import org.tomighty.plugin.PluginLoader;
 import org.tomighty.plugin.PluginManager;
 import org.tomighty.plugin.PluginPackFactory;
-import org.tomighty.plugin.TomightyLoader;
 import org.tomighty.plugin.impl.DefaultPluginLoader;
 import org.tomighty.plugin.impl.DefaultPluginManager;
 import org.tomighty.plugin.impl.DefaultPluginPackFactory;
-import org.tomighty.plugin.impl.DefaultTomightyLoader;
 import org.tomighty.resources.cache.Caches;
 import org.tomighty.sound.SoundPlayer;
 import org.tomighty.sound.Sounds;
 import org.tomighty.time.DefaultTimer;
 import org.tomighty.time.Timer;
-import org.tomighty.ui.tray.Tray;
-import org.tomighty.ui.tray.TrayManager;
 import org.tomighty.ui.Window;
 import org.tomighty.ui.swing.gauge.Gauge;
 import org.tomighty.ui.theme.Look;
-import org.tomighty.ui.tray.AwtTray;
-import org.tomighty.ui.tray.PluginsMenu;
-import org.tomighty.ui.tray.TrayMenu;
-import org.tomighty.ui.tray.menu.DefaultPluginsMenu;
+import org.tomighty.ui.tray.*;
 import org.tomighty.ui.tray.menu.DefaultTrayMenu;
 
 import static com.google.inject.Scopes.SINGLETON;
@@ -58,7 +51,6 @@ public class TomightyModule extends AbstractModule {
         bind(Tray.class).to(AwtTray.class).in(SINGLETON);
         bind(TrayManager.class).in(SINGLETON);
         bind(TrayMenu.class).to(DefaultTrayMenu.class).in(SINGLETON);
-        bind(PluginsMenu.class).to(DefaultPluginsMenu.class).in(SINGLETON);
         bind(Window.class).in(SINGLETON);
         bind(Gauge.class).in(SINGLETON);
         bind(Options.class).in(SINGLETON);
@@ -72,7 +64,6 @@ public class TomightyModule extends AbstractModule {
         bind(PluginManager.class).to(DefaultPluginManager.class).in(SINGLETON);
         bind(PluginLoader.class).to(DefaultPluginLoader.class).in(SINGLETON);
         bind(PluginPackFactory.class).to(DefaultPluginPackFactory.class).in(SINGLETON);
-        bind(TomightyLoader.class).to(DefaultTomightyLoader.class).in(SINGLETON);
     }
 
 }

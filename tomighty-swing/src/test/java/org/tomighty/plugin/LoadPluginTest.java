@@ -41,7 +41,6 @@ public class LoadPluginTest {
     private static final URL JAR4 = TEST_JARS.url("commons-math-2.2.jar");
     private static final URL[] ALL_JARS = { JAR1, JAR2, JAR3, JAR4 };
 
-    private PluginLoader pluginLoader;
     private Bus injectedBus;
     private Plugin plugin;
 
@@ -58,7 +57,7 @@ public class LoadPluginTest {
     @Before
     public void setUp() throws Exception {
         injectedBus = mock(Bus.class);
-        pluginLoader = createPluginLoader();
+        PluginLoader pluginLoader = createPluginLoader();
         plugin = pluginLoader.load(createPluginPack());
     }
 

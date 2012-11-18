@@ -16,10 +16,6 @@
 
 package org.tomighty.plugin;
 
-import com.google.inject.Injector;
-
-import java.awt.*;
-
 /**
  * A plugin for Tomighty.
  * <p/>
@@ -44,34 +40,4 @@ import java.awt.*;
  * <p>Note that fields annotated with {@link javax.inject.Inject} are injected by the IoC container.</p>
  */
 public interface Plugin {
-
-    /**
-     * Returns the unique Name of the plugin.
-     *
-     * @return the nam eof the Plugin
-     */
-    String getPluginName();
-
-    /**
-     * Returns the Plugin Version in the format "major.minor.bugfix" like "1.0.2".
-     *
-     * @return the Plugins version
-     */
-    PluginVersion getPluginVersion();
-
-    /**
-     * Returns the Menu Item for the Plugin. Every plugin can hook into the plugin menu with this Menu Item and provide
-     * Actions and Swing windows. If the plugin does not need a Menu Entry, just return <code>null</code>
-     *
-     * @return a MenuItem for the Plugin to hook into the Menu or <code>null</code>
-     */
-    MenuItem getMenuItem();
-
-    /**
-     * Returns the injector used to create this plugin instance.
-     *
-     * @return The injector.
-     */
-    Injector getInjector();
-
 }

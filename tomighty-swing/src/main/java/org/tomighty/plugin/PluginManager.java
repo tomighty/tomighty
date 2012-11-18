@@ -18,22 +18,8 @@ package org.tomighty.plugin;
 
 import org.tomighty.io.Directory;
 
-import java.util.Set;
-
 public interface PluginManager {
 
     void loadPluginsFrom(Directory directory);
 
-    Set<Plugin> getLoadedPlugins();
-
-    /**
-     * Disables a Plugin with a given name. If the plugin was disabled sucessfully,
-     * the method will return <code>true</code>. If the plugin could not be disabled,
-     * e.g. when the plugi was not enabled or the pluginName was <code>null</code>, <code>false</code>
-     * will be returned
-     *
-     * @param pluginName the name of the plugin
-     * @return <code>true</code> if the plugin was disabled sucessfully, <code>false</code> otherwise
-     */
-    boolean disablePlugin(String pluginName);
 }
