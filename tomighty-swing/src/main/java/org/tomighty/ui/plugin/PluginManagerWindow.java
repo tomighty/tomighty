@@ -17,6 +17,7 @@ public class PluginManagerWindow extends JFrame {
         pluginListModel = new DefaultListModel();
         setContentPane(createUI());
         pack();
+        setLocationRelativeTo(null);
     }
 
     @Inject
