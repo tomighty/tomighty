@@ -25,7 +25,11 @@ public class PopupMenuFactory {
             menu.addSeparator();
         }
 
+        JMenu pluginsMenu = new JMenu(messages.get("Plugins"));
+        pluginsMenu.add(menuItem("Manage", injector.getInstance(ShowPluginManager.class)));
+
         menu.add(menuItem("Options", injector.getInstance(ShowOptions.class)));
+        menu.add(pluginsMenu);
         menu.add(menuItem("About", injector.getInstance(ShowAboutWindow.class)));
         menu.addSeparator();
         menu.add(menuItem("Close", new Exit()));

@@ -24,10 +24,10 @@ import org.tomighty.io.Directory;
 import org.tomighty.plugin.*;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
-
-import static java.util.Collections.unmodifiableSet;
 
 public class DefaultPluginManager implements PluginManager {
 
@@ -59,6 +59,11 @@ public class DefaultPluginManager implements PluginManager {
 
             bus.publish(new PluginLoaded(plugin));
         }
+    }
+
+    @Override
+    public List<Plugin> getPlugins() {
+        return new ArrayList<Plugin>(loadedPlugins);
     }
 
 }

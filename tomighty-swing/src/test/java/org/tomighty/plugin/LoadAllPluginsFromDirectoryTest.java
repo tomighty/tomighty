@@ -76,4 +76,14 @@ public class LoadAllPluginsFromDirectoryTest {
         assertSame("Second message contains plugin #2", plugin2, pluginLoaded2.getPlugin());
     }
 
+    @Test
+    public void testGetPlugins() {
+        pluginManager.loadPluginsFrom(directory);
+
+        List<Plugin> plugins = pluginManager.getPlugins();
+        assertEquals(2, plugins.size());
+        assertSame(plugin1, plugins.get(0));
+        assertSame(plugin2, plugins.get(1));
+    }
+
 }

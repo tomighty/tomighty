@@ -18,8 +18,12 @@ package org.tomighty.plugin;
 
 import org.tomighty.io.Directory;
 
+import java.util.List;
+
 public interface PluginManager {
 
     void loadPluginsFrom(Directory directory);
+
+    List<Plugin> getPlugins();
 
 }
