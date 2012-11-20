@@ -29,7 +29,7 @@ public class PluginManagerWindow extends JFrame {
 
     @Inject
     public void setMessages(Messages messages) {
-        this.setTitle(messages.get("Plugins"));
+        this.setTitle(messages.get("Tomighty Plugins"));
     }
 
     private JPanel createUI() {
