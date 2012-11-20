@@ -11,28 +11,36 @@ import java.util.List;
 
 public class PluginManagerWindow extends JFrame {
 
-    @Inject
-    public PluginManagerWindow(PluginManager pluginManager) {
-        DefaultListModel pluginListModel = new DefaultListModel();
-        JList pluginListView = new JList(pluginListModel);
-        pluginListView.setPreferredSize(new Dimension(100, 100));
+    private final DefaultListModel pluginListModel;
 
-        JPanel contentPane = new JPanel(new BorderLayout());
-        contentPane.add(new JScrollPane(pluginListView), BorderLayout.CENTER);
-
-        setContentPane(contentPane);
-
+    public PluginManagerWindow() {
+        pluginListModel = new DefaultListModel();
+        setContentPane(createUI());
         pack();
+    }
 
+    @Inject
+    public void setPlugins(PluginManager pluginManager) {
         List<Plugin> plugins = pluginManager.getPlugins();
-        for(Plugin plugin : plugins) {
+        for(Plugin plugin : plugins)
             pluginListModel.addElement(new PluginModel(plugin));
-        }
     }
 
     @Inject
     public void setMessages(Messages messages) {
         this.setTitle(messages.get("Plugins"));
+    }
+
+    private JPanel createUI() {
+        JPanel contentPane = new JPanel(new BorderLayout());
+        contentPane.add(createPluginListView(), BorderLayout.CENTER);
+        return contentPane;
+    }
+
+    private JScrollPane createPluginListView() {
+        JList pluginListView = new JList(pluginListModel);
+        pluginListView.setPreferredSize(new Dimension(100, 100));
+        return new JScrollPane(pluginListView);
     }
 
     private class PluginModel {
