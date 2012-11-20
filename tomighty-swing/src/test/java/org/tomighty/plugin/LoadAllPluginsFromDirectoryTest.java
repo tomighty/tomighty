@@ -28,6 +28,7 @@ import java.util.List;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 public class LoadAllPluginsFromDirectoryTest {
@@ -82,8 +83,8 @@ public class LoadAllPluginsFromDirectoryTest {
 
         List<Plugin> plugins = pluginManager.getPlugins();
         assertEquals(2, plugins.size());
-        assertSame(plugin1, plugins.get(0));
-        assertSame(plugin2, plugins.get(1));
+        assertTrue(plugins.contains(plugin1));
+        assertTrue(plugins.contains(plugin2));
     }
 
 }
