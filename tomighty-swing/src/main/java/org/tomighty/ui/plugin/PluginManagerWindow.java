@@ -44,7 +44,7 @@ public class PluginManagerWindow extends JFrame {
 
         @Override
         public String toString() {
-            return plugin.toString();
+            return plugin.getName();
         }
     }
 }

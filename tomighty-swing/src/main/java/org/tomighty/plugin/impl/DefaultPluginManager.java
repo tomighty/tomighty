@@ -55,7 +55,7 @@ public class DefaultPluginManager implements PluginManager {
             Plugin plugin = pluginLoader.load(pluginPack);
 
             loadedPlugins.add(plugin);
-            log.info("Loaded plugin {}", plugin);
+            log.info("Loaded plugin {}", plugin.getName());
 
             bus.publish(new PluginLoaded(plugin));
         }

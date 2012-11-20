@@ -40,4 +40,7 @@ package org.tomighty.plugin;
  * <p>Note that fields annotated with {@link javax.inject.Inject} are injected by the IoC container.</p>
  */
 public interface Plugin {
+
+    String getName();
+
 }
