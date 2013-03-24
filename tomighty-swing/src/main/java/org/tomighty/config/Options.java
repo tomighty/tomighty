@@ -18,16 +18,16 @@ package org.tomighty.config;
 
 import java.io.File;
 
+import javax.inject.Inject;
+
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.messages.config.TimeOnTrayConfigChanged;
 import org.tomighty.bus.messages.ui.LookChanged;
 import org.tomighty.ui.theme.Theme;
 import org.tomighty.ui.theme.themes.Shiny;
 
-import javax.inject.Inject;
-
 public class Options {
-	
+
 	private static final String TIME_POMODORO = "option.time.pomodoro";
 	private static final String TIME_SHORT_BREAK = "option.time.shortBreak";
 	private static final String TIME_LONG_BREAK = "option.time.longBreak";
@@ -38,18 +38,20 @@ public class Options {
 	private static final String SOUND_WIND = "option.sound.timer.wind";
 	private static final String SOUND_TICTAC = "option.sound.timer.tictac";
 	private static final String SOUND_DING = "option.sound.timer.ding";
-	
+    private static final String NUMBER_OF_POMODOROS = "option.miscellaneous.numberOfPomodoros";
+
 	@Inject private Configuration config;
 	@Inject private Bus bus;
-	
+
 	private UserInterfaceOptions ui = new UserInterfaceOptions();
 	private SoundOptions sound = new SoundOptions();
 	private TimeOptions time = new TimeOptions();
-	
+    private Miscellaneous miscellaneous = new Miscellaneous();
+
 	public UserInterfaceOptions ui() {
 		return ui;
 	}
-	
+
 	public SoundOptions sound() {
 		return sound;
 	}
@@ -57,7 +59,11 @@ public class Options {
 	public TimeOptions time() {
 		return time;
 	}
-	
+
+    public Miscellaneous miscellaneous() {
+        return miscellaneous;
+    }
+
 	public class TimeOptions {
 
 		public int pomodoro() {
@@ -83,17 +89,18 @@ public class Options {
 		public void longBreak(int minutes) {
 			config.set(TIME_LONG_BREAK, minutes);
 		}
+
 	}
-	
+
 	public class UserInterfaceOptions {
 		public boolean autoHideWindow() {
 			return config.asBoolean(UI_AUTOHIDE_WINDOW, true);
 		}
-		
+
 		public void autoHide(boolean autoHide) {
 			config.set(UI_AUTOHIDE_WINDOW, autoHide);
 		}
-		
+
 		public Theme theme() {
 			return config.asObject(UI_THEME, Shiny.class);
 		}
@@ -125,8 +132,9 @@ public class Options {
 			config.set(UI_DRAGGABLE_WINDOW, draggable);
 		}
 	}
-	
+
 	public class SoundOptions {
+
 		private SoundConfig wind = new SoundConfig(SOUND_WIND);
 		private SoundConfig tictac = new SoundConfig(SOUND_TICTAC);
 		private SoundConfig ding = new SoundConfig(SOUND_DING);
@@ -143,24 +151,36 @@ public class Options {
 			return ding;
 		}
 	}
-	
+
+    public class Miscellaneous {
+
+        public int numberOfPomodoros() {
+            return config.asInt(NUMBER_OF_POMODOROS, 4);
+        }
+
+        public void numberOfPomodoros(int numberOfPomodoros) {
+            config.set(NUMBER_OF_POMODOROS, numberOfPomodoros);
+        }
+
+    }
+
 	public class SoundConfig {
 		private String enabledKey;
 		private String fileKey;
-		
+
 		public SoundConfig(String key) {
-			this.enabledKey = key+".enabled";
-			this.fileKey = key+".file";
+			enabledKey = key+".enabled";
+			fileKey = key+".file";
 		}
 
 		public boolean enabled() {
 			return config.asBoolean(enabledKey, true);
 		}
-		
+
 		public void enable(boolean enable) {
 			config.set(enabledKey, enable);
 		}
-		
+
 		public File file() {
 			return config.asFile(fileKey);
 		}
