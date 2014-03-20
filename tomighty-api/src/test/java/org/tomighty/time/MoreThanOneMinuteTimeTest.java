@@ -31,7 +31,7 @@ public class MoreThanOneMinuteTimeTest {
 
     @Test
     public void shortestStringRepresentation() {
-        assertEquals("3", time.shortestString());
+        assertEquals("4", time.shortestString());
     }
 
     @Test
