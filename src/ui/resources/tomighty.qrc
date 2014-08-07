@@ -1,0 +1,13 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/icons/tray/idle.png</file>
+        <file>images/icons/tray/long-break.png</file>
+        <file>images/icons/tray/pomodoro.png</file>
+        <file>images/icons/tray/short-break.png</file>
+        <file>images/icons/menu/clock.png</file>
+        <file>images/icons/menu/long-break.png</file>
+        <file>images/icons/menu/pomodoro.png</file>
+        <file>images/icons/menu/short-break.png</file>
+        <file>images/icons/menu/stop.png</file>
+    </qresource>
+</RCC>
