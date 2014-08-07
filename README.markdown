@@ -8,6 +8,13 @@ Know more about it at [www.tomighty.org](http://www.tomighty.org)
 
 The source code of the Mac version is at https://github.com/ccidral/tomighty-osx
 
+Notice
+------
+
+This branch contains the old source code written in Java which is being discontinued.
+The project is being rewritten from scratch in C++ on top of Qt 5. See the `develop`
+branch for more information.
+
 Building
 --------
 
