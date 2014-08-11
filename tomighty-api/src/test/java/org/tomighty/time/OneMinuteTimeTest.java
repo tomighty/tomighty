@@ -31,7 +31,7 @@ public class OneMinuteTimeTest {
 
     @Test
     public void shortestStringRepresentation() {
-        assertEquals("1", time.shortestString());
+        assertEquals("60", time.shortestString());
     }
 
     @Test

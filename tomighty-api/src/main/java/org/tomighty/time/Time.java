@@ -53,7 +53,13 @@ public class Time {
 	}
 
 	public String shortestString() {
-		return String.valueOf(minutes() > 0 ? minutes() : seconds());
+        int shortestTime;
+        if(totalTimeInSeconds <= 60) {
+            shortestTime = totalTimeInSeconds;
+        } else {
+            shortestTime = (seconds() == 0)? minutes() : minutes() + 1;
+        }
+        return String.valueOf(shortestTime);
 	}
 
     @Override
