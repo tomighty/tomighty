@@ -19,14 +19,17 @@
 #include "PomodoroEngineTest.h"
 #include "TimerTest.h"
 #include "TrayControllerTest.h"
+#include "SoundNotificationControllerTest.h"
 
 int main(int argc, char** argv)
 {
   tmty::PomodoroEngineTest pomodoroEngineTest;
   tmty::TimerTest timerTest;
   tmty::ui::TrayControllerTest trayControllerTest;
+  tmty::ui::SoundNotificationControllerTest soundNotificationControllerTest;
 
   return QTest::qExec(&timerTest, argc, argv)
        | QTest::qExec(&pomodoroEngineTest, argc, argv)
-       | QTest::qExec(&trayControllerTest, argc, argv);
+       | QTest::qExec(&trayControllerTest, argc, argv)
+       | QTest::qExec(&soundNotificationControllerTest, argc, argv);
 }

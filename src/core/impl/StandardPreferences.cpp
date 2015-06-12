@@ -21,6 +21,8 @@ using tmty::IntervalType;
 using tmty::Preferences;
 using tmty::StandardPreferences;
 
+//TODO implement this class
+
 StandardPreferences::StandardPreferences(QObject *parent) :
   Preferences(parent)
 {
@@ -28,7 +30,6 @@ StandardPreferences::StandardPreferences(QObject *parent) :
 
 void StandardPreferences::setIntervalLengthInMinutes(IntervalType intervalType, int minutes)
 {
-  //TODO
 }
 
 int StandardPreferences::intervalLengthInMinutes(IntervalType intervalType) const
@@ -40,4 +41,40 @@ int StandardPreferences::intervalLengthInMinutes(IntervalType intervalType) cons
     return 5;
 
   return 15;
+}
+
+bool StandardPreferences::shouldPlaySoundNotificationWhenTimerIsSet()
+{
+  return true;
+}
+
+void StandardPreferences::setShouldPlaySoundNotificationWhenTimerIsSet(bool shouldPlay)
+{
+}
+
+bool StandardPreferences::shouldPlaySoundNotificationDuringPomodoros()
+{
+  return true;
+}
+
+void StandardPreferences::setShouldPlaySoundNotificationDuringPomodoros(bool shouldPlay)
+{
+}
+
+bool StandardPreferences::shouldPlaySoundNotificationDuringBreaks()
+{
+  return true;
+}
+
+void StandardPreferences::setShouldPlaySoundNotificationDuringBreaks(bool shouldPlay)
+{
+}
+
+bool StandardPreferences::shouldPlaySoundNotificationWhenTimerExpires()
+{
+  return true;
+}
+
+void StandardPreferences::setShouldPlaySoundNotificationWhenTimerExpires(bool shouldPlay)
+{
 }

@@ -24,7 +24,7 @@
 #include "IntervalType.h"
 #include "StandardTimer.h"
 #include "TimerTest.h"
-#include "mock/ManualClockwork.h"
+#include "ManualClockwork.h"
 
 using tmty::Interval;
 using tmty::IntervalType;

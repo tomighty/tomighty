@@ -24,6 +24,8 @@
 #include "impl/StandardTray.h"
 #include "impl/StandardTrayController.h"
 #include "impl/StandardTrayIconFiles.h"
+#include "impl/StandardSoundNotifications.h"
+#include "SoundNotificationController.h"
 
 using tmty::Clockwork;
 using tmty::PomodoroEngine;
@@ -34,6 +36,9 @@ using tmty::StandardPreferences;
 using tmty::StandardTimer;
 using tmty::Timer;
 
+using tmty::ui::SoundNotifications;
+using tmty::ui::SoundNotificationController;
+using tmty::ui::StandardSoundNotifications;
 using tmty::ui::StandardTray;
 using tmty::ui::StandardTrayController;
 using tmty::ui::StandardTrayIconFiles;
@@ -52,7 +57,10 @@ int main(int argc, char *argv[])
   Tray *tray = new StandardTray();
   TrayIconFiles *trayIconFiles = new StandardTrayIconFiles();
   TrayController *trayController = new StandardTrayController(*tray, *trayIconFiles, *pomodoroEngine, *timer);
+  SoundNotifications *soundNotifications = new StandardSoundNotifications();
+  SoundNotificationController *soundNotificationController = new SoundNotificationController(*soundNotifications, *preferences);
 
+  soundNotificationController->listenTo(*timer);
   trayController->showTrayIcon();
 
   return app.exec();

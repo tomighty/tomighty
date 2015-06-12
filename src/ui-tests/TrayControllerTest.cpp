@@ -16,8 +16,8 @@
 
 #include <QtTest>
 
-#include "mock/MockPomodoroEngine.h"
-#include "mock/MockTimerSignalEmitter.h"
+#include "MockPomodoroEngine.h"
+#include "MockTimerSignalEmitter.h"
 #include "mock/MockTray.h"
 #include "mock/MockTrayIconFiles.h"
 #include "Interval.h"

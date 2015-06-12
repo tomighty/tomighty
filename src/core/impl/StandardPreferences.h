@@ -30,6 +30,18 @@ namespace tmty
 
       int intervalLengthInMinutes(IntervalType intervalType) const;
       void setIntervalLengthInMinutes(IntervalType intervalType, int minutes);
+
+      bool shouldPlaySoundNotificationWhenTimerIsSet();
+      void setShouldPlaySoundNotificationWhenTimerIsSet(bool shouldPlay);
+
+      bool shouldPlaySoundNotificationDuringPomodoros();
+      void setShouldPlaySoundNotificationDuringPomodoros(bool shouldPlay);
+
+      bool shouldPlaySoundNotificationDuringBreaks();
+      void setShouldPlaySoundNotificationDuringBreaks(bool shouldPlay);
+
+      bool shouldPlaySoundNotificationWhenTimerExpires();
+      void setShouldPlaySoundNotificationWhenTimerExpires(bool shouldPlay);
   };
 }
 

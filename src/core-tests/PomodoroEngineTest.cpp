@@ -20,8 +20,8 @@
 #include "IntervalType.h"
 #include "PomodoroEngineTest.h"
 #include "StandardPomodoroEngine.h"
-#include "mock/FakeTimer.h"
-#include "mock/InMemoryPreferences.h"
+#include "FakeTimer.h"
+#include "InMemoryPreferences.h"
 
 using tmty::FakeTimer;
 using tmty::InMemoryPreferences;

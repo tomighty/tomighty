@@ -32,6 +32,18 @@ namespace tmty
 
       virtual int intervalLengthInMinutes(IntervalType intervalType) const = 0;
       virtual void setIntervalLengthInMinutes(IntervalType intervalType, int minutes) = 0;
+
+      virtual bool shouldPlaySoundNotificationWhenTimerIsSet() = 0;
+      virtual void setShouldPlaySoundNotificationWhenTimerIsSet(bool shouldPlay) = 0;
+
+      virtual bool shouldPlaySoundNotificationDuringPomodoros() = 0;
+      virtual void setShouldPlaySoundNotificationDuringPomodoros(bool shouldPlay) = 0;
+
+      virtual bool shouldPlaySoundNotificationDuringBreaks() = 0;
+      virtual void setShouldPlaySoundNotificationDuringBreaks(bool shouldPlay) = 0;
+
+      virtual bool shouldPlaySoundNotificationWhenTimerExpires() = 0;
+      virtual void setShouldPlaySoundNotificationWhenTimerExpires(bool shouldPlay) = 0;
   };
 }
 

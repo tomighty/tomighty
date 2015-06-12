@@ -9,5 +9,8 @@
         <file>images/icons/menu/pomodoro.png</file>
         <file>images/icons/menu/short-break.png</file>
         <file>images/icons/menu/stop.png</file>
+        <file>sound/clock_ticking.wav</file>
+        <file>sound/timer_expired.wav</file>
+        <file>sound/timer_set.wav</file>
     </qresource>
 </RCC>

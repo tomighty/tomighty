@@ -4,6 +4,7 @@ TEMPLATE = subdirs
 CONFIG += ordered
 SUBDIRS = \
   core \
+  core-mock \
   core-tests \
   ui \
   ui-tests \
