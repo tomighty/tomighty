@@ -16,7 +16,20 @@
 
 package org.tomighty.ui.state;
 
-import com.google.inject.Injector;
+import static java.awt.BorderLayout.CENTER;
+import static java.awt.BorderLayout.NORTH;
+import static java.awt.BorderLayout.SOUTH;
+
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.GridLayout;
+import java.awt.LayoutManager;
+
+import javax.inject.Inject;
+import javax.swing.Action;
+import javax.swing.JButton;
+import javax.swing.JPanel;
+
 import org.tomighty.bus.Bus;
 import org.tomighty.i18n.Messages;
 import org.tomighty.ui.UiState;
@@ -24,21 +37,15 @@ import org.tomighty.ui.layout.DockLayout;
 import org.tomighty.ui.layout.Docking;
 import org.tomighty.ui.menu.MenuButtonFactory;
 import org.tomighty.ui.swing.gauge.Gauge;
-import org.tomighty.ui.swing.laf.SexyArrowButtonUI;
 import org.tomighty.ui.swing.laf.SexyButtonUI;
 import org.tomighty.ui.swing.laf.SexyLabel;
 import org.tomighty.ui.theme.Colors;
 
-import javax.inject.Inject;
-import javax.swing.*;
-import java.awt.*;
-
-import static java.awt.BorderLayout.*;
+import com.google.inject.Injector;
 
 public abstract class UiStateSupport implements UiState {
 
 	@Inject private Injector injector;
-	@Inject private SexyArrowButtonUI arrowButtonUI;
 	@Inject private Gauge gauge;
     @Inject private MenuButtonFactory menuButtonFactory;
 

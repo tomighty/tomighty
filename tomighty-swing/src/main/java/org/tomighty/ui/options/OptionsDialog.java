@@ -32,9 +32,10 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-import com.google.inject.Injector;
 import org.tomighty.i18n.Messages;
 import org.tomighty.resources.Images;
+
+import com.google.inject.Injector;
 
 @SuppressWarnings("serial")
 public class OptionsDialog extends JDialog {
@@ -71,6 +72,7 @@ public class OptionsDialog extends JDialog {
 		optionGroups.add(injector.getInstance(Times.class));
 		optionGroups.add(injector.getInstance(UserInterface.class));
 		optionGroups.add(injector.getInstance(Sounds.class));
+		optionGroups.add(injector.getInstance(Miscellaneous.class));
 		for(OptionGroup group : optionGroups) {
 			tabs.addTab(group.name(), group.asComponent());
 		}

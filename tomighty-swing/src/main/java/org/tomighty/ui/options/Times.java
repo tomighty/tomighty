@@ -17,17 +17,13 @@
 package org.tomighty.ui.options;
 
 import java.awt.Component;
-import java.awt.GridLayout;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 import javax.swing.JFormattedTextField;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
 
 import org.tomighty.config.Options;
 import org.tomighty.i18n.Messages;
-import org.tomighty.ui.util.FieldFactory;
 
 @SuppressWarnings("serial")
 public class Times extends OptionPanel implements OptionGroup {
@@ -45,7 +41,7 @@ public class Times extends OptionPanel implements OptionGroup {
 		shortBreak = addField("Short break");
 		longBreak = addField("Long break");
 	}
-	
+
 	@Override
 	public String name() {
 		return messages.get("Times");
@@ -71,22 +67,11 @@ public class Times extends OptionPanel implements OptionGroup {
 	}
 
 	private int valueOf(JFormattedTextField field) {
-		String text = field.getText(); 
-		return Integer.parseInt(text);
+        return new OptionCommons(messages).valueOf(field);
 	}
 
 	private JFormattedTextField addField(String name) {
-		JFormattedTextField field = FieldFactory.createIntegerField(1, 2);
-		JLabel label = new JLabel(messages.get(name), JLabel.TRAILING);
-		label.setLabelFor(field);
-		
-		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(1, 3, 5, 5));
-		panel.add(label);
-		panel.add(field);
-		panel.add(new JLabel(messages.get("minutes")));
-		add(panel);
-		return field;
+        return new OptionCommons(messages).addStandardOption(this, name, "minutes");
 	}
 
 }

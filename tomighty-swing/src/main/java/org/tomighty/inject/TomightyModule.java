@@ -16,7 +16,8 @@
 
 package org.tomighty.inject;
 
-import com.google.inject.AbstractModule;
+import static com.google.inject.Scopes.SINGLETON;
+
 import org.tomighty.bus.Bus;
 import org.tomighty.bus.DefaultBus;
 import org.tomighty.config.Configuration;
@@ -34,11 +35,12 @@ import org.tomighty.sound.Sounds;
 import org.tomighty.time.DefaultTimer;
 import org.tomighty.time.Timer;
 import org.tomighty.ui.Window;
-import org.tomighty.ui.swing.gauge.Gauge;
 import org.tomighty.ui.theme.Look;
-import org.tomighty.ui.tray.*;
+import org.tomighty.ui.tray.AwtTray;
+import org.tomighty.ui.tray.Tray;
+import org.tomighty.ui.tray.TrayManager;
 
-import static com.google.inject.Scopes.SINGLETON;
+import com.google.inject.AbstractModule;
 
 public class TomightyModule extends AbstractModule {
 
@@ -50,7 +52,6 @@ public class TomightyModule extends AbstractModule {
         bind(Tray.class).to(AwtTray.class).in(SINGLETON);
         bind(TrayManager.class).in(SINGLETON);
         bind(Window.class).in(SINGLETON);
-        bind(Gauge.class).in(SINGLETON);
         bind(Options.class).in(SINGLETON);
         bind(Configuration.class).in(SINGLETON);
         bind(Messages.class).in(SINGLETON);
