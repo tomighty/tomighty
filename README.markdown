@@ -4,7 +4,7 @@ Tomighty is...
 A desktop timer app that helps you apply the Pomodoro Technique.
 It's written in Java and designed to be simple, easy to use and unintrusive.
 
-Know more about it at [www.tomighty.org](http://www.tomighty.org)
+Know more about it at [tomighty.github.io](https://tomighty.github.io/)
 
 The source code of the Mac version is at https://github.com/ccidral/tomighty-osx
 
