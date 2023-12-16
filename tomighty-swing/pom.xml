@@ -220,7 +220,7 @@
         <pluginRepository>
             <id>tomighty-repository</id>
             <name>Tomighty Repository</name>
-            <url>http://tomighty.googlecode.com/svn/maven/repository</url>
+            <url>https://tomighty.googlecode.com/svn/maven/repository</url>
         </pluginRepository>
         <pluginRepository>
             <id>codehaus-mojo</id>
